@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NIX — End of Project</title>
-  <meta name="description" content="Shadowstrap / NIX is shutting down. It was a proof of concept — and it worked." />
-  <meta property="og:title" content="NIX — End of Project" />
-  <meta property="og:description" content="Shadowstrap is shutting down. It was only a test of what could be." />
+  <title>NIX Bot — The only bot your server needs</title>
+  <meta name="description" content="NIX Bot is a free, feature-packed Discord bot with auto malware scanning, moderation, music, leveling, memes, and more." />
+  <meta property="og:title" content="NIX Bot — The only bot your server needs" />
+  <meta property="og:description" content="Free Discord bot with auto malware scanning, full moderation, music, leveling, server templates, and more." />
   <meta property="og:url" content="https://binx-ux.github.io/NIX/" />
   <meta name="theme-color" content="#7C3AED" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -14,23 +14,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* ── SHUTDOWN PAGE ─────────────────────────────── */
-
-    body { overflow-x: hidden; }
-
-    /* Dim the aurora slightly to feel more subdued */
-    .aurora { opacity: 0.6; }
-
-    /* Nav status override */
-    .status-dot {
-      background: #6B7280 !important;
-      box-shadow: 0 0 8px rgba(107,114,128,0.5) !important;
-      animation: none !important;
-    }
-    .nav-status { color: #6B7280 !important; }
-
     /* ── HERO ─────────────────────────────────── */
-    .sd-hero {
+    .bot-hero {
       position: relative;
       z-index: 1;
       min-height: 100vh;
@@ -41,257 +26,243 @@
       text-align: center;
       padding: 120px 28px 80px;
     }
-
-    .sd-eyebrow {
+    .bot-eyebrow {
       font-family: var(--mono);
       font-size: 0.65rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: #6B7280;
+      color: var(--text-mid);
       margin-bottom: 28px;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 12px;
     }
-    .sd-eyebrow::before,
-    .sd-eyebrow::after {
+    .bot-eyebrow::before, .bot-eyebrow::after {
       content: '';
       width: 32px;
       height: 1px;
-      background: #374151;
+      background: rgba(124,58,237,0.3);
     }
-
-    .sd-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: #9CA3AF;
-      border: 1px solid #374151;
-      background: rgba(17,24,39,0.7);
-      padding: 7px 16px;
-      border-radius: 999px;
-      margin-bottom: 36px;
-      backdrop-filter: blur(8px);
-    }
-    .sd-badge-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: #6B7280;
-    }
-
-    .sd-hero h1 {
+    .bot-hero h1 {
       font-family: var(--head);
       font-size: clamp(3rem, 8vw, 6.5rem);
       font-weight: 700;
       line-height: 1.0;
       letter-spacing: -0.04em;
       color: var(--text-hi);
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
-    .sd-hero h1 .dim { color: #374151; }
-    .sd-hero h1 .strike {
-      position: relative;
-      color: #6B7280;
-    }
-    .sd-hero h1 .strike::after {
-      content: '';
-      position: absolute;
-      left: 0; right: 0;
-      top: 50%;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, #8B5CF6, transparent);
-      transform: translateY(-50%);
-      border-radius: 2px;
-    }
-
-    .sd-hero p.sd-lead {
-      font-size: clamp(1rem, 2vw, 1.2rem);
+    .bot-hero p.bot-lead {
+      font-size: clamp(1rem, 2vw, 1.15rem);
       color: var(--text);
-      max-width: 600px;
+      max-width: 580px;
       line-height: 1.85;
-      margin: 0 auto 56px;
+      margin: 0 auto 44px;
     }
-    .sd-hero p.sd-lead em {
+    .bot-hero p.bot-lead em {
       color: var(--accent-hi);
       font-style: normal;
       font-weight: 600;
     }
-
-    .sd-divider {
+    .bot-cta {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 64px;
+    }
+    .bot-divider {
       width: 1px;
-      height: 64px;
+      height: 56px;
       background: linear-gradient(to bottom, transparent, rgba(124,58,237,0.4), transparent);
       margin: 0 auto 56px;
     }
 
-    /* ── TERMINAL BLOCK ───────────────────────── */
-    .sd-terminal {
-      max-width: 480px;
-      width: 100%;
-      margin: 0 auto 64px;
-    }
-
-    /* ── PROOF SECTION ────────────────────────── */
-    .sd-proof {
+    /* ── STATS STRIP ──────────────────────────── */
+    .bot-stats {
       position: relative;
       z-index: 1;
-      max-width: 860px;
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      border: 1px solid rgba(124,58,237,0.18);
+      border-radius: 12px;
+      background: rgba(12,21,36,0.6);
+      backdrop-filter: blur(12px);
+      overflow: hidden;
+      max-width: 640px;
+      margin: 0 auto 80px;
+    }
+    .bot-stat {
+      flex: 1;
+      padding: 20px 16px;
+      border-right: 1px solid rgba(124,58,237,0.12);
+      text-align: center;
+    }
+    .bot-stat:last-child { border-right: none; }
+    .bot-stat-val {
+      font-family: var(--head);
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--text-hi);
+      display: block;
+      letter-spacing: -0.03em;
+    }
+    .bot-stat-label {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-top: 4px;
+      display: block;
+    }
+
+    /* ── FEATURES SECTION ─────────────────────── */
+    .features-section {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 0 28px 96px;
     }
-    .sd-proof-label {
-      font-family: var(--mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--accent-hi);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-    .sd-proof-label::before {
-      content: '';
-      width: 24px; height: 1px;
-      background: var(--accent);
-    }
-    .sd-proof-label::after {
-      content: '';
-      width: 24px; height: 1px;
-      background: var(--accent);
-    }
-    .sd-proof h2 {
-      font-size: clamp(1.5rem, 3vw, 2.2rem);
-      font-weight: 700;
+    .features-header {
       text-align: center;
-      color: var(--text-hi);
-      margin-bottom: 48px;
-      line-height: 1.2;
-    }
-    .sd-proof-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
       margin-bottom: 56px;
     }
-    @media (max-width: 640px) { .sd-proof-grid { grid-template-columns: 1fr; } }
+    .features-header h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      color: var(--text-hi);
+      margin: 16px 0 16px;
+      line-height: 1.15;
+    }
+    .features-header p {
+      font-size: 1rem;
+      color: var(--text);
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.75;
+    }
+    .feat-grid-bot {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 960px) { .feat-grid-bot { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .feat-grid-bot { grid-template-columns: 1fr; } }
 
-    .sd-proof-card {
+    .feat-card-bot {
       background: var(--surface);
-      border: 1px solid rgba(124,58,237,0.12);
+      border: 1px solid rgba(124,58,237,0.15);
       border-radius: 12px;
       padding: 28px 22px;
-      text-align: left;
       position: relative;
       overflow: hidden;
-      transition: border-color .22s, transform .22s;
+      transition: border-color .22s, transform .22s, box-shadow .22s;
     }
-    .sd-proof-card::before {
+    .feat-card-bot::before {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(167,139,250,0.3), transparent);
+      background: linear-gradient(90deg, transparent, rgba(167,139,250,0.4), transparent);
+      transform: scaleX(0);
+      transition: transform .4s ease;
     }
-    .sd-proof-card:hover {
-      border-color: rgba(124,58,237,0.3);
-      transform: translateY(-3px);
+    .feat-card-bot:hover::before { transform: scaleX(1); }
+    .feat-card-bot:hover {
+      border-color: rgba(124,58,237,0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35), 0 0 40px rgba(124,58,237,0.1);
     }
-    .sd-proof-num {
-      font-family: var(--mono);
-      font-size: 2.2rem;
-      font-weight: 700;
-      color: var(--accent-hi);
-      letter-spacing: -0.04em;
+    .feat-card-bot .card-icon {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 14px;
       line-height: 1;
-      margin-bottom: 8px;
-      opacity: 0.9;
+      transition: transform .3s cubic-bezier(.16,1,.3,1);
     }
-    .sd-proof-card h4 {
-      font-size: 0.9rem;
+    .feat-card-bot:hover .card-icon { transform: scale(1.15) rotate(-5deg); }
+    .feat-card-bot h3 {
+      font-size: 1rem;
       font-weight: 600;
       color: var(--text-hi);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
-    .sd-proof-card p {
-      font-size: 0.8rem;
-      color: var(--text-mid);
-      line-height: 1.6;
-    }
-
-    /* ── LETTER ───────────────────────────────── */
-    .sd-letter {
-      position: relative;
-      z-index: 1;
-      border-top: 1px solid rgba(124,58,237,0.08);
-      background: var(--bg2);
-    }
-    .sd-letter-inner {
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 80px 28px 96px;
-    }
-    .sd-letter-tag {
-      font-family: var(--mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text-lo);
-      margin-bottom: 32px;
-    }
-    .sd-letter-inner p {
-      font-size: 1rem;
+    .feat-card-bot p {
+      font-size: 0.84rem;
       color: var(--text);
-      line-height: 1.9;
-      margin-bottom: 24px;
+      line-height: 1.7;
     }
-    .sd-letter-inner p:last-of-type { margin-bottom: 40px; }
-    .sd-letter-inner strong { color: var(--text-hi); }
-    .sd-letter-sig {
+    .feat-card-bot .card-tag {
+      display: inline-flex;
+      align-items: center;
       font-family: var(--mono);
-      font-size: 0.82rem;
-      color: var(--text-mid);
-      border-top: 1px solid rgba(124,58,237,0.1);
-      padding-top: 24px;
+      font-size: 0.57rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid;
+      margin-bottom: 14px;
     }
+    .tag-security { color: #60A5FA; border-color: rgba(96,165,250,0.25); background: rgba(96,165,250,0.07); }
+    .tag-mod      { color: #F87171; border-color: rgba(248,113,113,0.25); background: rgba(248,113,113,0.07); }
+    .tag-channel  { color: var(--cyan); border-color: rgba(34,211,238,0.25); background: rgba(34,211,238,0.07); }
+    .tag-music    { color: #FCD34D; border-color: rgba(252,211,77,0.25); background: rgba(252,211,77,0.07); }
+    .tag-leveling { color: var(--green); border-color: rgba(16,185,129,0.25); background: rgba(16,185,129,0.07); }
+    .tag-setup    { color: var(--accent-hi); border-color: rgba(167,139,250,0.25); background: rgba(167,139,250,0.07); }
+    .tag-fun      { color: #FB923C; border-color: rgba(251,146,60,0.25); background: rgba(251,146,60,0.07); }
 
-    /* ── LINKS ────────────────────────────────── */
-    .sd-links {
+    /* ── CTA SECTION ──────────────────────────── */
+    .bot-cta-section {
       position: relative;
       z-index: 1;
-      padding: 64px 28px 96px;
+      background: var(--bg2);
+      border-top: 1px solid rgba(124,58,237,0.1);
+    }
+    .bot-cta-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 96px 28px;
       text-align: center;
     }
-    .sd-links p {
-      font-size: 0.9rem;
-      color: var(--text-mid);
-      margin-bottom: 24px;
+    .bot-cta-inner h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      color: var(--text-hi);
+      margin: 16px 0 20px;
+      line-height: 1.1;
     }
-    .sd-links-row {
+    .bot-cta-inner p {
+      font-size: 1rem;
+      color: var(--text);
+      max-width: 460px;
+      margin: 0 auto 40px;
+      line-height: 1.8;
+    }
+    .bot-cta-btns {
       display: flex;
       gap: 12px;
       justify-content: center;
       flex-wrap: wrap;
     }
 
-    /* Slide-in animation */
-    @keyframes sdIn {
+    /* ── SLIDE-IN ANIMATION ───────────────────── */
+    @keyframes botIn {
       from { opacity: 0; transform: translateY(28px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    .sd-hero > * { animation: sdIn 0.9s cubic-bezier(.16,1,.3,1) both; }
-    .sd-eyebrow  { animation-delay: 0.1s; }
-    .sd-badge    { animation-delay: 0.2s; }
-    .sd-hero h1  { animation-delay: 0.32s; }
-    .sd-hero .sd-lead { animation-delay: 0.46s; }
-    .sd-divider  { animation-delay: 0.56s; }
-    .sd-terminal { animation-delay: 0.64s; }
+    .bot-hero > * { animation: botIn 0.9s cubic-bezier(.16,1,.3,1) both; }
+    .bot-eyebrow      { animation-delay: 0.10s; }
+    .hero-badge       { animation-delay: 0.20s; }
+    .bot-hero h1      { animation-delay: 0.32s; }
+    .bot-lead         { animation-delay: 0.44s; }
+    .bot-cta          { animation-delay: 0.54s; }
+    .bot-divider      { animation-delay: 0.62s; }
+    .bot-terminal-wrap { animation-delay: 0.70s; }
   </style>
 </head>
 <body>
@@ -299,9 +270,9 @@
 <div class="scroll-bar" id="scroll-bar"></div>
 <div class="noise-overlay"></div>
 <div class="aurora">
-  <div class="aurora-blob" style="width:720px;height:720px;background:rgba(124,58,237,0.08);top:-220px;left:-160px;animation-delay:0s;animation-duration:22s"></div>
-  <div class="aurora-blob" style="width:500px;height:500px;background:rgba(107,114,128,0.04);top:30%;right:-100px;animation-delay:-8s;animation-duration:18s"></div>
-  <div class="aurora-blob" style="width:420px;height:420px;background:rgba(124,58,237,0.06);bottom:15%;left:25%;animation-delay:-14s;animation-duration:24s"></div>
+  <div class="aurora-blob" style="width:800px;height:800px;background:rgba(124,58,237,0.09);top:-260px;left:-200px;animation-delay:0s;animation-duration:22s"></div>
+  <div class="aurora-blob" style="width:520px;height:520px;background:rgba(34,211,238,0.06);top:35%;right:-120px;animation-delay:-9s;animation-duration:17s"></div>
+  <div class="aurora-blob" style="width:440px;height:440px;background:rgba(124,58,237,0.07);bottom:18%;left:28%;animation-delay:-15s;animation-duration:25s"></div>
 </div>
 
 <!-- NAV -->
@@ -309,117 +280,207 @@
   <div class="nav-inner">
     <a class="nav-logo" href="index.html">
       <span class="nav-logo-mark">NIX</span>
-      <span class="nav-logo-ver" style="color:#6B7280">sunset</span>
+      <span class="nav-logo-ver">Bot</span>
     </a>
     <ul class="nav-links">
-      <li><a href="changelog.html">Changelog</a></li>
-      <li><a href="https://github.com/binx-ux/shadowstrap" target="_blank" rel="noopener">GitHub ↗</a></li>
+      <li><a href="commands.html">Commands</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="https://discord.gg/nKjV3mGq6R" target="_blank" rel="noopener">Discord ↗</a></li>
     </ul>
-    <div class="nav-status" style="color:#6B7280">
-      <span class="status-dot" style="background:#6B7280;box-shadow:none;animation:none"></span>
-      OFFLINE
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      ONLINE
     </div>
   </div>
 </nav>
 
 <!-- HERO -->
-<section class="sd-hero">
-  <div class="sd-eyebrow">Project Closure</div>
+<section class="bot-hero">
+  <div class="bot-eyebrow">Discord Bot</div>
 
-  <div class="sd-badge">
-    <div class="sd-badge-dot"></div>
-    <span>Apr 24, 2026 — Final Release v2.0.8</span>
+  <div class="hero-badge" style="margin-bottom:36px">
+    <div class="hero-badge-dot"></div>
+    <span>Binxix Hub V6 · Free Forever</span>
   </div>
 
   <h1>
-    <span class="strike">Shadowstrap</span><br>
-    <span style="font-size:0.55em;color:#6B7280;letter-spacing:-0.01em;font-weight:500">is shutting down.</span>
+    The only bot<br>
+    <em class="text-gradient">your server needs.</em>
   </h1>
 
-  <p class="sd-lead">
-    NIX was never meant to be permanent.<br>
-    It was a question — <em>what could a bootstrapper actually be?</em><br>
-    That question has been answered.
+  <p class="bot-lead">
+    Auto malware scanning. Full moderation. Music. Leveling.<br>
+    <em>25+ commands, zero cost, zero telemetry.</em><br>
+    Add it and start in seconds.
   </p>
 
-  <div class="sd-divider"></div>
+  <div class="bot-cta">
+    <a class="btn btn-primary" href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot" target="_blank" rel="noopener">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.031.053a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.04.001-.088-.041-.104a13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+      Add to Server
+    </a>
+    <a class="btn btn-ghost" href="commands.html">View Commands →</a>
+  </div>
 
-  <div class="sd-terminal terminal-window" style="max-width:480px;width:100%;margin-bottom:0">
+  <div class="bot-divider"></div>
+
+  <div class="bot-terminal-wrap terminal-window" style="max-width:500px;width:100%">
     <div class="terminal-bar">
       <div class="terminal-dots">
         <div class="terminal-dot td-red"></div>
         <div class="terminal-dot td-yellow"></div>
         <div class="terminal-dot td-green"></div>
       </div>
-      <span class="terminal-title">nix — final status</span>
+      <span class="terminal-title">nix-bot — system status</span>
     </div>
-    <div class="terminal-body" id="sd-terminal"></div>
+    <div class="terminal-body" id="hero-terminal"></div>
   </div>
 </section>
 
-<!-- WHAT WAS PROVEN -->
-<div class="sd-proof" data-reveal="fade">
-  <div class="sd-proof-label">What Was Built</div>
-  <h2>A proof of concept that proved its point.</h2>
-
-  <div class="sd-proof-grid">
-    <div class="sd-proof-card" data-reveal="scale">
-      <div class="sd-proof-num">11</div>
-      <h4>Features Shipped</h4>
-      <p>From performance presets to Discord RPC, server browser, activity tracking, and multi-instance — all from scratch.</p>
-    </div>
-    <div class="sd-proof-card" data-reveal="scale" data-delay="100">
-      <div class="sd-proof-num">8</div>
-      <h4>Versions Released</h4>
-      <p>v2.0.0 through v2.0.8, each adding, fixing, and refining. A working release cadence with a real changelog.</p>
-    </div>
-    <div class="sd-proof-card" data-reveal="scale" data-delay="200">
-      <div class="sd-proof-num">0</div>
-      <h4>Telemetry Collected</h4>
-      <p>No analytics. No tracking. No accounts. Every feature worked without knowing anything about the user.</p>
-    </div>
+<!-- STATS STRIP -->
+<div class="bot-stats" data-reveal="fade" style="position:relative;z-index:1;">
+  <div class="bot-stat">
+    <span class="bot-stat-val">25+</span>
+    <span class="bot-stat-label">Commands</span>
+  </div>
+  <div class="bot-stat">
+    <span class="bot-stat-val">12</span>
+    <span class="bot-stat-label">File Types Scanned</span>
+  </div>
+  <div class="bot-stat">
+    <span class="bot-stat-val">0</span>
+    <span class="bot-stat-label">Telemetry</span>
+  </div>
+  <div class="bot-stat">
+    <span class="bot-stat-val">Free</span>
+    <span class="bot-stat-label">Forever</span>
   </div>
 </div>
 
-<!-- LETTER -->
-<div class="sd-letter">
-  <div class="sd-letter-inner" data-reveal="fade">
-    <div class="sd-letter-tag">// a note from the builder</div>
-    <p>
-      Shadowstrap started as a fork and became something more — a personal experiment
-      in what a Roblox bootstrapper could look like if someone actually cared.
-      Performance tuning. A proper UI. Features the default launcher should have shipped years ago.
-    </p>
-    <p>
-      It was never a business. It was never trying to be.
-      It was a test of <strong>what's possible in a weekend, a week, a month</strong>
-      — and it turns out the answer is: quite a lot.
-    </p>
-    <p>
-      The source code stays public. Everything built here is documented, readable,
-      and available to anyone who wants to learn from it, fork it, or take it further.
-      The experiment is over. The work isn't wasted.
-    </p>
-    <div class="sd-letter-sig">
-      — binx-ux &nbsp;·&nbsp; Apr 2026
+<!-- FEATURES -->
+<section class="features-section">
+  <div class="features-header" data-reveal="fade">
+    <div class="section-eyebrow">What NIX Bot does</div>
+    <h2>Everything in one bot.<br><em class="text-gradient">Nothing you don't need.</em></h2>
+    <p>Eight categories. One invite. No premium tiers, no locked features, no nonsense.</p>
+  </div>
+
+  <div class="feat-grid-bot">
+
+    <div class="feat-card-bot" data-reveal="scale">
+      <span class="card-icon">🛡️</span>
+      <span class="card-tag tag-security">Security</span>
+      <h3>Auto Malware Scan</h3>
+      <p>Every <code style="font-family:var(--mono);font-size:0.8em;color:var(--accent-hi)">.exe</code>, <code style="font-family:var(--mono);font-size:0.8em;color:var(--accent-hi)">.dll</code>, <code style="font-family:var(--mono);font-size:0.8em;color:var(--accent-hi)">.bat</code>, and 9 more dangerous file types are automatically scanned via VirusTotal the moment they're posted — no command needed.</p>
+    </div>
+
+    <div class="feat-card-bot" data-reveal="scale" data-delay="80">
+      <span class="card-icon">⚔️</span>
+      <span class="card-tag tag-mod">Moderation</span>
+      <h3>Full Moderation Suite</h3>
+      <p>Kick, ban, unban by ID, timeout, remove timeout, toggle roles, and set nicknames. Granular permission tiers configured once with <code style="font-family:var(--mono);font-size:0.8em;color:var(--accent-hi)">/setup</code>.</p>
+    </div>
+
+    <div class="feat-card-bot" data-reveal="scale" data-delay="160">
+      <span class="card-icon">📁</span>
+      <span class="card-tag tag-channel">Channels</span>
+      <h3>Channel Control</h3>
+      <p>Create, delete, rename, lock, unlock, clone, set slowmode, change topic, bulk-purge messages, and inspect channel info — all without leaving Discord.</p>
+    </div>
+
+    <div class="feat-card-bot" data-reveal="scale" data-delay="240">
+      <span class="card-icon">🎵</span>
+      <span class="card-tag tag-music">Music</span>
+      <h3>Music Player</h3>
+      <p>High-quality audio powered by Lavalink. Stream from YouTube, Spotify, SoundCloud, and more with queue management and DJ role controls.</p>
+    </div>
+
+    <div class="feat-card-bot" data-reveal="scale" data-delay="80">
+      <span class="card-icon">🎮</span>
+      <span class="card-tag tag-leveling">Leveling</span>
+      <h3>XP & Leveling</h3>
+      <p>Members automatically earn XP for every message they send. Level up milestones are logged and roles can be assigned at key levels to reward activity.</p>
+    </div>
+
+    <div class="feat-card-bot" data-reveal="scale" data-delay="160">
+      <span class="card-icon">🔧</span>
+      <span class="card-tag tag-setup">Setup</span>
+      <h3>Server Templates</h3>
+      <p>Run <code style="font-family:var(--mono);font-size:0.8em;color:var(--accent-hi)">/setup</code> and pick a template. NIX builds your entire server — roles, categories, and channels — in seconds and DMs you a full summary.</p>
+    </div>
+
+    <div class="feat-card-bot" data-reveal="scale" data-delay="240">
+      <span class="card-icon">🎉</span>
+      <span class="card-tag tag-fun">Fun</span>
+      <h3>Meme Command</h3>
+      <p>Pull random memes from r/memes, r/dankmemes, r/me_irl, r/funny, and more. NSFW posts are automatically filtered unless the channel is age-restricted.</p>
+    </div>
+
+    <div class="feat-card-bot" data-reveal="scale" data-delay="320">
+      <span class="card-icon">🔒</span>
+      <span class="card-tag tag-security">Security</span>
+      <h3>Built-in Protections</h3>
+      <p>Per-command cooldowns prevent spam. An owner-controlled blacklist blocks bad actors globally. NSFW guards protect every server automatically.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- SPOTLIGHT: Malware Shield -->
+<section class="spotlight">
+  <div class="spotlight-inner">
+    <div data-reveal="left">
+      <div class="spotlight-label">Deep Dive</div>
+      <h2>Malware Shield,<br>explained.</h2>
+      <p>NIX Bot monitors every message attachment in real time. When a dangerous file type is posted, it's automatically downloaded, hashed, and sent to VirusTotal for analysis before anyone can open it.</p>
+      <ul class="spotlight-bullets">
+        <li><span class="sb-dot"></span>Scans <strong>.exe, .dll, .bat, .cmd, .ps1, .vbs, .msi, .scr, .hta, .wsf, .reg, .lnk</strong> automatically</li>
+        <li><span class="sb-dot"></span>Files flagged as malicious are deleted and a full threat report is posted in the channel</li>
+        <li><span class="sb-dot"></span>Suspicious-but-not-confirmed files trigger a warning reply so users can decide</li>
+        <li><span class="sb-dot"></span>Requires a free VirusTotal API key — set once, works everywhere</li>
+      </ul>
+    </div>
+    <div data-reveal="right">
+      <div class="terminal-window">
+        <div class="terminal-bar">
+          <div class="terminal-dots">
+            <div class="terminal-dot td-red"></div>
+            <div class="terminal-dot td-yellow"></div>
+            <div class="terminal-dot td-green"></div>
+          </div>
+          <span class="terminal-title">nix-bot — auto scan</span>
+        </div>
+        <div class="terminal-body" style="min-height:auto">
+          <span class="t-line"><span class="t-comment">// attachment detected: setup.exe (1.4 MB)</span></span>
+          <span class="t-line">&nbsp;</span>
+          <span class="t-line"><span class="t-dim">→</span> <span class="t-val">Downloading</span>       <span class="t-dim">setup.exe</span></span>
+          <span class="t-line"><span class="t-dim">→</span> <span class="t-val">Hashing</span>            <span class="t-dim">SHA-256</span></span>
+          <span class="t-line"><span class="t-dim">→</span> <span class="t-val">Querying</span>           <span class="t-dim">VirusTotal API</span></span>
+          <span class="t-line">&nbsp;</span>
+          <span class="t-line" style="color:#F87171"><span style="color:#F87171">✗</span> Malicious          <span style="font-family:var(--mono);font-size:0.9em">34 / 71 engines</span></span>
+          <span class="t-line">&nbsp;</span>
+          <span class="t-line"><span class="t-comment">// message deleted · threat report posted</span></span>
+          <span class="t-line"><span class="t-comment">// user notified in channel</span></span>
+          <span class="t-line"><span class="t-prompt">$</span> <span class="t-cursor"></span></span>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- ARCHIVE LINKS -->
-<div class="sd-links" data-reveal="fade">
-  <p>The repository and all releases remain archived and publicly accessible.</p>
-  <div class="sd-links-row">
-    <a class="btn btn-ghost" href="https://github.com/binx-ux/shadowstrap" target="_blank" rel="noopener">
-      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-      View Source Archive
-    </a>
-    <a class="btn btn-ghost" href="https://github.com/binx-ux/shadowstrap/releases" target="_blank" rel="noopener">
-      Past Releases
-    </a>
-    <a class="btn btn-ghost" href="changelog.html">
-      Full Changelog
-    </a>
+<!-- CTA -->
+<div class="bot-cta-section">
+  <div class="bot-cta-inner" data-reveal="fade">
+    <div class="section-eyebrow">Get started</div>
+    <h2>Add NIX Bot to<br><em class="text-gradient">your server today.</em></h2>
+    <p>One click. No configuration required to start. Run <code style="font-family:var(--mono);font-size:0.9em;color:var(--accent-hi)">/setup</code> whenever you're ready to unlock the full experience.</p>
+    <div class="bot-cta-btns">
+      <a class="btn btn-primary" href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot" target="_blank" rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.031.053a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.04.001-.088-.041-.104a13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+        Add to Server — It's Free
+      </a>
+      <a class="btn btn-ghost" href="commands.html">Browse Commands →</a>
+    </div>
   </div>
 </div>
 
@@ -427,40 +488,41 @@
 <footer class="footer">
   <div class="footer-inner">
     <div class="footer-brand">
-      <a class="nav-logo" href="index.html"><span class="nav-logo-mark">NIX</span></a>
-      <p>Sunset Apr 2026. Source remains public under MIT License.</p>
+      <a class="nav-logo" href="index.html"><span class="nav-logo-mark">NIX</span><span class="nav-logo-ver">Bot</span></a>
+      <p>Free Discord bot by binxix. No premium tiers, no data collection.</p>
     </div>
     <div class="footer-col">
-      <h5>Archive</h5>
+      <h5>Bot</h5>
       <ul>
-        <li><a href="https://github.com/binx-ux/shadowstrap" target="_blank" rel="noopener">GitHub</a></li>
-        <li><a href="https://github.com/binx-ux/shadowstrap/releases" target="_blank" rel="noopener">Releases</a></li>
-        <li><a href="https://github.com/binx-ux/shadowstrap/wiki" target="_blank" rel="noopener">Wiki</a></li>
+        <li><a href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot" target="_blank" rel="noopener">Add to Server</a></li>
+        <li><a href="commands.html">Commands</a></li>
+        <li><a href="faq.html">FAQ</a></li>
       </ul>
     </div>
     <div class="footer-col">
-      <h5>History</h5>
+      <h5>Community</h5>
       <ul>
-        <li><a href="changelog.html">Changelog</a></li>
-        <li><a href="features.html">What Was Built</a></li>
+        <li><a href="https://discord.gg/nKjV3mGq6R" target="_blank" rel="noopener">Discord Server</a></li>
+        <li><a href="https://github.com/binx-ux/nix-bot-push" target="_blank" rel="noopener">GitHub ↗</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h5>Legal</h5>
       <ul>
-        <li><a href="https://github.com/binx-ux/shadowstrap/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a></li>
+        <li><a href="https://discord.com/privacy" target="_blank" rel="noopener">Privacy Policy</a></li>
+        <li><a href="https://discord.com/terms" target="_blank" rel="noopener">Terms of Service</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <span class="footer-copy">© 2026 binx-ux · MIT License</span>
-    <span class="footer-copy">Not affiliated with Roblox Corporation</span>
+    <span class="footer-copy">© 2026 binxix · NIX Bot</span>
+    <span class="footer-copy">Not affiliated with Discord Inc.</span>
   </div>
 </footer>
 
 <script>
-(function() {
-  // Scroll progress
+(function () {
+  // Scroll progress + nav shrink
   const scrollBar = document.getElementById('scroll-bar');
   const navEl = document.querySelector('.nav');
   window.addEventListener('scroll', () => {
@@ -471,25 +533,22 @@
 
   // Scroll reveal
   const ro = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('is-visible'); ro.unobserve(e.target); }
-    });
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); ro.unobserve(e.target); } });
   }, { threshold: 0.1, rootMargin: '0px 0px -48px 0px' });
   document.querySelectorAll('[data-reveal]').forEach(el => ro.observe(el));
 
-  // Terminal animation
+  // Hero terminal
   const LINES = [
-    { k: 'prompt', v: 'nix --status' },
+    { k: 'prompt', v: 'nix-bot --status' },
     { k: 'dim',    v: '// checking systems...' },
     { k: 'blank' },
-    { k: 'off',    v: '✗', rest: 'Bootstrapper          OFFLINE' },
-    { k: 'off',    v: '✗', rest: 'Auto-updater          OFFLINE' },
-    { k: 'off',    v: '✗', rest: 'Download server       OFFLINE' },
+    { k: 'ok',     v: '✓', rest: 'Discord Gateway       ONLINE' },
+    { k: 'ok',     v: '✓', rest: 'Slash Commands   25+  READY' },
+    { k: 'ok',     v: '✓', rest: 'VirusTotal Shield     ACTIVE' },
+    { k: 'ok',     v: '✓', rest: 'Music Engine          ONLINE' },
+    { k: 'ok',     v: '✓', rest: 'Leveling System       ONLINE' },
     { k: 'blank' },
-    { k: 'dim',    v: '// project status: SUNSET' },
-    { k: 'dim',    v: '// source archived at github.com/binx-ux/shadowstrap' },
-    { k: 'blank' },
-    { k: 'val',    v: 'Final version: v2.0.8  ·  Apr 24 2026' },
+    { k: 'dim',    v: '// Binxix Hub V6 · all systems operational' },
     { k: 'blank' },
     { k: 'cursor' },
   ];
@@ -497,11 +556,11 @@
   async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
   async function runTerminal() {
-    const el = document.getElementById('sd-terminal');
+    const el = document.getElementById('hero-terminal');
     if (!el) return;
-    await sleep(900);
+    await sleep(800);
     for (const ln of LINES) {
-      await sleep(ln.k === 'blank' ? 60 : ln.k === 'dim' ? 30 : 55);
+      await sleep(ln.k === 'blank' ? 55 : ln.k === 'dim' ? 28 : 60);
       const span = document.createElement('span');
       span.className = 't-line';
       if (ln.k === 'blank') {
@@ -510,10 +569,8 @@
         span.innerHTML = `<span class="t-prompt">$</span> <span class="t-cmd">${ln.v}</span>`;
       } else if (ln.k === 'dim') {
         span.innerHTML = `<span class="t-comment">${ln.v}</span>`;
-      } else if (ln.k === 'val') {
-        span.innerHTML = `<span class="t-val">${ln.v}</span>`;
-      } else if (ln.k === 'off') {
-        span.innerHTML = `<span style="color:#6B7280">${ln.v}</span> <span style="color:#4B5563">${ln.rest}</span>`;
+      } else if (ln.k === 'ok') {
+        span.innerHTML = `<span class="t-ok">${ln.v}</span> <span class="t-val">${ln.rest}</span>`;
       } else if (ln.k === 'cursor') {
         span.innerHTML = `<span class="t-prompt">$</span> <span class="t-cursor"></span>`;
       }
@@ -522,6 +579,17 @@
   }
 
   runTerminal();
+
+  // Card tilt
+  document.querySelectorAll('.feat-card-bot').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left - r.width / 2) / (r.width / 2);
+      const y = (e.clientY - r.top - r.height / 2) / (r.height / 2);
+      card.style.transform = `translateY(-4px) perspective(700px) rotateX(${-y * 4}deg) rotateY(${x * 4}deg)`;
+    });
+    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+  });
 })();
 </script>
 </body>
