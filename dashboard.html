@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — NIX Bot</title>
+  <meta name="description" content="Manage your NIX Bot server settings — leveling, moderation logging, welcome messages, auto-scan and more." />
+  <meta property="og:title" content="NIX Bot Dashboard" />
+  <meta property="og:url" content="https://binx-ux.github.io/NIX/dashboard.html" />
+  <meta name="theme-color" content="#7C3AED" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .db-hero {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 28px 80px;
+    }
+    .db-hero h1 {
+      font-family: var(--head);
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      color: var(--text-hi);
+      margin-bottom: 24px;
+    }
+    .db-hero p {
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      color: var(--text);
+      max-width: 540px;
+      line-height: 1.85;
+      margin: 0 auto 44px;
+    }
+    .db-hero p em { color: var(--accent-hi); font-style: normal; font-weight: 600; }
+    .db-cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 64px; }
+    .db-divider {
+      width: 1px; height: 56px;
+      background: linear-gradient(to bottom, transparent, rgba(124,58,237,0.4), transparent);
+      margin: 0 auto 56px;
+    }
+
+    /* Preview mock */
+    .db-preview {
+      width: 100%; max-width: 680px;
+      background: rgba(12,21,36,0.85);
+      border: 1px solid rgba(124,58,237,0.25);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.5), 0 0 60px rgba(124,58,237,0.12);
+      backdrop-filter: blur(8px);
+    }
+    .db-preview-bar {
+      background: rgba(8,13,26,0.9);
+      border-bottom: 1px solid rgba(124,58,237,0.15);
+      padding: 12px 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .db-dots { display: flex; gap: 6px; }
+    .db-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .db-dot.r { background: #FF5F57; } .db-dot.y { background: #FEBC2E; } .db-dot.g { background: #28C840; }
+    .db-preview-title {
+      font-family: var(--mono); font-size: 0.68rem;
+      color: var(--text-lo); letter-spacing: 0.08em;
+      flex: 1; text-align: center;
+    }
+    .db-preview-body {
+      display: flex; min-height: 320px;
+    }
+    .db-sidebar-mock {
+      width: 160px; flex-shrink: 0;
+      background: rgba(8,13,26,0.6);
+      border-right: 1px solid rgba(124,58,237,0.1);
+      padding: 14px 10px;
+    }
+    .db-mock-logo {
+      font-family: var(--head); font-size: 0.9rem; font-weight: 700;
+      color: var(--text-hi); padding: 6px 8px 14px;
+      border-bottom: 1px solid rgba(124,58,237,0.1); margin-bottom: 12px;
+    }
+    .db-mock-logo span {
+      background: var(--accent); color: #fff;
+      font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; margin-right: 5px;
+    }
+    .db-mock-link {
+      display: flex; align-items: center; gap: 7px;
+      font-size: 0.75rem; color: var(--text-mid);
+      padding: 7px 8px; border-radius: 5px; margin-bottom: 2px;
+    }
+    .db-mock-link.active { background: rgba(124,58,237,0.12); color: var(--accent-hi); }
+    .db-mock-section {
+      font-family: var(--mono); font-size: 0.55rem;
+      color: var(--text-lo); letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 10px 8px 5px;
+    }
+    .db-main-mock { flex: 1; padding: 18px 20px; }
+    .db-mock-topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 18px;
+    }
+    .db-mock-title { font-family: var(--head); font-size: 0.9rem; font-weight: 600; color: var(--text-hi); }
+    .db-mock-btn {
+      background: var(--accent); color: #fff;
+      font-size: 0.65rem; font-weight: 600; padding: 5px 12px; border-radius: 5px;
+      font-family: var(--head);
+    }
+    .db-mock-card {
+      background: rgba(16,29,46,0.8); border: 1px solid rgba(124,58,237,0.15);
+      border-radius: 8px; padding: 14px 16px; margin-bottom: 10px;
+    }
+    .db-mock-card-head {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;
+    }
+    .db-mock-card-title { font-size: 0.78rem; font-weight: 600; color: var(--text-hi); }
+    .db-mock-toggle {
+      width: 28px; height: 15px; border-radius: 999px;
+      position: relative;
+    }
+    .db-mock-toggle.on { background: var(--accent); }
+    .db-mock-toggle.off { background: rgba(90,106,130,0.3); }
+    .db-mock-toggle::after {
+      content: ''; position: absolute;
+      width: 9px; height: 9px; border-radius: 50%;
+      background: #fff; top: 3px;
+      transition: left .2s;
+    }
+    .db-mock-toggle.on::after { left: 16px; }
+    .db-mock-toggle.off::after { left: 3px; }
+    .db-mock-row {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.7rem; color: var(--text-mid);
+    }
+    .db-mock-select {
+      background: rgba(16,29,46,0.9); border: 1px solid rgba(124,58,237,0.2);
+      border-radius: 4px; padding: 3px 8px; font-size: 0.65rem; color: var(--text-mid);
+    }
+
+    /* Features strip */
+    .db-features {
+      position: relative; z-index: 1;
+      max-width: 900px; margin: 0 auto;
+      padding: 0 28px 80px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 640px) { .db-features { grid-template-columns: 1fr; } }
+
+    .db-feat {
+      background: var(--surface);
+      border: 1px solid rgba(124,58,237,0.12);
+      border-radius: 10px;
+      padding: 22px 20px;
+      display: flex; gap: 14px;
+    }
+    .db-feat-icon { font-size: 1.4rem; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+    .db-feat h3 { font-size: 0.9rem; font-weight: 600; color: var(--text-hi); margin-bottom: 5px; }
+    .db-feat p  { font-size: 0.82rem; color: var(--text); line-height: 1.65; }
+
+    /* CTA */
+    .db-cta-section {
+      position: relative; z-index: 1;
+      background: var(--bg2);
+      border-top: 1px solid rgba(124,58,237,0.1);
+    }
+    .db-cta-inner {
+      max-width: 680px; margin: 0 auto;
+      padding: 80px 28px; text-align: center;
+    }
+    .db-cta-inner h2 {
+      font-size: clamp(1.8rem,3vw,2.4rem); font-weight: 700;
+      color: var(--text-hi); margin: 14px 0 16px;
+    }
+    .db-cta-inner p { font-size: 0.95rem; color: var(--text); margin-bottom: 32px; line-height: 1.75; }
+    .db-cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    /* Animations */
+    @keyframes dbIn { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+    .db-hero > * { animation: dbIn .9s cubic-bezier(.16,1,.3,1) both; }
+    .db-hero .hero-badge  { animation-delay:.10s; }
+    .db-hero h1           { animation-delay:.22s; }
+    .db-hero p            { animation-delay:.34s; }
+    .db-hero .db-cta      { animation-delay:.44s; }
+    .db-hero .db-divider  { animation-delay:.52s; }
+    .db-hero .db-preview  { animation-delay:.60s; }
+  </style>
+</head>
+<body>
+
+<div class="scroll-bar" id="scroll-bar"></div>
+<div class="noise-overlay"></div>
+<div class="aurora">
+  <div class="aurora-blob" style="width:760px;height:760px;background:rgba(124,58,237,0.09);top:-220px;left:-180px;animation-delay:0s;animation-duration:20s"></div>
+  <div class="aurora-blob" style="width:500px;height:500px;background:rgba(34,211,238,0.06);top:40%;right:-120px;animation-delay:-8s;animation-duration:17s"></div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">
+      <span class="nav-logo-mark">NIX</span>
+      <span class="nav-logo-ver">Bot</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="commands.html">Commands</a></li>
+      <li><a href="dashboard.html" class="active">Dashboard</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="https://discord.gg/nKjV3mGq6R" target="_blank" rel="noopener">Discord ↗</a></li>
+    </ul>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      ONLINE
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="db-hero">
+  <div class="hero-badge" style="margin-bottom:32px">
+    <div class="hero-badge-dot"></div>
+    <span>No coding required · Login with Discord</span>
+  </div>
+
+  <h1>Manage your server<br><em class="text-gradient">from your browser.</em></h1>
+
+  <p>
+    Configure NIX Bot for every server you manage.<br>
+    Toggle features, set channels, tune XP rates — <em>all in one place.</em>
+  </p>
+
+  <div class="db-cta">
+    <a class="btn btn-primary" href="https://nix-bot.fly.dev/auth/login" target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.031.053a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.04.001-.088-.041-.104a13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+      Open Dashboard
+    </a>
+    <a class="btn btn-ghost" href="commands.html">View Commands →</a>
+  </div>
+
+  <div class="db-divider"></div>
+
+  <!-- Mock UI preview -->
+  <div class="db-preview">
+    <div class="db-preview-bar">
+      <div class="db-dots">
+        <div class="db-dot r"></div><div class="db-dot y"></div><div class="db-dot g"></div>
+      </div>
+      <div class="db-preview-title">nix-bot.fly.dev/dashboard/</div>
+    </div>
+    <div class="db-preview-body">
+      <!-- Sidebar mock -->
+      <div class="db-sidebar-mock">
+        <div class="db-mock-logo"><span>NIX</span> Dashboard</div>
+        <div class="db-mock-section">This Server</div>
+        <div class="db-mock-link active">🎮 Leveling</div>
+        <div class="db-mock-link">🛡️ Security</div>
+        <div class="db-mock-link">👋 Welcome</div>
+        <div class="db-mock-link">📋 Mod Log</div>
+        <div class="db-mock-section" style="margin-top:auto">Navigation</div>
+        <div class="db-mock-link">🏠 My Servers</div>
+      </div>
+      <!-- Main mock -->
+      <div class="db-main-mock">
+        <div class="db-mock-topbar">
+          <div class="db-mock-title">My Cool Server</div>
+          <div class="db-mock-btn">Save Changes</div>
+        </div>
+        <div class="db-mock-card">
+          <div class="db-mock-card-head">
+            <div class="db-mock-card-title">🎮 Leveling & XP</div>
+            <div class="db-mock-toggle on"></div>
+          </div>
+          <div class="db-mock-row">
+            <span>XP Rate Multiplier</span>
+            <div class="db-mock-select">2×</div>
+          </div>
+        </div>
+        <div class="db-mock-card">
+          <div class="db-mock-card-head">
+            <div class="db-mock-card-title">🛡️ Auto Malware Scanning</div>
+            <div class="db-mock-toggle on"></div>
+          </div>
+          <div class="db-mock-row">
+            <span>Scan Log Channel</span>
+            <div class="db-mock-select"># mod-logs</div>
+          </div>
+        </div>
+        <div class="db-mock-card">
+          <div class="db-mock-card-head">
+            <div class="db-mock-card-title">👋 Welcome Messages</div>
+            <div class="db-mock-toggle off"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<div class="db-features" data-reveal="fade">
+  <div class="db-feat">
+    <span class="db-feat-icon">🔒</span>
+    <div>
+      <h3>Secure Login</h3>
+      <p>Log in with your Discord account. Only server admins with <strong>Manage Server</strong> permission can access their server's settings.</p>
+    </div>
+  </div>
+  <div class="db-feat">
+    <span class="db-feat-icon">🎮</span>
+    <div>
+      <h3>Leveling Control</h3>
+      <p>Enable or disable XP tracking per server and set the XP rate multiplier to 1×, 2×, or 3×.</p>
+    </div>
+  </div>
+  <div class="db-feat">
+    <span class="db-feat-icon">🛡️</span>
+    <div>
+      <h3>Security Settings</h3>
+      <p>Toggle auto malware scanning on or off and choose which channel scan results are posted to.</p>
+    </div>
+  </div>
+  <div class="db-feat">
+    <span class="db-feat-icon">👋</span>
+    <div>
+      <h3>Welcome Messages</h3>
+      <p>Set a welcome channel and custom message with <code style="font-family:monospace;font-size:0.85em;color:var(--accent-hi)">{user}</code> and <code style="font-family:monospace;font-size:0.85em;color:var(--accent-hi)">{server}</code> placeholders.</p>
+    </div>
+  </div>
+  <div class="db-feat">
+    <span class="db-feat-icon">📋</span>
+    <div>
+      <h3>Mod Log Channel</h3>
+      <p>Pick a channel where bans, kicks, timeouts, and other moderation actions are automatically logged.</p>
+    </div>
+  </div>
+  <div class="db-feat">
+    <span class="db-feat-icon">🌐</span>
+    <div>
+      <h3>All Your Servers</h3>
+      <p>See every server NIX Bot is in where you have admin access — manage them all from one login.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="db-cta-section">
+  <div class="db-cta-inner" data-reveal="fade">
+    <div class="section-eyebrow">Get started</div>
+    <h2>Your server settings,<br><em class="text-gradient">one click away.</em></h2>
+    <p>Login with Discord and you'll be managing your server in under 30 seconds.</p>
+    <div class="db-cta-btns">
+      <a class="btn btn-primary" href="https://nix-bot.fly.dev/auth/login" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.031.053a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.04.001-.088-.041-.104a13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+        Open Dashboard
+      </a>
+      <a class="btn btn-ghost" href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot" target="_blank" rel="noopener">Add to Server →</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a class="nav-logo" href="index.html"><span class="nav-logo-mark">NIX</span><span class="nav-logo-ver">Bot</span></a>
+      <p>Free Discord bot by binxix. No premium tiers, no data collection.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Bot</h5>
+      <ul>
+        <li><a href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot" target="_blank" rel="noopener">Add to Server</a></li>
+        <li><a href="commands.html">Commands</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Community</h5>
+      <ul>
+        <li><a href="https://discord.gg/nKjV3mGq6R" target="_blank" rel="noopener">Discord Server</a></li>
+        <li><a href="https://github.com/binx-ux/nix-bot-push" target="_blank" rel="noopener">GitHub ↗</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 binxix · NIX Bot</span>
+    <span class="footer-copy">Not affiliated with Discord Inc.</span>
+  </div>
+</footer>
+
+<script>
+(function() {
+  const scrollBar = document.getElementById('scroll-bar');
+  const navEl = document.querySelector('.nav');
+  window.addEventListener('scroll', () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    if (scrollBar) scrollBar.style.width = (max > 0 ? window.scrollY / max * 100 : 0) + '%';
+    navEl?.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+  const ro = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); ro.unobserve(e.target); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -48px 0px' });
+  document.querySelectorAll('[data-reveal]').forEach(el => ro.observe(el));
+})();
+</script>
+</body>
+</html>
