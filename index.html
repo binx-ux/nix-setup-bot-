@@ -3,796 +3,887 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NIX Bot — The only bot your server needs</title>
-  <meta name="description" content="NIX Bot is a free, feature-packed Discord bot with auto malware scanning, moderation, music, leveling, memes, and more." />
-  <meta property="og:title" content="NIX Bot — The only bot your server needs" />
-  <meta property="og:description" content="Free Discord bot with auto malware scanning, full moderation, music, leveling, server templates, and more." />
-  <meta property="og:url" content="https://binx-ux.github.io/NIX/" />
-  <meta name="theme-color" content="#7C3AED" />
+  <title>NIX Setup Bot — Your server, built in seconds.</title>
+  <meta name="description" content="NIX Setup Bot by binxix. Pick from 25+ Discord server templates and get roles, channels, and categories created instantly. Free forever." />
+  <meta property="og:title" content="NIX Setup Bot" />
+  <meta property="og:description" content="Pick from 25+ Discord server templates. Roles, channels, and categories created instantly. Free forever." />
+  <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <style>
-    /* ── HERO ─────────────────────────────────── */
-    .bot-hero {
-      position: relative;
-      z-index: 1;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 120px 28px 80px;
-    }
-    .bot-eyebrow {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--text-mid);
-      margin-bottom: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-    }
-    .bot-eyebrow::before, .bot-eyebrow::after {
-      content: '';
-      width: 32px;
-      height: 1px;
-      background: rgba(124,58,237,0.3);
-    }
-    .bot-hero h1 {
-      font-family: var(--head);
-      font-size: clamp(3rem, 8vw, 6.5rem);
-      font-weight: 700;
-      line-height: 1.0;
-      letter-spacing: -0.04em;
-      color: var(--text-hi);
-      margin-bottom: 28px;
-    }
-    .bot-hero p.bot-lead {
-      font-size: clamp(1rem, 2vw, 1.15rem);
-      color: var(--text);
-      max-width: 580px;
-      line-height: 1.85;
-      margin: 0 auto 44px;
-    }
-    .bot-hero p.bot-lead em {
-      color: var(--accent-hi);
-      font-style: normal;
-      font-weight: 600;
-    }
-    .bot-cta {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 64px;
-    }
-    .bot-divider {
-      width: 1px;
-      height: 56px;
-      background: linear-gradient(to bottom, transparent, rgba(124,58,237,0.4), transparent);
-      margin: 0 auto 56px;
-    }
-
-    /* ── STATS STRIP ──────────────────────────── */
-    .bot-stats {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      justify-content: center;
-      gap: 0;
-      border: 1px solid rgba(124,58,237,0.18);
-      border-radius: 12px;
-      background: rgba(12,21,36,0.6);
-      backdrop-filter: blur(12px);
-      overflow: hidden;
-      max-width: 640px;
-      margin: 0 auto 80px;
-    }
-    .bot-stat {
-      flex: 1;
-      padding: 20px 16px;
-      border-right: 1px solid rgba(124,58,237,0.12);
-      text-align: center;
-    }
-    .bot-stat:last-child { border-right: none; }
-    .bot-stat-val {
-      font-family: var(--head);
-      font-size: 1.7rem;
-      font-weight: 700;
-      color: var(--text-hi);
-      display: block;
-      letter-spacing: -0.03em;
-    }
-    .bot-stat-label {
-      font-family: var(--mono);
-      font-size: 0.58rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-mid);
-      margin-top: 4px;
-      display: block;
-    }
-
-    /* ── FEATURES SECTION ─────────────────────── */
-    .features-section {
-      position: relative;
-      z-index: 1;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 28px 96px;
-    }
-    .features-header {
-      text-align: center;
-      margin-bottom: 56px;
-    }
-    .features-header h2 {
-      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-      font-weight: 700;
-      color: var(--text-hi);
-      margin: 16px 0 16px;
-      line-height: 1.15;
-    }
-    .features-header p {
-      font-size: 1rem;
-      color: var(--text);
-      max-width: 500px;
-      margin: 0 auto;
-      line-height: 1.75;
-    }
-    .feat-grid-bot {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-    }
-    @media (max-width: 960px) { .feat-grid-bot { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 600px) { .feat-grid-bot { grid-template-columns: 1fr; } }
-
-    .feat-card-bot {
-      background: var(--surface);
-      border: 1px solid rgba(124,58,237,0.15);
-      border-radius: 12px;
-      padding: 28px 22px;
-      position: relative;
-      overflow: hidden;
-      transition: border-color .22s, transform .22s, box-shadow .22s;
-    }
-    .feat-card-bot::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(167,139,250,0.4), transparent);
-      transform: scaleX(0);
-      transition: transform .4s ease;
-    }
-    .feat-card-bot:hover::before { transform: scaleX(1); }
-    .feat-card-bot:hover {
-      border-color: rgba(124,58,237,0.4);
-      transform: translateY(-4px);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.35), 0 0 40px rgba(124,58,237,0.1);
-    }
-    .feat-card-bot .card-icon {
-      font-size: 2rem;
-      display: block;
-      margin-bottom: 14px;
-      line-height: 1;
-      transition: transform .3s cubic-bezier(.16,1,.3,1);
-    }
-    .feat-card-bot:hover .card-icon { transform: scale(1.15) rotate(-5deg); }
-    .feat-card-bot h3 {
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--text-hi);
-      margin-bottom: 8px;
-    }
-    .feat-card-bot p {
-      font-size: 0.84rem;
-      color: var(--text);
-      line-height: 1.7;
-    }
-    .feat-card-bot .card-tag {
-      display: inline-flex;
-      align-items: center;
-      font-family: var(--mono);
-      font-size: 0.57rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 3px 8px;
-      border-radius: 4px;
-      border: 1px solid;
-      margin-bottom: 14px;
-    }
-    .tag-security { color: #60A5FA; border-color: rgba(96,165,250,0.25); background: rgba(96,165,250,0.07); }
-    .tag-mod      { color: #F87171; border-color: rgba(248,113,113,0.25); background: rgba(248,113,113,0.07); }
-    .tag-channel  { color: var(--cyan); border-color: rgba(34,211,238,0.25); background: rgba(34,211,238,0.07); }
-    .tag-music    { color: #FCD34D; border-color: rgba(252,211,77,0.25); background: rgba(252,211,77,0.07); }
-    .tag-leveling { color: var(--green); border-color: rgba(16,185,129,0.25); background: rgba(16,185,129,0.07); }
-    .tag-setup    { color: var(--accent-hi); border-color: rgba(167,139,250,0.25); background: rgba(167,139,250,0.07); }
-    .tag-fun      { color: #FB923C; border-color: rgba(251,146,60,0.25); background: rgba(251,146,60,0.07); }
-
-    /* ── LIVE STATS PANEL ─────────────────────── */
-    .live-stats {
-      position: relative;
-      z-index: 1;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 28px 80px;
-    }
-    .live-stats-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-    .live-stats-label {
-      font-family: var(--mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--accent-hi);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .live-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 6px rgba(16,185,129,0.6);
-      animation: pulse 2s ease-in-out infinite;
-    }
-    .live-updated {
-      font-family: var(--mono);
-      font-size: 0.58rem;
-      color: var(--text-lo);
-      letter-spacing: 0.06em;
-    }
-    .live-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-    }
-    @media (max-width: 700px) { .live-grid { grid-template-columns: repeat(2, 1fr); } }
-    .live-card {
-      background: var(--surface);
-      border: 1px solid rgba(124,58,237,0.15);
-      border-radius: 10px;
-      padding: 22px 18px;
-      text-align: center;
-      transition: border-color .2s;
-      position: relative;
-      overflow: hidden;
-    }
-    .live-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(167,139,250,0.35), transparent);
-    }
-    .live-card.updating { border-color: rgba(124,58,237,0.4); }
-    .live-card-icon {
-      font-size: 1.3rem;
-      display: block;
-      margin-bottom: 10px;
-    }
-    .live-val {
-      font-family: var(--head);
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--text-hi);
-      display: block;
-      letter-spacing: -0.04em;
-      line-height: 1;
-      margin-bottom: 6px;
-      transition: color .3s;
-    }
-    .live-val.refreshing { color: var(--accent-hi); }
-    .live-val-label {
-      font-family: var(--mono);
-      font-size: 0.58rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-lo);
-      display: block;
-    }
-    .live-error {
-      text-align: center;
-      padding: 28px;
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--text-lo);
-      background: var(--surface);
-      border: 1px solid rgba(124,58,237,0.1);
-      border-radius: 10px;
-    }
-
-    /* ── CTA SECTION ──────────────────────────── */
-    .bot-cta-section {
-      position: relative;
-      z-index: 1;
-      background: var(--bg2);
-      border-top: 1px solid rgba(124,58,237,0.1);
-    }
-    .bot-cta-inner {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 96px 28px;
-      text-align: center;
-    }
-    .bot-cta-inner h2 {
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 700;
-      color: var(--text-hi);
-      margin: 16px 0 20px;
-      line-height: 1.1;
-    }
-    .bot-cta-inner p {
-      font-size: 1rem;
-      color: var(--text);
-      max-width: 460px;
-      margin: 0 auto 40px;
-      line-height: 1.8;
-    }
-    .bot-cta-btns {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    /* ── SLIDE-IN ANIMATION ───────────────────── */
-    @keyframes botIn {
-      from { opacity: 0; transform: translateY(28px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .bot-hero > * { animation: botIn 0.9s cubic-bezier(.16,1,.3,1) both; }
-    .bot-eyebrow      { animation-delay: 0.10s; }
-    .hero-badge       { animation-delay: 0.20s; }
-    .bot-hero h1      { animation-delay: 0.32s; }
-    .bot-lead         { animation-delay: 0.44s; }
-    .bot-cta          { animation-delay: 0.54s; }
-    .bot-divider      { animation-delay: 0.62s; }
-    .bot-terminal-wrap { animation-delay: 0.70s; }
-  </style>
 </head>
 <body>
 
-<div class="scroll-bar" id="scroll-bar"></div>
-<div class="noise-overlay"></div>
-<div class="aurora">
-  <div class="aurora-blob" style="width:800px;height:800px;background:rgba(124,58,237,0.09);top:-260px;left:-200px;animation-delay:0s;animation-duration:22s"></div>
-  <div class="aurora-blob" style="width:520px;height:520px;background:rgba(34,211,238,0.06);top:35%;right:-120px;animation-delay:-9s;animation-duration:17s"></div>
-  <div class="aurora-blob" style="width:440px;height:440px;background:rgba(124,58,237,0.07);bottom:18%;left:28%;animation-delay:-15s;animation-duration:25s"></div>
-</div>
+  <!-- Scroll progress bar -->
+  <div class="scroll-progress" id="scrollProgress"></div>
 
-<!-- NAV -->
-<nav class="nav">
-  <div class="nav-inner">
-    <a class="nav-logo" href="index.html">
-      <span class="nav-logo-mark">NIX</span>
-      <span class="nav-logo-ver">Bot</span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="commands.html">Commands</a></li>
-      <li><a href="dashboard.html">Dashboard</a></li>
-      <li><a href="faq.html">FAQ</a></li>
-      <li><a href="https://discord.gg/nKjV3mGq6R" target="_blank" rel="noopener">Discord ↗</a></li>
-    </ul>
-    <div class="nav-status">
-      <span class="status-dot"></span>
-      ONLINE
-    </div>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="bot-hero">
-  <div class="bot-eyebrow">Discord Bot</div>
-
-  <div class="hero-badge" style="margin-bottom:36px">
-    <div class="hero-badge-dot"></div>
-    <span>Binxix Hub V6 · Free Forever</span>
+  <!-- Aurora background blobs -->
+  <div class="aurora" aria-hidden="true">
+    <div class="aurora__blob aurora__blob--1"></div>
+    <div class="aurora__blob aurora__blob--2"></div>
+    <div class="aurora__blob aurora__blob--3"></div>
   </div>
 
-  <h1>
-    The only bot<br>
-    <em class="text-gradient">your server needs.</em>
-  </h1>
+  <!-- Noise overlay -->
+  <div class="noise" aria-hidden="true"></div>
 
-  <p class="bot-lead">
-    Auto malware scanning. Full moderation. Music. Leveling.<br>
-    <em>25+ commands, zero cost, zero telemetry.</em><br>
-    Add it and start in seconds.
-  </p>
-
-  <div class="bot-cta">
-    <a class="btn btn-primary" href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot" target="_blank" rel="noopener">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.031.053a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.04.001-.088-.041-.104a13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
-      Add to Server
-    </a>
-    <a class="btn btn-ghost" href="commands.html">View Commands →</a>
-  </div>
-
-  <div class="bot-divider"></div>
-
-  <div class="bot-terminal-wrap terminal-window" style="max-width:500px;width:100%">
-    <div class="terminal-bar">
-      <div class="terminal-dots">
-        <div class="terminal-dot td-red"></div>
-        <div class="terminal-dot td-yellow"></div>
-        <div class="terminal-dot td-green"></div>
-      </div>
-      <span class="terminal-title">nix-bot — system status</span>
-    </div>
-    <div class="terminal-body" id="hero-terminal"></div>
-  </div>
-</section>
-
-<!-- STATS STRIP -->
-<div class="bot-stats" data-reveal="fade" style="position:relative;z-index:1;">
-  <div class="bot-stat">
-    <span class="bot-stat-val">25+</span>
-    <span class="bot-stat-label">Commands</span>
-  </div>
-  <div class="bot-stat">
-    <span class="bot-stat-val">12</span>
-    <span class="bot-stat-label">File Types Scanned</span>
-  </div>
-  <div class="bot-stat">
-    <span class="bot-stat-val">0</span>
-    <span class="bot-stat-label">Telemetry</span>
-  </div>
-  <div class="bot-stat">
-    <span class="bot-stat-val">Free</span>
-    <span class="bot-stat-label">Forever</span>
-  </div>
-</div>
-
-<!-- LIVE STATS -->
-<div class="live-stats" data-reveal="fade">
-  <div class="live-stats-header">
-    <div class="live-stats-label">
-      <span class="live-dot"></span>
-      Live Bot Stats
-    </div>
-    <span class="live-updated" id="live-updated">Fetching…</span>
-  </div>
-  <div class="live-grid" id="live-grid">
-    <div class="live-card">
-      <span class="live-card-icon">🌐</span>
-      <span class="live-val" id="stat-guilds">—</span>
-      <span class="live-val-label">Servers</span>
-    </div>
-    <div class="live-card">
-      <span class="live-card-icon">👥</span>
-      <span class="live-val" id="stat-users">—</span>
-      <span class="live-val-label">Users Reached</span>
-    </div>
-    <div class="live-card">
-      <span class="live-card-icon">⚡</span>
-      <span class="live-val" id="stat-ping">—</span>
-      <span class="live-val-label">Ping (ms)</span>
-    </div>
-    <div class="live-card">
-      <span class="live-card-icon">⏱️</span>
-      <span class="live-val" id="stat-uptime">—</span>
-      <span class="live-val-label">Uptime</span>
-    </div>
-    <div class="live-card">
-      <span class="live-card-icon">⭐</span>
-      <span class="live-val" id="stat-rating">—</span>
-      <span class="live-val-label">Avg Rating</span>
-    </div>
-    <div class="live-card">
-      <span class="live-card-icon">🗳️</span>
-      <span class="live-val" id="stat-reviews">—</span>
-      <span class="live-val-label">Ratings</span>
-    </div>
-  </div>
-</div>
-
-<!-- FEATURES -->
-<section class="features-section">
-  <div class="features-header" data-reveal="fade">
-    <div class="section-eyebrow">What NIX Bot does</div>
-    <h2>Everything in one bot.<br><em class="text-gradient">Nothing you don't need.</em></h2>
-    <p>Eight categories. One invite. No premium tiers, no locked features, no nonsense.</p>
-  </div>
-
-  <div class="feat-grid-bot">
-
-    <div class="feat-card-bot" data-reveal="scale">
-      <span class="card-icon">🛡️</span>
-      <span class="card-tag tag-security">Security</span>
-      <h3>Auto Malware Scan</h3>
-      <p>Every <code style="font-family:var(--mono);font-size:0.8em;color:var(--accent-hi)">.exe</code>, <code style="font-family:var(--mono);font-size:0.8em;color:var(--accent-hi)">.dll</code>, <code style="font-family:var(--mono);font-size:0.8em;color:var(--accent-hi)">.bat</code>, and 9 more dangerous file types are automatically scanned via VirusTotal the moment they're posted — no command needed.</p>
-    </div>
-
-    <div class="feat-card-bot" data-reveal="scale" data-delay="80">
-      <span class="card-icon">⚔️</span>
-      <span class="card-tag tag-mod">Moderation</span>
-      <h3>Full Moderation Suite</h3>
-      <p>Kick, ban, unban by ID, timeout, remove timeout, toggle roles, and set nicknames. Granular permission tiers configured once with <code style="font-family:var(--mono);font-size:0.8em;color:var(--accent-hi)">/setup</code>.</p>
-    </div>
-
-    <div class="feat-card-bot" data-reveal="scale" data-delay="160">
-      <span class="card-icon">📁</span>
-      <span class="card-tag tag-channel">Channels</span>
-      <h3>Channel Control</h3>
-      <p>Create, delete, rename, lock, unlock, clone, set slowmode, change topic, bulk-purge messages, and inspect channel info — all without leaving Discord.</p>
-    </div>
-
-    <div class="feat-card-bot" data-reveal="scale" data-delay="240">
-      <span class="card-icon">🎵</span>
-      <span class="card-tag tag-music">Music</span>
-      <h3>Music Player</h3>
-      <p>High-quality audio powered by Lavalink. Stream from YouTube, Spotify, SoundCloud, and more with queue management and DJ role controls.</p>
-    </div>
-
-    <div class="feat-card-bot" data-reveal="scale" data-delay="80">
-      <span class="card-icon">🎮</span>
-      <span class="card-tag tag-leveling">Leveling</span>
-      <h3>XP & Leveling</h3>
-      <p>Members automatically earn XP for every message they send. Level up milestones are logged and roles can be assigned at key levels to reward activity.</p>
-    </div>
-
-    <div class="feat-card-bot" data-reveal="scale" data-delay="160">
-      <span class="card-icon">🔧</span>
-      <span class="card-tag tag-setup">Setup</span>
-      <h3>Server Templates</h3>
-      <p>Run <code style="font-family:var(--mono);font-size:0.8em;color:var(--accent-hi)">/setup</code> and pick a template. NIX builds your entire server — roles, categories, and channels — in seconds and DMs you a full summary.</p>
-    </div>
-
-    <div class="feat-card-bot" data-reveal="scale" data-delay="240">
-      <span class="card-icon">🎉</span>
-      <span class="card-tag tag-fun">Fun</span>
-      <h3>Meme Command</h3>
-      <p>Pull random memes from r/memes, r/dankmemes, r/me_irl, r/funny, and more. NSFW posts are automatically filtered unless the channel is age-restricted.</p>
-    </div>
-
-    <div class="feat-card-bot" data-reveal="scale" data-delay="320">
-      <span class="card-icon">🔒</span>
-      <span class="card-tag tag-security">Security</span>
-      <h3>Built-in Protections</h3>
-      <p>Per-command cooldowns prevent spam. An owner-controlled blacklist blocks bad actors globally. NSFW guards protect every server automatically.</p>
-    </div>
-
-  </div>
-</section>
-
-<!-- SPOTLIGHT: Malware Shield -->
-<section class="spotlight">
-  <div class="spotlight-inner">
-    <div data-reveal="left">
-      <div class="spotlight-label">Deep Dive</div>
-      <h2>Malware Shield,<br>explained.</h2>
-      <p>NIX Bot monitors every message attachment in real time. When a dangerous file type is posted, it's automatically downloaded, hashed, and sent to VirusTotal for analysis before anyone can open it.</p>
-      <ul class="spotlight-bullets">
-        <li><span class="sb-dot"></span>Scans <strong>.exe, .dll, .bat, .cmd, .ps1, .vbs, .msi, .scr, .hta, .wsf, .reg, .lnk</strong> automatically</li>
-        <li><span class="sb-dot"></span>Files flagged as malicious are deleted and a full threat report is posted in the channel</li>
-        <li><span class="sb-dot"></span>Suspicious-but-not-confirmed files trigger a warning reply so users can decide</li>
-        <li><span class="sb-dot"></span>Requires a free VirusTotal API key — set once, works everywhere</li>
-      </ul>
-    </div>
-    <div data-reveal="right">
-      <div class="terminal-window">
-        <div class="terminal-bar">
-          <div class="terminal-dots">
-            <div class="terminal-dot td-red"></div>
-            <div class="terminal-dot td-yellow"></div>
-            <div class="terminal-dot td-green"></div>
-          </div>
-          <span class="terminal-title">nix-bot — auto scan</span>
-        </div>
-        <div class="terminal-body" style="min-height:auto">
-          <span class="t-line"><span class="t-comment">// attachment detected: setup.exe (1.4 MB)</span></span>
-          <span class="t-line">&nbsp;</span>
-          <span class="t-line"><span class="t-dim">→</span> <span class="t-val">Downloading</span>       <span class="t-dim">setup.exe</span></span>
-          <span class="t-line"><span class="t-dim">→</span> <span class="t-val">Hashing</span>            <span class="t-dim">SHA-256</span></span>
-          <span class="t-line"><span class="t-dim">→</span> <span class="t-val">Querying</span>           <span class="t-dim">VirusTotal API</span></span>
-          <span class="t-line">&nbsp;</span>
-          <span class="t-line" style="color:#F87171"><span style="color:#F87171">✗</span> Malicious          <span style="font-family:var(--mono);font-size:0.9em">34 / 71 engines</span></span>
-          <span class="t-line">&nbsp;</span>
-          <span class="t-line"><span class="t-comment">// message deleted · threat report posted</span></span>
-          <span class="t-line"><span class="t-comment">// user notified in channel</span></span>
-          <span class="t-line"><span class="t-prompt">$</span> <span class="t-cursor"></span></span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<div class="bot-cta-section">
-  <div class="bot-cta-inner" data-reveal="fade">
-    <div class="section-eyebrow">Get started</div>
-    <h2>Add NIX Bot to<br><em class="text-gradient">your server today.</em></h2>
-    <p>One click. No configuration required to start. Run <code style="font-family:var(--mono);font-size:0.9em;color:var(--accent-hi)">/setup</code> whenever you're ready to unlock the full experience.</p>
-    <div class="bot-cta-btns">
-      <a class="btn btn-primary" href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot" target="_blank" rel="noopener">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.031.053a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.04.001-.088-.041-.104a13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
-        Add to Server — It's Free
+  <!-- ===================== NAV ===================== -->
+  <nav class="nav" id="nav">
+    <div class="nav__inner container">
+      <a href="#" class="nav__logo" aria-label="NIX Setup Bot home">
+        <span class="nav__logo-pill">NIX</span>
+        <span class="nav__logo-text">Setup</span>
       </a>
-      <a class="btn btn-ghost" href="commands.html">Browse Commands →</a>
-    </div>
-  </div>
-</div>
+      <ul class="nav__links" role="list">
+        <li><a href="#templates" class="nav__link">Templates</a></li>
+        <li><a href="#how-it-works" class="nav__link">How It Works</a></li>
+        <li><a href="requests.html" class="nav__link">Requests</a></li>
 
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <a class="nav-logo" href="index.html"><span class="nav-logo-mark">NIX</span><span class="nav-logo-ver">Bot</span></a>
-      <p>Free Discord bot by binxix. No premium tiers, no data collection.</p>
-    </div>
-    <div class="footer-col">
-      <h5>Bot</h5>
-      <ul>
-        <li><a href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot" target="_blank" rel="noopener">Add to Server</a></li>
-        <li><a href="commands.html">Commands</a></li>
-        <li><a href="faq.html">FAQ</a></li>
       </ul>
+      <a
+        href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot"
+        class="btn btn--primary nav__cta"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Add to Server</a>
+      <button class="nav__hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>
-    <div class="footer-col">
-      <h5>Community</h5>
-      <ul>
-        <li><a href="https://discord.gg/nKjV3mGq6R" target="_blank" rel="noopener">Discord Server</a></li>
-        <li><a href="https://github.com/binx-ux/nix-bot-push" target="_blank" rel="noopener">GitHub ↗</a></li>
-      </ul>
+    <!-- Mobile menu -->
+    <div class="nav__mobile" id="navMobile" aria-hidden="true">
+      <a href="#templates" class="nav__mobile-link">Templates</a>
+      <a href="#how-it-works" class="nav__mobile-link">How It Works</a>
+      <a href="requests.html" class="nav__mobile-link">Requests</a>
+
+      <a href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot" class="btn btn--primary nav__mobile-cta" target="_blank" rel="noopener noreferrer">Add to Server</a>
     </div>
-    <div class="footer-col">
-      <h5>Legal</h5>
-      <ul>
-        <li><a href="https://discord.com/privacy" target="_blank" rel="noopener">Privacy Policy</a></li>
-        <li><a href="https://discord.com/terms" target="_blank" rel="noopener">Terms of Service</a></li>
-      </ul>
+  </nav>
+
+  <main>
+
+    <!-- ===================== HERO ===================== -->
+    <section class="hero" id="hero">
+      <div class="container hero__inner">
+        <div class="hero__badge" data-reveal="up">
+          <span class="hero__badge-dot"></span>
+          <span>Free forever. No configuration required.</span>
+        </div>
+        <h1 class="hero__headline" data-reveal="up">
+          Your server,<br />
+          built in <span class="text-gradient">seconds.</span>
+        </h1>
+        <p class="hero__sub" data-reveal="up">
+          Pick from 25+ professionally designed server templates. NIX creates every role,
+          channel, and category automatically — then steps aside.
+        </p>
+        <div class="hero__ctas" data-reveal="up">
+          <a
+            href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot"
+            class="btn btn--primary btn--lg"
+            target="_blank"
+            rel="noopener noreferrer"
+          >Add to Server</a>
+          <a href="#how-it-works" class="btn btn--ghost btn--lg">See How It Works</a>
+        </div>
+
+        <!-- Discord mockup -->
+        <div class="mockup" data-reveal="up" aria-label="Discord command preview">
+          <div class="mockup__bar">
+            <span class="mockup__dot mockup__dot--red"></span>
+            <span class="mockup__dot mockup__dot--yellow"></span>
+            <span class="mockup__dot mockup__dot--green"></span>
+            <span class="mockup__title">Discord — #general</span>
+          </div>
+          <div class="mockup__body">
+            <div class="mockup__sidebar">
+              <div class="mockup__server-icon">NIX</div>
+              <div class="mockup__channel-list" id="mockupChannels">
+                <div class="mockup__category">INFORMATION</div>
+                <div class="mockup__channel mockup__channel--active"># general</div>
+                <div class="mockup__channel"># rules</div>
+                <div class="mockup__category">VOICE</div>
+                <div class="mockup__channel mockup__channel--voice">General</div>
+              </div>
+            </div>
+            <div class="mockup__chat">
+              <!-- User /setup command -->
+              <div class="mockup__message mockup__message--user">
+                <div class="mockup__avatar mockup__avatar--user">B</div>
+                <div class="mockup__message-content">
+                  <div class="mockup__message-header">
+                    <span class="mockup__username">binxix</span>
+                    <span class="mockup__timestamp">Today at 11:41 AM</span>
+                  </div>
+                  <div class="mockup__slash-cmd">used <strong>/setup</strong></div>
+                </div>
+              </div>
+              <!-- Bot response -->
+              <div class="mockup__message mockup__message--bot">
+                <div class="mockup__avatar mockup__avatar--bot">N</div>
+                <div class="mockup__message-content">
+                  <div class="mockup__message-header">
+                    <span class="mockup__username mockup__username--bot">NIX Setup Bot</span>
+                    <span class="mockup__badge-tag">APP</span>
+                    <span class="mockup__timestamp">Today at 11:42 AM</span>
+                  </div>
+                  <div class="mockup__embed">
+                    <div class="mockup__embed-bar"></div>
+                    <div class="mockup__embed-body">
+                      <div class="mockup__embed-title">Choose a Template</div>
+                      <div class="mockup__embed-desc">Select a template below to configure your server.</div>
+                      <div class="mockup__select" id="mockupSelect">
+                        <div class="mockup__select-inner" id="mockupSelectTrigger">
+                          <span class="mockup__select-dot" id="mockupSelectedDot" style="background:transparent"></span>
+                          <span id="mockupSelectedLabel" style="color:var(--color-text-faint)">Select a template…</span>
+                          <svg class="mockup__select-chevron" viewBox="0 0 16 16" fill="none">
+                            <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        </div>
+                        <div class="mockup__dropdown" id="mockupDropdown"></div>
+                      </div>
+                      <button class="mockup__confirm-btn" id="mockupConfirmBtn" disabled>Confirm</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mockup__input-bar">
+                <span class="mockup__input-text">Message #general</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End mockup -->
+
+      </div>
+    </section>
+
+    <!-- ===================== STAT STRIP ===================== -->
+    <section class="stats" aria-label="Key statistics">
+      <div class="container">
+        <div class="stats__inner" data-reveal="up">
+          <div class="stats__item">
+            <div class="stats__number">25+</div>
+            <div class="stats__label">Templates</div>
+          </div>
+          <div class="stats__divider" aria-hidden="true"></div>
+          <div class="stats__item">
+            <div class="stats__number">Under 60s</div>
+            <div class="stats__label">Full Setup Time</div>
+          </div>
+          <div class="stats__divider" aria-hidden="true"></div>
+          <div class="stats__item">
+            <div class="stats__number">Free</div>
+            <div class="stats__label">Forever</div>
+          </div>
+          <div class="stats__divider" aria-hidden="true"></div>
+          <div class="stats__item">
+            <div class="stats__number" id="stat-rating">—</div>
+            <div class="stats__label">⭐ Avg Rating</div>
+          </div>
+          <div class="stats__divider" aria-hidden="true"></div>
+          <div class="stats__item">
+            <div class="stats__number" id="stat-reviews">—</div>
+            <div class="stats__label">Ratings</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== HOW IT WORKS ===================== -->
+    <section class="steps" id="how-it-works">
+      <div class="container">
+        <div class="section-label" data-reveal="up">HOW IT WORKS</div>
+        <h2 class="section-heading" data-reveal="up">Three steps. No configuration.</h2>
+        <div class="steps__list">
+
+          <div class="steps__item" data-reveal="up">
+            <div class="steps__left">
+              <div class="steps__number">01</div>
+              <div class="steps__line" aria-hidden="true"></div>
+            </div>
+            <div class="steps__content">
+              <h3 class="steps__title">Invite the bot</h3>
+              <p class="steps__desc">
+                Add NIX to your Discord server with a single click. It requests only
+                the permissions needed to build your server structure.
+              </p>
+              <a
+                href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot"
+                class="steps__link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >Add to Server &rarr;</a>
+            </div>
+          </div>
+
+          <div class="steps__item" data-reveal="up">
+            <div class="steps__left">
+              <div class="steps__number">02</div>
+              <div class="steps__line" aria-hidden="true"></div>
+            </div>
+            <div class="steps__content">
+              <h3 class="steps__title">Run /setup</h3>
+              <p class="steps__desc">
+                Type <code class="code-inline">/setup</code> in any channel. A dropdown appears
+                with all 25+ templates. Select the one that fits your community.
+              </p>
+            </div>
+          </div>
+
+          <div class="steps__item steps__item--last" data-reveal="up">
+            <div class="steps__left">
+              <div class="steps__number">03</div>
+            </div>
+            <div class="steps__content">
+              <h3 class="steps__title">Done — it leaves</h3>
+              <p class="steps__desc">
+                NIX creates every role, channel, and category instantly. You receive a
+                DM with a full summary and optional invite links for Carl-bot and Arcane.
+                NIX can leave your server automatically so it stays clean.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== TEMPLATES ===================== -->
+    <section class="templates" id="templates">
+      <div class="container">
+        <div class="section-label" data-reveal="up">TEMPLATES</div>
+        <h2 class="section-heading" data-reveal="up">A template for every community.</h2>
+      </div>
+
+      <!-- Marquee Row 1 — left -->
+      <div class="marquee" aria-label="Template names" role="list">
+        <div class="marquee__track">
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--purple"></span>Code / AI Community</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--green"></span>Minecraft</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--blue"></span>Fortnite</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--orange"></span>CoD / Warzone</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--red"></span>GTA FiveM RP</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--cyan"></span>Apex Legends</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--gold"></span>League of Legends</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--yellow"></span>CS2</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--orange"></span>Overwatch 2</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--blue"></span>Rocket League</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--purple"></span>Genshin Impact</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--red"></span>ERLC</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--green"></span>Roblox General</div>
+          <!-- duplicate set -->
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--purple"></span>Code / AI Community</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--green"></span>Minecraft</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--blue"></span>Fortnite</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--orange"></span>CoD / Warzone</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--red"></span>GTA FiveM RP</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--cyan"></span>Apex Legends</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--gold"></span>League of Legends</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--yellow"></span>CS2</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--orange"></span>Overwatch 2</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--blue"></span>Rocket League</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--purple"></span>Genshin Impact</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--red"></span>ERLC</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--green"></span>Roblox General</div>
+        </div>
+      </div>
+
+      <!-- Marquee Row 2 — right -->
+      <div class="marquee marquee--reverse" aria-label="More template names" role="list">
+        <div class="marquee__track marquee__track--reverse">
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--cyan"></span>Valorant</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--purple"></span>Zenless Zone Zero</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--red"></span>MiSide</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--green"></span>Arma Reforger</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--yellow"></span>Garry's Mod</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--orange"></span>War Thunder</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--blue"></span>General Gaming</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--gold"></span>Music / Artist</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--cyan"></span>Roblox RP</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--purple"></span>Roblox Condo</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--red"></span>Roblox Trading</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--green"></span>Roblox Anime</div>
+          <!-- duplicate set -->
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--cyan"></span>Valorant</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--purple"></span>Zenless Zone Zero</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--red"></span>MiSide</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--green"></span>Arma Reforger</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--yellow"></span>Garry's Mod</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--orange"></span>War Thunder</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--blue"></span>General Gaming</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--gold"></span>Music / Artist</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--cyan"></span>Roblox RP</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--purple"></span>Roblox Condo</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--red"></span>Roblox Trading</div>
+          <div class="marquee__card" role="listitem"><span class="marquee__dot marquee__dot--green"></span>Roblox Anime</div>
+        </div>
+      </div>
+
+      <!-- Template category grid -->
+      <div class="container tmpl-grid-wrap">
+        <div class="tmpl-grid" data-reveal="up">
+
+          <div class="tmpl-category">
+            <div class="tmpl-category__label tmpl-category__label--purple">Development</div>
+            <div class="tmpl-category__list">
+              <span class="tmpl-chip">Code / AI Community</span>
+            </div>
+          </div>
+
+          <div class="tmpl-category">
+            <div class="tmpl-category__label tmpl-category__label--cyan">Shooter / Battle Royale</div>
+            <div class="tmpl-category__list">
+              <span class="tmpl-chip">Fortnite</span>
+              <span class="tmpl-chip">CoD / Warzone</span>
+              <span class="tmpl-chip">Apex Legends</span>
+              <span class="tmpl-chip">CS2</span>
+              <span class="tmpl-chip">Valorant</span>
+              <span class="tmpl-chip">Overwatch 2</span>
+            </div>
+          </div>
+
+          <div class="tmpl-category">
+            <div class="tmpl-category__label tmpl-category__label--gold">Competitive</div>
+            <div class="tmpl-category__list">
+              <span class="tmpl-chip">League of Legends</span>
+              <span class="tmpl-chip">Rocket League</span>
+            </div>
+          </div>
+
+          <div class="tmpl-category">
+            <div class="tmpl-category__label tmpl-category__label--green">Survival / Sandbox</div>
+            <div class="tmpl-category__list">
+              <span class="tmpl-chip">Minecraft</span>
+              <span class="tmpl-chip">Garry's Mod</span>
+            </div>
+          </div>
+
+          <div class="tmpl-category">
+            <div class="tmpl-category__label tmpl-category__label--orange">Roleplay / Simulation</div>
+            <div class="tmpl-category__list">
+              <span class="tmpl-chip">GTA FiveM RP</span>
+              <span class="tmpl-chip">Arma Reforger</span>
+              <span class="tmpl-chip">War Thunder</span>
+              <span class="tmpl-chip">ERLC</span>
+            </div>
+          </div>
+
+          <div class="tmpl-category">
+            <div class="tmpl-category__label tmpl-category__label--pink">Gacha / Anime</div>
+            <div class="tmpl-category__list">
+              <span class="tmpl-chip">Genshin Impact</span>
+              <span class="tmpl-chip">Zenless Zone Zero</span>
+              <span class="tmpl-chip">MiSide</span>
+            </div>
+          </div>
+
+          <div class="tmpl-category">
+            <div class="tmpl-category__label tmpl-category__label--red">Roblox</div>
+            <div class="tmpl-category__list">
+              <span class="tmpl-chip">Roblox General</span>
+              <span class="tmpl-chip">Roblox RP</span>
+              <span class="tmpl-chip">Roblox Condo</span>
+              <span class="tmpl-chip">Roblox Trading</span>
+              <span class="tmpl-chip">Roblox Anime</span>
+            </div>
+          </div>
+
+          <div class="tmpl-category">
+            <div class="tmpl-category__label tmpl-category__label--blue">General</div>
+            <div class="tmpl-category__list">
+              <span class="tmpl-chip">General Gaming</span>
+              <span class="tmpl-chip">Music / Artist</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ===================== FEATURES ===================== -->
+    <section class="features" id="features">
+      <div class="container">
+        <div class="section-label" data-reveal="up">FEATURES</div>
+        <h2 class="section-heading" data-reveal="up">Everything handled automatically.</h2>
+        <div class="features__grid">
+
+          <div class="feature-card" data-reveal="up">
+            <div class="feature-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="3" y="8" width="18" height="2.5" rx="1.25" fill="currentColor" opacity="0.3"/>
+                <rect x="3" y="12.5" width="13" height="2.5" rx="1.25" fill="currentColor" opacity="0.6"/>
+                <rect x="3" y="17" width="8" height="2.5" rx="1.25" fill="currentColor"/>
+                <circle cx="19" cy="6" r="3" fill="currentColor"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Instant Roles</h3>
+            <p class="feature-card__desc">
+              Every template comes with a curated set of roles — admin, moderator, member, bots —
+              configured with the right colors and hierarchy out of the box.
+            </p>
+          </div>
+
+          <div class="feature-card" data-reveal="up">
+            <div class="feature-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 6h16M4 10h10M4 14h12M4 18h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Smart Channels</h3>
+            <p class="feature-card__desc">
+              Channels and categories tailored to each community type. The Code/AI template even
+              includes a live AI news feed channel.
+            </p>
+          </div>
+
+          <div class="feature-card" data-reveal="up">
+            <div class="feature-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="3" y="11" width="18" height="10" rx="2" stroke="currentColor" stroke-width="2"/>
+                <path d="M7 11V7a5 5 0 0110 0v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="12" cy="16" r="1.5" fill="currentColor"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Permission Tiers</h3>
+            <p class="feature-card__desc">
+              Channel permissions are wired up correctly from the start. No manual permission
+              editing — everything just works the moment setup completes.
+            </p>
+          </div>
+
+          <div class="feature-card" data-reveal="up">
+            <div class="feature-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">DM Summary</h3>
+            <p class="feature-card__desc">
+              After setup, NIX sends the server owner a direct message with a full breakdown
+              of what was created and recommended next steps.
+            </p>
+          </div>
+
+          <div class="feature-card" data-reveal="up">
+            <div class="feature-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 3C7.03 3 3 7.03 3 12s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z" stroke="currentColor" stroke-width="2"/>
+                <path d="M19 19l2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Build and Leave</h3>
+            <p class="feature-card__desc">
+              NIX can leave your server automatically once setup is complete. No lingering
+              bot presence — a clean server from day one.
+            </p>
+          </div>
+
+          <div class="feature-card" data-reveal="up">
+            <div class="feature-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Bot Invite Links</h3>
+            <p class="feature-card__desc">
+              Your DM summary includes ready-to-use invite links for Carl-bot and Arcane,
+              so you can add the most popular moderation and leveling bots in one click.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CONTRIBUTE ===================== -->
+    <section class="contribute" id="contribute">
+      <div class="container">
+        <div class="section-label" data-reveal="up">JOIN THE TEAM</div>
+        <h2 class="section-heading" data-reveal="up">Help build NIX.</h2>
+        <p class="contribute__intro" data-reveal="up">
+          NIX is a free, community-driven bot. We're looking for a small group of people
+          to help grow and improve it. This is a volunteer role — NIX is not a paid project.
+        </p>
+
+        <div class="contribute__grid" data-reveal="up">
+
+          <div class="contribute__card">
+            <div class="contribute__card-header">
+              <div class="contribute__role-badge contribute__role-badge--tester">Tester</div>
+              <div class="contribute__slots">3 slots open</div>
+            </div>
+            <p class="contribute__card-desc">
+              Put the bot through its paces. Run setups across different templates, report
+              bugs, and make sure everything works exactly as expected before updates ship.
+            </p>
+          </div>
+
+          <div class="contribute__card">
+            <div class="contribute__card-header">
+              <div class="contribute__role-badge contribute__role-badge--scripter">Scripter</div>
+              <div class="contribute__slots">2 slots open</div>
+            </div>
+            <p class="contribute__card-desc">
+              Contribute to the bot's codebase. Build new templates, improve existing
+              commands, or help with features using JavaScript and Discord.js.
+            </p>
+          </div>
+
+          <div class="contribute__card">
+            <div class="contribute__card-header">
+              <div class="contribute__role-badge contribute__role-badge--advertiser">Advertiser</div>
+              <div class="contribute__slots">1 slot open</div>
+            </div>
+            <p class="contribute__card-desc">
+              Help spread the word. Share NIX in Discord communities, create content,
+              and grow the user base organically.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="contribute__apply" data-reveal="up">
+          <p class="contribute__apply-text">
+            Interested? DM on Discord introducing yourself and the role you want to apply for.
+          </p>
+          <p class="contribute__email">
+            kynvyr_
+          </p>
+          <p class="contribute__note">This is a volunteer position. NIX is a free bot with no revenue.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CTA ===================== -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-section__inner" data-reveal="up">
+          <div class="cta-section__glow" aria-hidden="true"></div>
+          <h2 class="cta-section__heading">Ready to launch your server?</h2>
+          <p class="cta-section__sub">
+            It takes less than a minute. No account, no dashboard, no payment.
+            Just add the bot and run one command.
+          </p>
+          <a
+            href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot"
+            class="btn btn--primary btn--xl"
+            target="_blank"
+            rel="noopener noreferrer"
+          >Add NIX to Your Server</a>
+          <p class="cta-section__note">Free forever. No sign-up required.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__left">
+        <a href="#" class="footer__logo" aria-label="NIX Setup Bot home">
+          <span class="nav__logo-pill">NIX</span>
+          <span class="nav__logo-text">Setup</span>
+        </a>
+        <p class="footer__tagline">Your server, built in seconds.</p>
+      </div>
+      <nav class="footer__links" aria-label="Footer navigation">
+
+        <a
+          href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot"
+          class="footer__link"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Add to Server</a>
+      </nav>
     </div>
-  </div>
-  <div class="footer-bottom">
-    <span class="footer-copy">© 2026 binxix · NIX Bot</span>
-    <span class="footer-copy">Not affiliated with Discord Inc.</span>
-  </div>
-</footer>
+    <div class="container footer__bottom">
+      <p class="footer__copy">
+        &copy; 2026 binxix &middot; NIX Setup Bot &middot; Not affiliated with Discord Inc.
+      </p>
+    </div>
+  </footer>
 
-<script>
-(function () {
-  // Scroll progress + nav shrink
-  const scrollBar = document.getElementById('scroll-bar');
-  const navEl = document.querySelector('.nav');
-  window.addEventListener('scroll', () => {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    if (scrollBar) scrollBar.style.width = (max > 0 ? window.scrollY / max * 100 : 0) + '%';
-    navEl?.classList.toggle('scrolled', window.scrollY > 60);
-  }, { passive: true });
+  <script>
+    // Scroll progress bar
+    const progressBar = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      progressBar.style.width = pct + '%';
+    }, { passive: true });
 
-  // Scroll reveal
-  const ro = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); ro.unobserve(e.target); } });
-  }, { threshold: 0.1, rootMargin: '0px 0px -48px 0px' });
-  document.querySelectorAll('[data-reveal]').forEach(el => ro.observe(el));
+    // Nav sticky shadow
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('nav--scrolled', window.scrollY > 40);
+    }, { passive: true });
 
-  // Hero terminal
-  const LINES = [
-    { k: 'prompt', v: 'nix-bot --status' },
-    { k: 'dim',    v: '// checking systems...' },
-    { k: 'blank' },
-    { k: 'ok',     v: '✓', rest: 'Discord Gateway       ONLINE' },
-    { k: 'ok',     v: '✓', rest: 'Slash Commands   25+  READY' },
-    { k: 'ok',     v: '✓', rest: 'VirusTotal Shield     ACTIVE' },
-    { k: 'ok',     v: '✓', rest: 'Music Engine          ONLINE' },
-    { k: 'ok',     v: '✓', rest: 'Leveling System       ONLINE' },
-    { k: 'blank' },
-    { k: 'dim',    v: '// Binxix Hub V6 · all systems operational' },
-    { k: 'blank' },
-    { k: 'cursor' },
-  ];
-
-  async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-  async function runTerminal() {
-    const el = document.getElementById('hero-terminal');
-    if (!el) return;
-    await sleep(800);
-    for (const ln of LINES) {
-      await sleep(ln.k === 'blank' ? 55 : ln.k === 'dim' ? 28 : 60);
-      const span = document.createElement('span');
-      span.className = 't-line';
-      if (ln.k === 'blank') {
-        span.innerHTML = '&nbsp;';
-      } else if (ln.k === 'prompt') {
-        span.innerHTML = `<span class="t-prompt">$</span> <span class="t-cmd">${ln.v}</span>`;
-      } else if (ln.k === 'dim') {
-        span.innerHTML = `<span class="t-comment">${ln.v}</span>`;
-      } else if (ln.k === 'ok') {
-        span.innerHTML = `<span class="t-ok">${ln.v}</span> <span class="t-val">${ln.rest}</span>`;
-      } else if (ln.k === 'cursor') {
-        span.innerHTML = `<span class="t-prompt">$</span> <span class="t-cursor"></span>`;
-      }
-      el.appendChild(span);
-    }
-  }
-
-  runTerminal();
-
-  // Live stats
-  const STATS_URL = 'https://nix-bot.fly.dev/api/stats';
-
-  function fmt(n) { return n >= 1000 ? (n / 1000).toFixed(1) + 'k' : String(n); }
-
-  function fmtUptime(secs) {
-    const d = Math.floor(secs / 86400);
-    const h = Math.floor((secs % 86400) / 3600);
-    const m = Math.floor((secs % 3600) / 60);
-    if (d > 0) return `${d}d ${h}h`;
-    if (h > 0) return `${h}h ${m}m`;
-    return `${m}m`;
-  }
-
-  async function fetchStats() {
-    const els = ['stat-guilds','stat-users','stat-ping','stat-uptime'].map(id => document.getElementById(id));
-    els.forEach(el => el?.classList.add('refreshing'));
-    try {
-      const res = await fetch(STATS_URL);
-      if (!res.ok) throw new Error(res.status);
-      const d = await res.json();
-      document.getElementById('stat-guilds').textContent  = fmt(d.guilds);
-      document.getElementById('stat-users').textContent   = fmt(d.users);
-      document.getElementById('stat-ping').textContent    = d.ping >= 0 ? d.ping : '—';
-      document.getElementById('stat-uptime').textContent  = fmtUptime(d.uptime);
-      const now = new Date();
-      document.getElementById('live-updated').textContent =
-        `Updated ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}:${now.getSeconds().toString().padStart(2,'0')}`;
-    } catch {
-      document.getElementById('live-updated').textContent = 'Could not reach bot';
-    } finally {
-      els.forEach(el => el?.classList.remove('refreshing'));
-    }
-  }
-
-  fetchStats();
-  setInterval(fetchStats, 30000);
-
-  // ── Supabase ratings fetch ─────────────────────
-  const SB_URL = 'https://mngubaoitgpuzantzjjf.supabase.co/rest/v1/ratings?select=rating';
-  const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1uZ3ViYW9pdGdwdXphbnR6ampmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3MTQzMjYsImV4cCI6MjA5MzI5MDMyNn0.p0Z75TNm9iE-IO2cWXh4XJAQGhFI38oosTNKPsWwj7s';
-
-  async function fetchRatings() {
-    try {
-      const res = await fetch(SB_URL, {
-        headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
-      });
-      if (!res.ok) return;
-      const rows = await res.json();
-      if (!rows.length) return;
-      const avg = (rows.reduce((s, r) => s + r.rating, 0) / rows.length).toFixed(1);
-      document.getElementById('stat-rating').textContent  = `${avg} / 5`;
-      document.getElementById('stat-reviews').textContent = rows.length;
-    } catch {}
-  }
-
-  fetchRatings();
-  setInterval(fetchRatings, 60000);
-
-  // Card tilt
-  document.querySelectorAll('.feat-card-bot').forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const r = card.getBoundingClientRect();
-      const x = (e.clientX - r.left - r.width / 2) / (r.width / 2);
-      const y = (e.clientY - r.top - r.height / 2) / (r.height / 2);
-      card.style.transform = `translateY(-4px) perspective(700px) rotateX(${-y * 4}deg) rotateY(${x * 4}deg)`;
+    // Hamburger menu
+    const hamburger = document.getElementById('navHamburger');
+    const mobileMenu = document.getElementById('navMobile');
+    hamburger.addEventListener('click', () => {
+      const open = hamburger.getAttribute('aria-expanded') === 'true';
+      hamburger.setAttribute('aria-expanded', String(!open));
+      mobileMenu.setAttribute('aria-hidden', String(open));
+      hamburger.classList.toggle('is-open', !open);
+      mobileMenu.classList.toggle('is-open', !open);
     });
-    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
-  });
-})();
-</script>
+    mobileMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        hamburger.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        hamburger.classList.remove('is-open');
+        mobileMenu.classList.remove('is-open');
+      });
+    });
+
+    // Intersection observer scroll reveals
+    const revealEls = document.querySelectorAll('[data-reveal]');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => observer.observe(el));
+
+    // Stagger feature cards
+    document.querySelectorAll('.features__grid .feature-card').forEach((card, i) => {
+      card.style.transitionDelay = (i * 80) + 'ms';
+    });
+
+    // Stagger step items
+    document.querySelectorAll('.steps__item').forEach((step, i) => {
+      step.style.transitionDelay = (i * 100) + 'ms';
+    });
+
+    // Pause marquee on hover
+    document.querySelectorAll('.marquee').forEach(m => {
+      m.addEventListener('mouseenter', () => {
+        m.querySelectorAll('.marquee__track').forEach(t => t.style.animationPlayState = 'paused');
+      });
+      m.addEventListener('mouseleave', () => {
+        m.querySelectorAll('.marquee__track').forEach(t => t.style.animationPlayState = 'running');
+      });
+    });
+
+    // ── Interactive mockup dropdown ───────────────────────────────────────
+    const MOCKUP_TEMPLATES = [
+      { name: 'Code / AI Community', color: '#a78bfa', cats: [
+        { label: 'INFORMATION', ch: ['general','rules','announcements'] },
+        { label: 'DEVELOPMENT', ch: ['projects','help','ai-news'] }
+      ]},
+      { name: 'Minecraft', color: '#4ade80', cats: [
+        { label: 'INFORMATION', ch: ['general','rules'] },
+        { label: 'GAMEPLAY', ch: ['survival','builds','@SMP Voice'] }
+      ]},
+      { name: 'Fortnite', color: '#60a5fa', cats: [
+        { label: 'INFORMATION', ch: ['general','rules'] },
+        { label: 'GAMEPLAY', ch: ['loadouts','clips','@Lobby'] }
+      ]},
+      { name: 'CoD / Warzone', color: '#fb923c', cats: [
+        { label: 'INFORMATION', ch: ['general','rules'] },
+        { label: 'GAMEPLAY', ch: ['loadouts','clips','@Warzone'] }
+      ]},
+      { name: 'GTA FiveM RP', color: '#f87171', cats: [
+        { label: 'INFORMATION', ch: ['general','rules'] },
+        { label: 'ROLEPLAY', ch: ['lore','characters','events'] }
+      ]},
+      { name: 'Apex Legends', color: '#22d3ee', cats: [
+        { label: 'INFORMATION', ch: ['general','rules'] },
+        { label: 'RANKED', ch: ['ranked','legends','@Drop Zone'] }
+      ]},
+      { name: 'League of Legends', color: '#eab308', cats: [
+        { label: 'INFORMATION', ch: ['general','rules'] },
+        { label: 'GAMEPLAY', ch: ['ranked','champions','@Lobby'] }
+      ]},
+      { name: 'CS2', color: '#fde047', cats: [
+        { label: 'INFORMATION', ch: ['general','rules'] },
+        { label: 'GAMEPLAY', ch: ['strategies','clips','@Match'] }
+      ]},
+      { name: 'Overwatch 2', color: '#fb923c', cats: [
+        { label: 'INFORMATION', ch: ['general','rules'] },
+        { label: 'GAMEPLAY', ch: ['heroes','comp','@Team Voice'] }
+      ]},
+      { name: 'Rocket League', color: '#60a5fa', cats: [
+        { label: 'INFORMATION', ch: ['general','rules'] },
+        { label: 'GAMEPLAY', ch: ['trading','replays','@Freeplay'] }
+      ]},
+      { name: 'Genshin Impact', color: '#a78bfa', cats: [
+        { label: 'INFORMATION', ch: ['general','rules'] },
+        { label: 'GAMEPLAY', ch: ['characters','builds','events'] }
+      ]},
+      { name: 'ERLC', color: '#f87171', cats: [
+        { label: 'INFORMATION', ch: ['general','rules'] },
+        { label: 'ROLEPLAY', ch: ['patrol','dispatch','@Command'] }
+      ]},
+      { name: 'Roblox General', color: '#4ade80', cats: [
+        { label: 'INFORMATION', ch: ['general','rules'] },
+        { label: 'ROBLOX', ch: ['games','trading','@Play Together'] }
+      ]},
+      { name: 'Valorant', color: '#22d3ee', cats: [
+        { label: 'INFORMATION', ch: ['general','rules'] },
+        { label: 'RANKED', ch: ['agents','clips','@Team Voice'] }
+      ]},
+      { name: 'Zenless Zone Zero', color: '#a78bfa', cats: [
+        { label: 'INFORMATION', ch: ['general','rules'] },
+        { label: 'GAMEPLAY', ch: ['characters','hollow','builds'] }
+      ]},
+      { name: 'MiSide', color: '#f87171', cats: [
+        { label: 'INFORMATION', ch: ['general','rules'] },
+        { label: 'COMMUNITY', ch: ['fan-art','theories','mods'] }
+      ]},
+      { name: 'Arma Reforger', color: '#4ade80', cats: [
+        { label: 'INFORMATION', ch: ['general','rules'] },
+        { label: 'OPERATIONS', ch: ['briefing','after-action','@Command'] }
+      ]},
+      { name: "Garry's Mod", color: '#fde047', cats: [
+        { label: 'INFORMATION', ch: ['general','rules'] },
+        { label: 'GAMEPLAY', ch: ['addons','servers','@DarkRP'] }
+      ]},
+      { name: 'War Thunder', color: '#fb923c', cats: [
+        { label: 'INFORMATION', ch: ['general','rules'] },
+        { label: 'GAMEPLAY', ch: ['lineups','tactics','@Squad'] }
+      ]},
+      { name: 'General Gaming', color: '#60a5fa', cats: [
+        { label: 'INFORMATION', ch: ['general','rules'] },
+        { label: 'GAMES', ch: ['recommendations','clips','@Gaming'] }
+      ]},
+      { name: 'Music / Artist', color: '#eab308', cats: [
+        { label: 'INFORMATION', ch: ['general','rules'] },
+        { label: 'MUSIC', ch: ['releases','production','@Listening'] }
+      ]},
+      { name: 'Roblox RP', color: '#22d3ee', cats: [
+        { label: 'INFORMATION', ch: ['general','rules'] },
+        { label: 'ROLEPLAY', ch: ['lore','characters','events'] }
+      ]},
+      { name: 'Roblox Condo', color: '#a78bfa', cats: [
+        { label: 'INFORMATION', ch: ['general','rules'] },
+        { label: 'CONDO', ch: ['invites','chat','@Hangout'] }
+      ]},
+      { name: 'Roblox Trading', color: '#f87171', cats: [
+        { label: 'INFORMATION', ch: ['general','rules'] },
+        { label: 'TRADING', ch: ['offers','values','middleman'] }
+      ]},
+      { name: 'Roblox Anime', color: '#4ade80', cats: [
+        { label: 'INFORMATION', ch: ['general','rules'] },
+        { label: 'ANIME', ch: ['characters','builds','@Co-op'] }
+      ]},
+    ];
+
+    const mockupSelect    = document.getElementById('mockupSelect');
+    const mockupTrigger   = document.getElementById('mockupSelectTrigger');
+    const mockupDropdown  = document.getElementById('mockupDropdown');
+    const mockupSelLabel  = document.getElementById('mockupSelectedLabel');
+    const mockupSelDot    = document.getElementById('mockupSelectedDot');
+    const mockupConfirm   = document.getElementById('mockupConfirmBtn');
+    const mockupChannels  = document.getElementById('mockupChannels');
+    let mockupActive = -1;
+
+    // Populate dropdown
+    MOCKUP_TEMPLATES.forEach((t, i) => {
+      const item = document.createElement('div');
+      item.className = 'mockup__dropdown-item';
+      item.innerHTML =
+        `<span class="mockup__select-dot" style="background:${t.color};flex-shrink:0"></span>` +
+        `<span>${t.name}</span>` +
+        `<span class="mockup__check">&#10003;</span>`;
+      item.addEventListener('click', () => pickTemplate(i));
+      mockupDropdown.appendChild(item);
+    });
+
+    function pickTemplate(idx) {
+      const t = MOCKUP_TEMPLATES[idx];
+      mockupActive = idx;
+
+      // Update trigger display
+      mockupSelLabel.textContent = t.name;
+      mockupSelLabel.style.color = '';
+      mockupSelDot.style.background = t.color;
+
+      // Update active state in list
+      mockupDropdown.querySelectorAll('.mockup__dropdown-item').forEach((el, i) => {
+        el.classList.toggle('mockup__dropdown-item--active', i === idx);
+      });
+
+      // Close dropdown
+      mockupSelect.classList.remove('mockup__select--open');
+
+      // Enable confirm
+      mockupConfirm.disabled = false;
+
+      // Fade sidebar channels in
+      mockupChannels.classList.add('is-fading');
+      setTimeout(() => {
+        let html = '';
+        t.cats.forEach((cat, ci) => {
+          html += `<div class="mockup__category">${cat.label}</div>`;
+          cat.ch.forEach((ch, chi) => {
+            const isVoice = ch.startsWith('@');
+            const label   = isVoice ? ch.slice(1) : `# ${ch}`;
+            const active  = ci === 0 && chi === 0 ? ' mockup__channel--active' : '';
+            const voice   = isVoice ? ' mockup__channel--voice' : '';
+            html += `<div class="mockup__channel${active}${voice}">${label}</div>`;
+          });
+        });
+        mockupChannels.innerHTML = html;
+        mockupChannels.classList.remove('is-fading');
+      }, 150);
+    }
+
+    // Toggle dropdown
+    mockupTrigger.addEventListener('click', e => {
+      e.stopPropagation();
+      mockupSelect.classList.toggle('mockup__select--open');
+    });
+
+    // Close on outside click
+    document.addEventListener('click', e => {
+      if (!mockupSelect.contains(e.target)) {
+        mockupSelect.classList.remove('mockup__select--open');
+      }
+    });
+
+    // Live ratings from Supabase
+    (async () => {
+      try {
+        const SB_URL = 'https://mngubaoitgpuzantzjjf.supabase.co/rest/v1/ratings?select=rating';
+        const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1uZ3ViYW9pdGdwdXphbnR6ampmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3MTQzMjYsImV4cCI6MjA5MzI5MDMyNn0.p0Z75TNm9iE-IO2cWXh4XJAQGhFI38oosTNKPsWwj7s';
+        const res  = await fetch(SB_URL, { headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` } });
+        if (!res.ok) return;
+        const rows = await res.json();
+        if (!rows.length) return;
+        const avg = (rows.reduce((s, r) => s + r.rating, 0) / rows.length).toFixed(1);
+        document.getElementById('stat-rating').textContent  = `${avg} / 5`;
+        document.getElementById('stat-reviews').textContent = rows.length;
+      } catch {}
+    })();
+
+    // Confirm button
+    mockupConfirm.addEventListener('click', () => {
+      if (mockupActive < 0) return;
+      mockupConfirm.disabled = true;
+      mockupConfirm.textContent = 'Setting up…';
+      setTimeout(() => {
+        mockupConfirm.textContent = '✓ Done';
+        mockupConfirm.style.background = '#22c55e';
+        setTimeout(() => {
+          mockupConfirm.textContent = 'Confirm';
+          mockupConfirm.style.background = '';
+          mockupConfirm.disabled = false;
+        }, 2000);
+      }, 1200);
+    });
+  </script>
+
 </body>
 </html>
