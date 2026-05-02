@@ -487,6 +487,16 @@
       <span class="live-val" id="stat-uptime">—</span>
       <span class="live-val-label">Uptime</span>
     </div>
+    <div class="live-card">
+      <span class="live-card-icon">⭐</span>
+      <span class="live-val" id="stat-rating">—</span>
+      <span class="live-val-label">Avg Rating</span>
+    </div>
+    <div class="live-card">
+      <span class="live-card-icon">🗳️</span>
+      <span class="live-val" id="stat-reviews">—</span>
+      <span class="live-val-label">Ratings</span>
+    </div>
   </div>
 </div>
 
@@ -750,6 +760,27 @@
 
   fetchStats();
   setInterval(fetchStats, 30000);
+
+  // ── Supabase ratings fetch ─────────────────────
+  const SB_URL = 'https://mngubaoitgpuzantzjjf.supabase.co/rest/v1/ratings?select=rating';
+  const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1uZ3ViYW9pdGdwdXphbnR6ampmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3MTQzMjYsImV4cCI6MjA5MzI5MDMyNn0.p0Z75TNm9iE-IO2cWXh4XJAQGhFI38oosTNKPsWwj7s';
+
+  async function fetchRatings() {
+    try {
+      const res = await fetch(SB_URL, {
+        headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
+      });
+      if (!res.ok) return;
+      const rows = await res.json();
+      if (!rows.length) return;
+      const avg = (rows.reduce((s, r) => s + r.rating, 0) / rows.length).toFixed(1);
+      document.getElementById('stat-rating').textContent  = `${avg} / 5`;
+      document.getElementById('stat-reviews').textContent = rows.length;
+    } catch {}
+  }
+
+  fetchRatings();
+  setInterval(fetchRatings, 60000);
 
   // Card tilt
   document.querySelectorAll('.feat-card-bot').forEach(card => {
