@@ -853,22 +853,25 @@
       }
     });
 
+    // Confirm button
     // Live ratings from Supabase
     (async () => {
       try {
-        const SB_URL = 'https://mngubaoitgpuzantzjjf.supabase.co/rest/v1/ratings?select=rating';
-        const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1uZ3ViYW9pdGdwdXphbnR6ampmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3MTQzMjYsImV4cCI6MjA5MzI5MDMyNn0.p0Z75TNm9iE-IO2cWXh4XJAQGhFI38oosTNKPsWwj7s';
-        const res  = await fetch(SB_URL, { headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` } });
+        const res = await fetch('https://mngubaoitgpuzantzjjf.supabase.co/rest/v1/ratings?select=rating', {
+          headers: {
+            apikey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1uZ3ViYW9pdGdwdXphbnR6ampmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3MTQzMjYsImV4cCI6MjA5MzI5MDMyNn0.p0Z75TNm9iE-IO2cWXh4XJAQGhFI38oosTNKPsWwj7s',
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1uZ3ViYW9pdGdwdXphbnR6ampmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3MTQzMjYsImV4cCI6MjA5MzI5MDMyNn0.p0Z75TNm9iE-IO2cWXh4XJAQGhFI38oosTNKPsWwj7s'
+          }
+        });
         if (!res.ok) return;
         const rows = await res.json();
         if (!rows.length) return;
         const avg = (rows.reduce((s, r) => s + r.rating, 0) / rows.length).toFixed(1);
-        document.getElementById('stat-rating').textContent  = `${avg} / 5`;
+        document.getElementById('stat-rating').textContent  = avg + ' / 5';
         document.getElementById('stat-reviews').textContent = rows.length;
       } catch {}
     })();
 
-    // Confirm button
     mockupConfirm.addEventListener('click', () => {
       if (mockupActive < 0) return;
       mockupConfirm.disabled = true;
