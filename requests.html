@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Template Requests — NIX Setup Bot</title>
+  <meta name="description" content="Request a new server template for NIX Setup Bot, or browse what others have already requested." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── Page-specific styles ── */
+    .req-hero {
+      padding: calc(var(--space-20) + 64px) 0 var(--space-12);
+      position: relative;
+      z-index: 2;
+    }
+    .req-hero .section-label { margin-bottom: var(--space-3); }
+    .req-hero__heading {
+      font-family: var(--font-heading);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      color: var(--color-white);
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-4);
+    }
+    .req-hero__sub {
+      font-size: 1rem;
+      color: var(--color-text);
+      max-width: 500px;
+      line-height: 1.7;
+    }
+
+    /* ── Tabs ── */
+    .req-tabs {
+      display: flex;
+      gap: 4px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 4px;
+      width: fit-content;
+      margin-bottom: var(--space-10);
+    }
+    .req-tab {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      padding: 9px 22px;
+      border-radius: var(--radius-md);
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      transition: all var(--transition-base);
+    }
+    .req-tab.is-active {
+      background: linear-gradient(135deg, var(--color-purple), var(--color-purple-light));
+      color: var(--color-white);
+      box-shadow: 0 0 16px rgba(124,58,237,0.35);
+    }
+    .req-tab:not(.is-active):hover { color: var(--color-white); }
+
+    .req-panel { display: none; }
+    .req-panel.is-active { display: block; }
+
+    /* ── Form ── */
+    .req-form {
+      max-width: 560px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-5);
+    }
+    .req-field {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+    .req-label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--color-white);
+    }
+    .req-label span {
+      color: var(--color-text-muted);
+      font-weight: 400;
+      margin-left: 4px;
+    }
+    .req-input,
+    .req-select,
+    .req-textarea {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--color-white);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 11px 14px;
+      outline: none;
+      transition: border-color var(--transition-base), box-shadow var(--transition-base);
+      width: 100%;
+    }
+    .req-input::placeholder,
+    .req-textarea::placeholder { color: var(--color-text-faint); }
+    .req-input:focus,
+    .req-select:focus,
+    .req-textarea:focus {
+      border-color: rgba(124,58,237,0.5);
+      box-shadow: 0 0 0 3px rgba(124,58,237,0.12);
+    }
+    .req-select { appearance: none; cursor: pointer; }
+    .req-select option { background: #0c0d1a; color: var(--color-white); }
+    .req-textarea { resize: vertical; min-height: 110px; line-height: 1.6; }
+    .req-hint {
+      font-size: 0.78rem;
+      color: var(--color-text-faint);
+      font-family: var(--font-mono);
+    }
+
+    .req-submit {
+      align-self: flex-start;
+      margin-top: var(--space-2);
+    }
+    .req-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+
+    .req-feedback {
+      display: none;
+      align-items: center;
+      gap: var(--space-3);
+      background: rgba(74,222,128,0.07);
+      border: 1px solid rgba(74,222,128,0.25);
+      border-radius: var(--radius-md);
+      padding: var(--space-4) var(--space-5);
+      font-size: 0.9rem;
+      color: #4ade80;
+      margin-top: var(--space-4);
+      max-width: 560px;
+    }
+    .req-feedback.is-error {
+      background: rgba(248,113,113,0.07);
+      border-color: rgba(248,113,113,0.25);
+      color: #f87171;
+    }
+    .req-feedback.is-visible { display: flex; }
+
+    /* ── Requests list ── */
+    .req-list-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-6);
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+    .req-count {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--color-text-muted);
+    }
+
+    .req-filter-row {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+    }
+    .req-filter-btn {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--color-border);
+      background: transparent;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .req-filter-btn.is-active,
+    .req-filter-btn:hover { border-color: var(--color-border-hover); color: var(--color-white); }
+
+    .req-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: var(--space-4);
+    }
+    .req-card {
+      background: rgba(255,255,255,0.025);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      transition: border-color var(--transition-base), transform var(--transition-base);
+    }
+    .req-card:hover { border-color: var(--color-border-hover); transform: translateY(-2px); }
+    .req-card__top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-3);
+      margin-bottom: var(--space-3);
+    }
+    .req-card__name {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-white);
+    }
+    .req-card__status {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: var(--radius-full);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .req-card__status--pending  { background: rgba(251,191,36,0.1);  border: 1px solid rgba(251,191,36,0.25); color: #fbbf24; }
+    .req-card__status--progress { background: rgba(96,165,250,0.1);  border: 1px solid rgba(96,165,250,0.25); color: #60a5fa; }
+    .req-card__status--added    { background: rgba(74,222,128,0.1);  border: 1px solid rgba(74,222,128,0.25); color: #4ade80; }
+    .req-card__desc {
+      font-size: 0.855rem;
+      color: var(--color-text-muted);
+      line-height: 1.65;
+      margin-bottom: var(--space-3);
+    }
+    .req-card__meta {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--color-text-faint);
+    }
+
+    .req-empty {
+      text-align: center;
+      padding: var(--space-16) 0;
+      color: var(--color-text-muted);
+    }
+    .req-empty__icon {
+      font-size: 2.5rem;
+      margin-bottom: var(--space-4);
+      opacity: 0.3;
+    }
+    .req-empty p { font-size: 0.9rem; }
+
+    .req-loading {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+      padding: var(--space-8) 0;
+    }
+    .req-loading__dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--color-purple-light);
+      animation: blink 1.2s ease-in-out infinite;
+    }
+    .req-loading__dot:nth-child(2) { animation-delay: 0.2s; }
+    .req-loading__dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+    .req-page {
+      padding-bottom: var(--space-24);
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 600px) {
+      .req-tabs { width: 100%; }
+      .req-tab { flex: 1; text-align: center; padding: 9px 12px; font-size: 0.82rem; }
+      .req-cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <div class="aurora" aria-hidden="true">
+    <div class="aurora__blob aurora__blob--1"></div>
+    <div class="aurora__blob aurora__blob--2"></div>
+    <div class="aurora__blob aurora__blob--3"></div>
+  </div>
+  <div class="noise" aria-hidden="true"></div>
+
+  <!-- NAV -->
+  <nav class="nav nav--scrolled" id="nav">
+    <div class="nav__inner container">
+      <a href="index.html" class="nav__logo" aria-label="NIX Setup Bot home">
+        <span class="nav__logo-pill">NIX</span>
+        <span class="nav__logo-text">Setup</span>
+      </a>
+      <ul class="nav__links" role="list">
+        <li><a href="index.html#templates" class="nav__link">Templates</a></li>
+        <li><a href="index.html#how-it-works" class="nav__link">How It Works</a></li>
+        <li><a href="requests.html" class="nav__link" style="color:var(--color-white)">Requests</a></li>
+
+      </ul>
+      <a
+        href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot"
+        class="btn btn--primary nav__cta"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Add to Server</a>
+      <button class="nav__hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav__mobile" id="navMobile" aria-hidden="true">
+      <a href="index.html#templates" class="nav__mobile-link">Templates</a>
+      <a href="index.html#how-it-works" class="nav__mobile-link">How It Works</a>
+      <a href="requests.html" class="nav__mobile-link">Requests</a>
+      <a href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot" class="btn btn--primary nav__mobile-cta" target="_blank" rel="noopener noreferrer">Add to Server</a>
+    </div>
+  </nav>
+
+  <main class="req-page">
+    <div class="container">
+
+      <!-- Hero -->
+      <div class="req-hero">
+        <div class="section-label">TEMPLATE REQUESTS</div>
+        <h1 class="req-hero__heading">Don't see your community?<br/>Request a template.</h1>
+        <p class="req-hero__sub">
+          Missing a game or community type? Submit a request and it may be added in the next update.
+          Browse existing requests below to see what others have asked for.
+        </p>
+      </div>
+
+      <!-- Tabs -->
+      <div class="req-tabs" role="tablist">
+        <button class="req-tab is-active" role="tab" data-tab="submit" aria-selected="true">Submit a Request</button>
+        <button class="req-tab" role="tab" data-tab="browse" aria-selected="false">Browse Requests</button>
+      </div>
+
+      <!-- Panel: Submit -->
+      <div class="req-panel is-active" id="panel-submit" role="tabpanel">
+        <form class="req-form" id="requestForm" novalidate>
+
+          <div class="req-field">
+            <label class="req-label" for="templateName">Template name <span>*</span></label>
+            <input
+              class="req-input"
+              id="templateName"
+              name="template_name"
+              type="text"
+              placeholder="e.g. Rust, Among Us, Study Server…"
+              required
+              maxlength="80"
+            />
+          </div>
+
+          <div class="req-field">
+            <label class="req-label" for="category">Category <span>*</span></label>
+            <select class="req-select" id="category" name="category" required>
+              <option value="" disabled selected>Select a category</option>
+              <option value="Gaming — Shooter / Battle Royale">Gaming — Shooter / Battle Royale</option>
+              <option value="Gaming — MOBA / Competitive">Gaming — MOBA / Competitive</option>
+              <option value="Gaming — Survival / Sandbox">Gaming — Survival / Sandbox</option>
+              <option value="Gaming — Roleplay / Simulation">Gaming — Roleplay / Simulation</option>
+              <option value="Gaming — Gacha / Anime">Gaming — Gacha / Anime</option>
+              <option value="Gaming — General">Gaming — General</option>
+              <option value="Roblox">Roblox</option>
+              <option value="Development / Tech">Development / Tech</option>
+              <option value="Creative / Art">Creative / Art</option>
+              <option value="Community / Social">Community / Social</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="req-field">
+            <label class="req-label" for="description">What should it include? <span>*</span></label>
+            <textarea
+              class="req-textarea"
+              id="description"
+              name="description"
+              placeholder="Describe the channels, roles, or categories you'd want. The more detail, the better."
+              required
+              maxlength="600"
+            ></textarea>
+            <span class="req-hint">Max 600 characters</span>
+          </div>
+
+          <div class="req-field">
+            <label class="req-label" for="discord">Discord username <span>(optional)</span></label>
+            <input
+              class="req-input"
+              id="discord"
+              name="discord_username"
+              type="text"
+              placeholder="e.g. kynvyr_"
+              maxlength="40"
+            />
+            <span class="req-hint">So we can reach you if we have questions about your request.</span>
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--lg req-submit" id="submitBtn">
+            Submit Request
+          </button>
+
+        </form>
+
+        <div class="req-feedback" id="formFeedback" role="alert"></div>
+      </div>
+
+      <!-- Panel: Browse -->
+      <div class="req-panel" id="panel-browse" role="tabpanel">
+        <div class="req-list-header">
+          <div class="req-count" id="reqCount">Loading…</div>
+          <div class="req-filter-row">
+            <button class="req-filter-btn is-active" data-filter="all">All</button>
+            <button class="req-filter-btn" data-filter="pending">Pending</button>
+            <button class="req-filter-btn" data-filter="progress">In Progress</button>
+            <button class="req-filter-btn" data-filter="added">Added</button>
+          </div>
+        </div>
+        <div id="reqCards" class="req-cards">
+          <div class="req-loading">
+            <div class="req-loading__dot"></div>
+            <div class="req-loading__dot"></div>
+            <div class="req-loading__dot"></div>
+            <span>Loading requests…</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__left">
+        <a href="index.html" class="footer__logo">
+          <span class="nav__logo-pill">NIX</span>
+          <span class="nav__logo-text">Setup</span>
+        </a>
+        <p class="footer__tagline">Your server, built in seconds.</p>
+      </div>
+      <nav class="footer__links">
+        <a href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot" class="footer__link" target="_blank" rel="noopener noreferrer">Add to Server</a>
+      </nav>
+    </div>
+    <div class="container footer__bottom">
+      <p class="footer__copy">&copy; 2026 binxix &middot; NIX Setup Bot &middot; Not affiliated with Discord Inc.</p>
+    </div>
+  </footer>
+
+  <script>
+    // ── Scroll progress
+    const progressBar = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', () => {
+      const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+      progressBar.style.width = pct + '%';
+    }, { passive: true });
+
+    // ── Nav scrolled class
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('nav--scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    // ── Hamburger
+    const hamburger = document.getElementById('navHamburger');
+    const mobileMenu = document.getElementById('navMobile');
+    hamburger.addEventListener('click', () => {
+      const open = hamburger.getAttribute('aria-expanded') === 'true';
+      hamburger.setAttribute('aria-expanded', String(!open));
+      mobileMenu.setAttribute('aria-hidden', String(open));
+      hamburger.classList.toggle('is-open', !open);
+      mobileMenu.classList.toggle('is-open', !open);
+    });
+
+    // ── Tabs
+    const tabs = document.querySelectorAll('.req-tab');
+    const panels = document.querySelectorAll('.req-panel');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => { t.classList.remove('is-active'); t.setAttribute('aria-selected', 'false'); });
+        panels.forEach(p => p.classList.remove('is-active'));
+        tab.classList.add('is-active');
+        tab.setAttribute('aria-selected', 'true');
+        document.getElementById('panel-' + tab.dataset.tab).classList.add('is-active');
+        if (tab.dataset.tab === 'browse') loadRequests();
+      });
+    });
+
+    // ── Filters
+    let currentFilter = 'all';
+    let allRequests = [];
+    document.querySelectorAll('.req-filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.req-filter-btn').forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        currentFilter = btn.dataset.filter;
+        renderRequests(allRequests);
+      });
+    });
+
+    // ── Load requests from data/requests.json
+    async function loadRequests() {
+      const container = document.getElementById('reqCards');
+      container.innerHTML = `<div class="req-loading">
+        <div class="req-loading__dot"></div>
+        <div class="req-loading__dot"></div>
+        <div class="req-loading__dot"></div>
+        <span>Loading requests…</span>
+      </div>`;
+      try {
+        const res = await fetch('data/requests.json?v=' + Date.now());
+        allRequests = await res.json();
+        renderRequests(allRequests);
+      } catch {
+        container.innerHTML = `<div class="req-empty"><div class="req-empty__icon">⚠</div><p>Could not load requests. Try again later.</p></div>`;
+        document.getElementById('reqCount').textContent = '';
+      }
+    }
+
+    function renderRequests(data) {
+      const filtered = currentFilter === 'all'
+        ? data
+        : data.filter(r => r.status === currentFilter);
+
+      const count = document.getElementById('reqCount');
+      count.textContent = filtered.length + ' request' + (filtered.length !== 1 ? 's' : '');
+
+      const container = document.getElementById('reqCards');
+      if (!filtered.length) {
+        container.innerHTML = `<div class="req-empty">
+          <div class="req-empty__icon">○</div>
+          <p>${currentFilter === 'all' ? 'No requests yet — be the first to submit one!' : 'No requests with this status.'}</p>
+        </div>`;
+        return;
+      }
+
+      const statusLabel = { pending: 'Pending', progress: 'In Progress', added: 'Added' };
+      const statusClass = { pending: 'pending', progress: 'progress', added: 'added' };
+
+      container.innerHTML = filtered.map(r => `
+        <div class="req-card">
+          <div class="req-card__top">
+            <div class="req-card__name">${escHtml(r.name)}</div>
+            <span class="req-card__status req-card__status--${statusClass[r.status] ?? 'pending'}">${statusLabel[r.status] ?? 'Pending'}</span>
+          </div>
+          ${r.category ? `<div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--color-purple-light);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.08em">${escHtml(r.category)}</div>` : ''}
+          <div class="req-card__desc">${escHtml(r.description)}</div>
+          <div class="req-card__meta">${r.date ?? ''}</div>
+        </div>
+      `).join('');
+    }
+
+    function escHtml(str) {
+      return String(str ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // ── Form submission → /api/submit (Vercel serverless)
+    const form = document.getElementById('requestForm');
+    const feedback = document.getElementById('formFeedback');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+      feedback.classList.remove('is-visible', 'is-error');
+
+      const data = Object.fromEntries(new FormData(form));
+
+      try {
+        const res = await fetch('/api/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const json = await res.json();
+        if (res.ok && json.ok) {
+          showFeedback('Request submitted — it will appear in Browse Requests shortly. Thanks!', false);
+          form.reset();
+        } else {
+          showFeedback(json?.error ?? 'Something went wrong. Try again.', true);
+        }
+      } catch {
+        showFeedback('Could not send request. Check your connection and try again.', true);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Request';
+      }
+    });
+
+    function showFeedback(msg, isError) {
+      feedback.textContent = msg;
+      feedback.classList.toggle('is-error', isError);
+      feedback.classList.add('is-visible');
+    }
+  </script>
+
+</body>
+</html>

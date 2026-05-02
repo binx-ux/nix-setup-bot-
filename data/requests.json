@@ -1,0 +1,10 @@
+[
+  {
+    "name": "Valorant",
+    "category": "Gaming — Shooter / Battle Royale",
+    "description": "A Valorant server template with rank channels (Iron through Radiant), agent discussion channels per role (Duelist, Controller, Sentinel, Initiator), a team finder channel, clip sharing, a patch notes section, and staff/mod roles alongside rank-based member roles.",
+    "discord": null,
+    "status": "pending",
+    "date": "2026-04-29"
+  }
+]

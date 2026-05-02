@@ -1,0 +1,33 @@
+Copyright (c) 2026 binxix. All rights reserved.
+
+PROPRIETARY SOFTWARE LICENSE
+
+This software and its source code ("the Software") are the exclusive property of
+binxix. The following terms govern use of the Software:
+
+PERMITTED USES
+- You may view the source code for personal reference and learning.
+- You may fork this repository on GitHub solely for the purpose of submitting
+  pull requests or reporting issues back to the original repository.
+
+PROHIBITED USES
+- You may NOT use, copy, modify, merge, publish, distribute, sublicense, or sell
+  copies of the Software, in whole or in part, for any purpose other than those
+  explicitly permitted above.
+- You may NOT deploy, host, or run this Software as your own Discord bot, whether
+  publicly or privately, without explicit written permission from the author.
+- You may NOT rebrand, rename, or present this Software or any derivative of it
+  as your own original work.
+- You may NOT remove or alter this license, copyright notices, or any attribution
+  to the original author.
+
+NO WARRANTY
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN
+ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+For licensing inquiries or permission requests, contact the author via GitHub:
+https://github.com/binx-ux
