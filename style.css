@@ -286,6 +286,7 @@ h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.15; color: var
   transition: color var(--transition-fast);
 }
 .nav__link:hover { color: var(--color-white); }
+.nav__link--active { color: var(--color-white); }
 .nav__cta { margin-left: var(--space-4); }
 .nav__hamburger {
   display: none;

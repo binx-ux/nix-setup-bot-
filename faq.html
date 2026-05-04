@@ -3,449 +3,395 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FAQ — NIX Bot</title>
-  <meta name="description" content="Frequently asked questions about NIX Bot — how to set it up, what it can do, and how it stays secure." />
-  <meta property="og:title" content="FAQ — NIX Bot" />
-  <meta property="og:url" content="https://binx-ux.github.io/NIX/faq.html" />
-  <meta name="theme-color" content="#7C3AED" />
+  <title>FAQ — NIX Setup Bot</title>
+  <meta name="description" content="Frequently asked questions about NIX Setup Bot." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <style>
-    .faq-hero {
-      position: relative; z-index: 1;
-      padding: 120px 28px 72px;
+    .page-hero {
+      padding: 120px 0 64px;
       text-align: center;
     }
-    .faq-hero h1 {
-      font-size: clamp(2.4rem, 5vw, 3.8rem);
+    .page-hero .section-label { margin-bottom: 16px; }
+    .page-hero h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(2rem, 5vw, 3rem);
       font-weight: 700;
-      color: var(--text-hi);
-      margin: 20px 0 16px;
+      color: var(--color-white);
+      margin-bottom: 12px;
     }
-    .faq-hero p {
+    .page-hero p {
+      color: var(--color-text-muted);
       font-size: 1rem;
-      color: var(--text);
       max-width: 480px;
       margin: 0 auto;
-      line-height: 1.78;
     }
 
-    .faq-body {
-      position: relative; z-index: 1;
-      max-width: 800px;
+    .faq-section {
+      padding: 0 0 96px;
+    }
+    .faq-section__inner {
+      max-width: 720px;
       margin: 0 auto;
-      padding: 24px 28px 96px;
     }
 
-    .faq-group { margin-bottom: 48px; }
-    .faq-group-label {
-      font-family: var(--mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--accent-hi);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
+    .faq-group {
+      margin-bottom: 48px;
     }
-    .faq-group-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: rgba(124,58,237,0.15);
+    .faq-group__label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-purple-light);
+      margin-bottom: 16px;
+      padding-left: 4px;
     }
 
     .faq-item {
-      border: 1px solid rgba(124,58,237,0.12);
-      border-radius: 10px;
-      background: var(--surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: var(--color-surface);
       margin-bottom: 8px;
       overflow: hidden;
-      transition: border-color .2s;
+      transition: border-color var(--transition-base);
     }
-    .faq-item:hover { border-color: rgba(124,58,237,0.3); }
-    .faq-item.open  { border-color: rgba(124,58,237,0.35); }
+    .faq-item:hover {
+      border-color: var(--color-border-hover);
+    }
+    .faq-item.is-open {
+      border-color: rgba(124, 58, 237, 0.35);
+    }
 
-    .faq-q {
+    .faq-item__trigger {
       width: 100%;
-      background: none;
-      border: none;
-      padding: 20px 22px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      cursor: pointer;
+      padding: 18px 20px;
       text-align: left;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font: inherit;
     }
-    .faq-q-text {
+    .faq-item__question {
+      font-family: var(--font-heading);
       font-size: 0.95rem;
       font-weight: 600;
-      color: var(--text-hi);
+      color: var(--color-white);
       line-height: 1.4;
     }
-    .faq-icon {
-      width: 20px; height: 20px;
-      border-radius: 50%;
-      border: 1px solid rgba(124,58,237,0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .faq-item__icon {
+      width: 20px;
+      height: 20px;
       flex-shrink: 0;
-      transition: transform .3s cubic-bezier(.16,1,.3,1), background .2s;
-      color: var(--accent-hi);
-      font-size: 0.85rem;
-      line-height: 1;
+      color: var(--color-text-muted);
+      transition: transform var(--transition-base), color var(--transition-base);
     }
-    .faq-item.open .faq-icon {
+    .faq-item.is-open .faq-item__icon {
       transform: rotate(45deg);
-      background: var(--accent-lo);
+      color: var(--color-purple-light);
     }
 
-    .faq-a {
+    .faq-item__body {
       max-height: 0;
       overflow: hidden;
-      transition: max-height .4s cubic-bezier(.16,1,.3,1);
+      transition: max-height 320ms cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .faq-item.open .faq-a { max-height: 400px; }
-    .faq-a-inner {
-      padding: 0 22px 20px;
-      font-size: 0.88rem;
-      color: var(--text);
-      line-height: 1.8;
+    .faq-item__answer {
+      padding: 0 20px 18px;
+      font-size: 0.9rem;
+      color: var(--color-text);
+      line-height: 1.7;
     }
-    .faq-a-inner a {
-      color: var(--accent-hi);
+    .faq-item__answer a {
+      color: var(--color-purple-light);
       text-decoration: underline;
       text-underline-offset: 3px;
     }
-    .faq-a-inner code {
-      font-family: var(--mono);
-      font-size: 0.85em;
-      color: var(--accent-hi);
-      background: var(--accent-lo);
-      border: 1px solid var(--accent-b);
-      padding: 1px 5px;
-      border-radius: 3px;
+    .faq-item__answer code {
+      font-family: var(--font-mono);
+      font-size: 0.82em;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+      padding: 1px 6px;
     }
-
-    .faq-cta {
-      position: relative; z-index: 1;
-      background: var(--bg2);
-      border-top: 1px solid rgba(124,58,237,0.1);
-    }
-    .faq-cta-inner {
-      max-width: 640px;
-      margin: 0 auto;
-      padding: 72px 28px;
-      text-align: center;
-    }
-    .faq-cta-inner h2 {
-      font-size: clamp(1.8rem, 3vw, 2.4rem);
-      font-weight: 700;
-      color: var(--text-hi);
-      margin: 14px 0 16px;
-    }
-    .faq-cta-inner p {
-      font-size: 0.95rem;
-      color: var(--text);
-      margin-bottom: 32px;
-      line-height: 1.75;
-    }
-    .faq-cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
   </style>
 </head>
 <body>
 
-<div class="scroll-bar" id="scroll-bar"></div>
-<div class="noise-overlay"></div>
-<div class="aurora">
-  <div class="aurora-blob" style="width:680px;height:680px;background:rgba(124,58,237,0.09);top:-180px;left:-130px;animation-delay:0s;animation-duration:20s"></div>
-  <div class="aurora-blob" style="width:460px;height:460px;background:rgba(34,211,238,0.05);top:45%;right:-90px;animation-delay:-9s;animation-duration:17s"></div>
-</div>
-
-<!-- NAV -->
-<nav class="nav">
-  <div class="nav-inner">
-    <a class="nav-logo" href="index.html">
-      <span class="nav-logo-mark">NIX</span>
-      <span class="nav-logo-ver">Bot</span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="commands.html">Commands</a></li>
-      <li><a href="dashboard.html">Dashboard</a></li>
-      <li><a href="faq.html" class="active">FAQ</a></li>
-      <li><a href="https://discord.gg/nKjV3mGq6R" target="_blank" rel="noopener">Discord ↗</a></li>
-    </ul>
-    <div class="nav-status">
-      <span class="status-dot"></span>
-      ONLINE
-    </div>
+  <div class="scroll-progress" id="scrollProgress"></div>
+  <div class="aurora" aria-hidden="true">
+    <div class="aurora__blob aurora__blob--1"></div>
+    <div class="aurora__blob aurora__blob--2"></div>
+    <div class="aurora__blob aurora__blob--3"></div>
   </div>
-</nav>
+  <div class="noise" aria-hidden="true"></div>
 
-<!-- HERO -->
-<section class="faq-hero">
-  <div class="hero-badge" style="margin:0 auto 22px">
-    <div class="hero-badge-dot"></div>
-    <span>Common questions, answered</span>
-  </div>
-  <h1>FAQ</h1>
-  <p>Can't find what you need? Join the <a href="https://discord.gg/nKjV3mGq6R" style="color:var(--accent-hi)">Discord server</a> and ask directly.</p>
-</section>
-
-<!-- FAQ BODY -->
-<div class="faq-body">
-
-  <!-- Getting Started -->
-  <div class="faq-group" data-reveal="fade">
-    <div class="faq-group-label">Getting Started</div>
-
-    <div class="faq-item">
-      <button class="faq-q">
-        <span class="faq-q-text">How do I add NIX Bot to my server?</span>
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        Click the <strong>Add to Server</strong> button on the <a href="index.html">homepage</a> or the <a href="commands.html">commands page</a>. You'll need the <strong>Manage Server</strong> permission in the target server. The bot requests Administrator permissions so it can perform moderation actions on your behalf.
-      </div></div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q">
-        <span class="faq-q-text">Do I need to configure anything before using it?</span>
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        No configuration is required to start. Commands like <code>/meme</code>, <code>/rank</code>, and <code>/help</code> work immediately. Run <code>/setup</code> (server owner only) if you'd like NIX Bot to automatically build out your server's channel structure using a template.
-      </div></div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q">
-        <span class="faq-q-text">Why does NIX Bot ask for Administrator permissions?</span>
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        Moderation commands like <code>/server ban</code>, <code>/server kick</code>, and <code>/channel lock</code> require specific elevated permissions. Requesting Administrator simplifies setup so you don't have to manually assign a dozen individual permissions. You can reduce permissions after setup if you prefer — the bot will only fail the commands that need permissions you've removed.
-      </div></div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q">
-        <span class="faq-q-text">I don't see any slash commands — what's wrong?</span>
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        Discord can take up to <strong>one hour</strong> to propagate global slash commands after the bot first joins or restarts. Try restarting your Discord client first. If commands still don't appear after an hour, make sure the bot has the <strong>Use Application Commands</strong> permission in the channel you're trying to use it in.
-      </div></div>
-    </div>
-  </div>
-
-  <!-- Security -->
-  <div class="faq-group" data-reveal="fade">
-    <div class="faq-group-label">Security &amp; Malware Scanning</div>
-
-    <div class="faq-item">
-      <button class="faq-q">
-        <span class="faq-q-text">How does the automatic malware scanning work?</span>
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        Every message attachment with a dangerous extension (<code>.exe</code>, <code>.dll</code>, <code>.bat</code>, <code>.cmd</code>, <code>.ps1</code>, <code>.vbs</code>, <code>.msi</code>, <code>.scr</code>, <code>.hta</code>, <code>.wsf</code>, <code>.reg</code>, <code>.lnk</code>) is automatically downloaded and submitted to <a href="https://www.virustotal.com" target="_blank" rel="noopener">VirusTotal</a> for analysis. Files flagged as malicious are deleted and a threat report is posted. Suspicious files trigger a warning. Clean files get a ✅ reaction.
-      </div></div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q">
-        <span class="faq-q-text">Do I need a VirusTotal API key?</span>
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        The bot owner needs to set a <code>VT_API_KEY</code> environment variable for the auto-scanning to function. Free VirusTotal API keys are available at <a href="https://www.virustotal.com" target="_blank" rel="noopener">virustotal.com</a> — the free tier is sufficient for most servers. Without the key, auto-scanning is silently skipped and the <code>/scan</code> command won't work.
-      </div></div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q">
-        <span class="faq-q-text">Can I block someone from using the bot?</span>
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        Yes. The bot owner can run <code>/blacklist add @user</code> to block any user from using NIX Bot globally — across every server it's in. Use <code>/blacklist remove @user</code> to lift the block. Only the bot owner (set via the <code>OWNER_ID</code> environment variable) can manage the blacklist.
-      </div></div>
-    </div>
-  </div>
-
-  <!-- Commands -->
-  <div class="faq-group" data-reveal="fade">
-    <div class="faq-group-label">Commands &amp; Permissions</div>
-
-    <div class="faq-item">
-      <button class="faq-q">
-        <span class="faq-q-text">Who can use moderation commands?</span>
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        Moderation commands (<code>/server kick</code>, <code>/server ban</code>, <code>/server timeout</code>, etc.) require the user to have the relevant Discord permission (e.g. <strong>Ban Members</strong> to ban). Channel commands require <strong>Manage Channels</strong>. The bot checks permissions before executing — it won't let someone without the right role run destructive commands.
-      </div></div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q">
-        <span class="faq-q-text">Why is there a cooldown on /meme?</span>
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        Reddit rate-limits bot traffic. The 8-second per-user cooldown prevents a single user from hammering the Reddit API and causing it to fail for everyone else in the server. The cooldown is per-user, not per-server — multiple people can use <code>/meme</code> simultaneously without triggering it.
-      </div></div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q">
-        <span class="faq-q-text">Can /meme show NSFW content?</span>
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        Only in channels marked as <strong>age-restricted</strong> in Discord's channel settings. In regular channels, posts flagged as NSFW by Reddit are automatically excluded from the result pool. The bot never bypasses Discord's age-restriction system.
-      </div></div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q">
-        <span class="faq-q-text">Does /setup delete existing channels or roles?</span>
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        No. <code>/setup</code> only <strong>adds</strong> new roles, categories, and channels based on the selected template. It does not delete or modify anything that already exists. It's safest to run on a fresh server, but it won't break an existing one.
-      </div></div>
-    </div>
-  </div>
-
-  <!-- Music -->
-  <div class="faq-group" data-reveal="fade">
-    <div class="faq-group-label">Music</div>
-
-    <div class="faq-item">
-      <button class="faq-q">
-        <span class="faq-q-text">What music sources does NIX Bot support?</span>
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        The music system is powered by Lavalink and supports <strong>YouTube</strong>, <strong>Spotify</strong>, <strong>SoundCloud</strong>, and direct audio URLs. Paste a song name, YouTube link, Spotify track/playlist, or SoundCloud URL into <code>/play</code> and it will queue up automatically.
-      </div></div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q">
-        <span class="faq-q-text">Who can control music playback?</span>
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        Music commands require the <strong>DJ role</strong> or higher (Mod, Admin, Owner). You can assign the DJ role to any role in your server — anyone with it can queue, skip, pause, and control the player.
-      </div></div>
-    </div>
-  </div>
-
-  <!-- Privacy -->
-  <div class="faq-group" data-reveal="fade">
-    <div class="faq-group-label">Privacy &amp; Data</div>
-
-    <div class="faq-item">
-      <button class="faq-q">
-        <span class="faq-q-text">What data does NIX Bot store?</span>
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        NIX Bot stores <strong>XP and level data</strong> per user per server (for the leveling system) and the <strong>blacklist</strong> (user IDs only). No message content is logged, no personal data is sold or shared, and no analytics are collected. File scan results are not stored — only the VirusTotal API response is used in the moment and discarded.
-      </div></div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q">
-        <span class="faq-q-text">Is NIX Bot open source?</span>
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        Yes. The bot source code is available on <a href="https://github.com/binx-ux/nix-bot-push" target="_blank" rel="noopener">GitHub</a>. You can review exactly what it does, self-host it, or contribute improvements.
-      </div></div>
-    </div>
-  </div>
-
-</div>
-
-<!-- CTA -->
-<div class="faq-cta">
-  <div class="faq-cta-inner" data-reveal="fade">
-    <div class="section-eyebrow">Still have questions?</div>
-    <h2>Ask in the<br><em class="text-gradient">Discord server.</em></h2>
-    <p>Join the community and get help directly from the developer and other users.</p>
-    <div class="faq-cta-btns">
-      <a class="btn btn-primary" href="https://discord.gg/nKjV3mGq6R" target="_blank" rel="noopener">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.031.053a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.04.001-.088-.041-.104a13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
-        Join Discord
+  <nav class="nav" id="nav">
+    <div class="nav__inner container">
+      <a href="index.html" class="nav__logo" aria-label="NIX Setup Bot home">
+        <span class="nav__logo-pill">NIX</span>
+        <span class="nav__logo-text">Setup</span>
       </a>
-      <a class="btn btn-ghost" href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot" target="_blank" rel="noopener">Add to Server →</a>
-    </div>
-  </div>
-</div>
-
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <a class="nav-logo" href="index.html"><span class="nav-logo-mark">NIX</span><span class="nav-logo-ver">Bot</span></a>
-      <p>Free Discord bot by binxix. No premium tiers, no data collection.</p>
-    </div>
-    <div class="footer-col">
-      <h5>Bot</h5>
-      <ul>
-        <li><a href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot" target="_blank" rel="noopener">Add to Server</a></li>
-        <li><a href="commands.html">Commands</a></li>
-        <li><a href="faq.html">FAQ</a></li>
+      <ul class="nav__links" role="list">
+        <li><a href="index.html#templates" class="nav__link">Templates</a></li>
+        <li><a href="index.html#how-it-works" class="nav__link">How It Works</a></li>
+        <li><a href="changelog.html" class="nav__link">Changelog</a></li>
+        <li><a href="faq.html" class="nav__link nav__link--active">FAQ</a></li>
+        <li><a href="requests.html" class="nav__link">Requests</a></li>
       </ul>
+      <a href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot" class="btn btn--primary nav__cta" target="_blank" rel="noopener noreferrer">Add to Server</a>
+      <button class="nav__hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>
-    <div class="footer-col">
-      <h5>Community</h5>
-      <ul>
-        <li><a href="https://discord.gg/nKjV3mGq6R" target="_blank" rel="noopener">Discord Server</a></li>
-        <li><a href="https://github.com/binx-ux/nix-bot-push" target="_blank" rel="noopener">GitHub ↗</a></li>
-      </ul>
+    <div class="nav__mobile" id="navMobile" aria-hidden="true">
+      <a href="index.html#templates" class="nav__mobile-link">Templates</a>
+      <a href="index.html#how-it-works" class="nav__mobile-link">How It Works</a>
+      <a href="changelog.html" class="nav__mobile-link">Changelog</a>
+      <a href="faq.html" class="nav__mobile-link">FAQ</a>
+      <a href="requests.html" class="nav__mobile-link">Requests</a>
+      <a href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot" class="btn btn--primary nav__mobile-cta" target="_blank" rel="noopener noreferrer">Add to Server</a>
     </div>
-  </div>
-  <div class="footer-bottom">
-    <span class="footer-copy">© 2026 binxix · NIX Bot</span>
-    <span class="footer-copy">Not affiliated with Discord Inc.</span>
-  </div>
-</footer>
+  </nav>
 
-<script>
-(function () {
-  const scrollBar = document.getElementById('scroll-bar');
-  const navEl = document.querySelector('.nav');
-  window.addEventListener('scroll', () => {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    if (scrollBar) scrollBar.style.width = (max > 0 ? window.scrollY / max * 100 : 0) + '%';
-    navEl?.classList.toggle('scrolled', window.scrollY > 60);
-  }, { passive: true });
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <div class="section-label">FAQ</div>
+        <h1>Common Questions</h1>
+        <p>Everything you need to know before adding NIX to your server.</p>
+      </div>
+    </section>
 
-  const ro = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); ro.unobserve(e.target); } });
-  }, { threshold: 0.1, rootMargin: '0px 0px -48px 0px' });
-  document.querySelectorAll('[data-reveal]').forEach(el => ro.observe(el));
+    <section class="faq-section">
+      <div class="container">
+        <div class="faq-section__inner">
 
-  // Accordion
-  document.querySelectorAll('.faq-item').forEach(item => {
-    item.querySelector('.faq-q').addEventListener('click', () => {
-      const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item.open').forEach(o => o.classList.remove('open'));
-      if (!isOpen) item.classList.add('open');
+          <div class="faq-group">
+            <div class="faq-group__label">General</div>
+
+            <div class="faq-item">
+              <button class="faq-item__trigger" aria-expanded="false">
+                <span class="faq-item__question">Is NIX Bot free?</span>
+                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
+              </button>
+              <div class="faq-item__body">
+                <div class="faq-item__answer">Yes, completely free. There are no paid tiers, no premium features, and no planned monetization. NIX is a community-built bot.</div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-item__trigger" aria-expanded="false">
+                <span class="faq-item__question">What permissions does NIX need?</span>
+                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
+              </button>
+              <div class="faq-item__body">
+                <div class="faq-item__answer">NIX requests Administrator during the invite. This is required to create roles above existing ones and set channel permissions correctly. If you prefer, you can remove Administrator after setup is complete and the bot has left.</div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-item__trigger" aria-expanded="false">
+                <span class="faq-item__question">Who can run /setup?</span>
+                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
+              </button>
+              <div class="faq-item__body">
+                <div class="faq-item__answer">Only the server owner. NIX checks the owner ID on every interaction, so other members including admins cannot trigger the setup.</div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="faq-group">
+            <div class="faq-group__label">Setup</div>
+
+            <div class="faq-item">
+              <button class="faq-item__trigger" aria-expanded="false">
+                <span class="faq-item__question">Does the bot stay in my server after setup?</span>
+                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
+              </button>
+              <div class="faq-item__body">
+                <div class="faq-item__answer">Your choice. When you confirm the setup you get two options: Build and Leave, or Build and Stay. If you choose to leave, the bot exits automatically once setup is complete. You can always re-invite it later. The Code/AI template forces the bot to stay because it posts live AI news updates.</div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-item__trigger" aria-expanded="false">
+                <span class="faq-item__question">Can I run /setup on a server that already has channels and roles?</span>
+                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
+              </button>
+              <div class="faq-item__body">
+                <div class="faq-item__answer">Yes. NIX checks for existing roles and channels by name before creating anything. Duplicates are skipped automatically. The post-setup summary tells you exactly how many were skipped. That said, setup works best on a fresh server.</div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-item__trigger" aria-expanded="false">
+                <span class="faq-item__question">Can I run /setup more than once?</span>
+                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
+              </button>
+              <div class="faq-item__body">
+                <div class="faq-item__answer">Yes. Because NIX skips duplicates, running setup again with a different template will only create what doesn't already exist. You can layer templates if you want, though it is not something NIX is specifically designed for.</div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-item__trigger" aria-expanded="false">
+                <span class="faq-item__question">How long does setup take?</span>
+                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
+              </button>
+              <div class="faq-item__body">
+                <div class="faq-item__answer">Under 60 seconds for most templates. Larger templates with 30+ channels may take slightly longer depending on Discord's API response time.</div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-item__trigger" aria-expanded="false">
+                <span class="faq-item__question">Can I undo a setup?</span>
+                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
+              </button>
+              <div class="faq-item__body">
+                <div class="faq-item__answer">Not yet. A setup undo command is planned for a future update. For now, if you need to revert, you would need to manually delete the created channels and roles. This is why setup warns you it cannot be undone before you confirm.</div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="faq-group">
+            <div class="faq-group__label">Features</div>
+
+            <div class="faq-item">
+              <button class="faq-item__trigger" aria-expanded="false">
+                <span class="faq-item__question">What is the file scanning feature?</span>
+                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
+              </button>
+              <div class="faq-item__body">
+                <div class="faq-item__answer">When someone uploads a file with a potentially dangerous extension (such as <code>.exe</code>, <code>.dll</code>, <code>.bat</code>, or <code>.ps1</code>), NIX automatically scans it using VirusTotal. If the file is flagged as malicious it is deleted and a warning is posted. If it is suspicious, the channel gets a heads-up. Clean files get a checkmark reaction. This requires the bot to stay in the server and a VirusTotal API key to be configured.</div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-item__trigger" aria-expanded="false">
+                <span class="faq-item__question">What is the AI news feed?</span>
+                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
+              </button>
+              <div class="faq-item__body">
+                <div class="faq-item__answer">The Code/AI Community template includes a live AI news feed. NIX stays in the server and periodically posts the latest AI industry news to designated channels like <code>#ai-news</code> and <code>#model-releases</code>. Because it needs to stay active, the Build and Leave option is disabled for this template.</div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-item__trigger" aria-expanded="false">
+                <span class="faq-item__question">Can I request a new template?</span>
+                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
+              </button>
+              <div class="faq-item__body">
+                <div class="faq-item__answer">Yes. Head to the <a href="requests.html">Requests</a> page and submit your idea. Popular requests get prioritized in upcoming updates.</div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__left">
+        <a href="index.html" class="footer__logo" aria-label="NIX Setup Bot home">
+          <span class="nav__logo-pill">NIX</span>
+          <span class="nav__logo-text">Setup</span>
+        </a>
+        <p class="footer__tagline">Your server, built in seconds.</p>
+      </div>
+      <nav class="footer__links" aria-label="Footer navigation">
+        <a href="changelog.html" class="footer__link">Changelog</a>
+        <a href="faq.html" class="footer__link">FAQ</a>
+        <a href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot" class="footer__link" target="_blank" rel="noopener noreferrer">Add to Server</a>
+      </nav>
+    </div>
+    <div class="container footer__bottom">
+      <p class="footer__copy">&copy; 2026 binxix &middot; NIX Setup Bot &middot; Not affiliated with Discord Inc.</p>
+    </div>
+  </footer>
+
+  <script>
+    const progressBar = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', () => {
+      const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+      progressBar.style.width = pct + '%';
+    }, { passive: true });
+
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('nav--scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    const hamburger = document.getElementById('navHamburger');
+    const mobileMenu = document.getElementById('navMobile');
+    hamburger.addEventListener('click', () => {
+      const open = hamburger.getAttribute('aria-expanded') === 'true';
+      hamburger.setAttribute('aria-expanded', String(!open));
+      mobileMenu.setAttribute('aria-hidden', String(open));
+      hamburger.classList.toggle('is-open', !open);
+      mobileMenu.classList.toggle('is-open', !open);
     });
-  });
-})();
-</script>
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-item__trigger').forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        const item = trigger.closest('.faq-item');
+        const body = item.querySelector('.faq-item__body');
+        const isOpen = item.classList.contains('is-open');
+
+        // Close all
+        document.querySelectorAll('.faq-item.is-open').forEach(openItem => {
+          openItem.classList.remove('is-open');
+          openItem.querySelector('.faq-item__trigger').setAttribute('aria-expanded', 'false');
+          openItem.querySelector('.faq-item__body').style.maxHeight = '0';
+        });
+
+        // Open this one if it was closed
+        if (!isOpen) {
+          item.classList.add('is-open');
+          trigger.setAttribute('aria-expanded', 'true');
+          body.style.maxHeight = body.scrollHeight + 'px';
+        }
+      });
+    });
+  </script>
+
 </body>
 </html>

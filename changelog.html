@@ -3,324 +3,306 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Changelog — NIX</title>
-  <meta name="description" content="NIX version history — every release, every change." />
-  <meta property="og:title" content="Changelog — NIX" />
-  <meta property="og:url" content="https://binx-ux.github.io/NIX/changelog.html" />
-  <meta name="theme-color" content="#7C3AED" />
+  <title>Changelog — NIX Setup Bot</title>
+  <meta name="description" content="A full history of every NIX Bot update, automatically synced on each release." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-hero {
+      padding: 120px 0 64px;
+      text-align: center;
+    }
+    .page-hero .section-label { margin-bottom: 16px; }
+    .page-hero h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      color: var(--color-white);
+      margin-bottom: 12px;
+    }
+    .page-hero p {
+      color: var(--color-text-muted);
+      font-size: 1rem;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .timeline { padding: 0 0 96px; }
+    .timeline__inner {
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cl-entry {
+      display: grid;
+      grid-template-columns: 130px 1px 1fr;
+      gap: 0 28px;
+    }
+
+    .cl-entry__meta {
+      text-align: right;
+      padding-top: 5px;
+      padding-bottom: 48px;
+    }
+    .cl-entry__version {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--color-purple-light);
+      background: rgba(124, 58, 237, 0.12);
+      border: 1px solid rgba(124, 58, 237, 0.25);
+      border-radius: var(--radius-full);
+      padding: 3px 10px;
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+    .cl-entry__date {
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      display: block;
+    }
+
+    .cl-entry__line {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .cl-entry__dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--color-purple);
+      box-shadow: 0 0 10px rgba(124, 58, 237, 0.6);
+      flex-shrink: 0;
+      margin-top: 7px;
+      position: relative;
+      z-index: 1;
+    }
+    .cl-entry__track {
+      flex: 1;
+      width: 1px;
+      background: var(--color-border);
+      margin-top: 6px;
+    }
+    .cl-entry:last-child .cl-entry__track { display: none; }
+
+    .cl-entry__content { padding-bottom: 48px; }
+    .cl-entry__title {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--color-white);
+      margin-bottom: 14px;
+      padding-top: 3px;
+    }
+    .cl-entry__changes {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .cl-entry__change {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 0.88rem;
+      color: var(--color-text);
+      line-height: 1.65;
+    }
+    .cl-entry__change::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--color-purple-light);
+      flex-shrink: 0;
+      margin-top: 8px;
+    }
+
+    .cl-loading, .cl-error {
+      text-align: center;
+      padding: 64px 0;
+      color: var(--color-text-muted);
+      font-size: 0.9rem;
+    }
+    .cl-loading__spinner {
+      width: 30px;
+      height: 30px;
+      border: 2px solid var(--color-border);
+      border-top-color: var(--color-purple);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 600px) {
+      .cl-entry { grid-template-columns: 1fr; gap: 4px; }
+      .cl-entry__meta {
+        text-align: left;
+        padding-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .cl-entry__date { margin: 0; }
+      .cl-entry__line { display: none; }
+      .cl-entry__content { padding-bottom: 36px; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="scroll-bar" id="scroll-bar"></div>
-<div class="noise-overlay"></div>
-<div class="aurora">
-  <div class="aurora-blob" style="width:640px;height:640px;background:rgba(124,58,237,0.11);top:-180px;left:-120px;animation-delay:0s;animation-duration:18s"></div>
-  <div class="aurora-blob" style="width:460px;height:460px;background:rgba(34,211,238,0.06);top:40%;right:-80px;animation-delay:-7s;animation-duration:15s"></div>
-  <div class="aurora-blob" style="width:380px;height:380px;background:rgba(124,58,237,0.07);bottom:20%;left:28%;animation-delay:-12s;animation-duration:21s"></div>
-</div>
-
-<nav class="nav">
-  <div class="nav-inner">
-    <a class="nav-logo" href="index.html">
-      <span class="nav-logo-mark">NIX</span>
-      <span class="nav-logo-ver" id="nav-ver">v2.0.9</span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="features.html">Features</a></li>
-      <li><a href="index.html#install">Install</a></li>
-      <li><a href="changelog.html" class="active">Changelog</a></li>
-      <li><a href="roadmap.html">Roadmap</a></li>
-      <li><a href="faq.html">FAQ</a></li>
-      <li><a href="https://github.com/binx-ux/shadowstrap/wiki" target="_blank" rel="noopener">Wiki</a></li>
-      <li><a href="https://github.com/binx-ux/shadowstrap" target="_blank" rel="noopener">GitHub ↗</a></li>
-    </ul>
-    <div class="nav-status" style="color:#9CA3AF;">
-      <span class="status-dot" style="background:#6B7280;animation:none;box-shadow:none;"></span>
-      SUNSET
-    </div>
+  <div class="scroll-progress" id="scrollProgress"></div>
+  <div class="aurora" aria-hidden="true">
+    <div class="aurora__blob aurora__blob--1"></div>
+    <div class="aurora__blob aurora__blob--2"></div>
+    <div class="aurora__blob aurora__blob--3"></div>
   </div>
-</nav>
+  <div class="noise" aria-hidden="true"></div>
 
-<div class="page-hero">
-  <div class="page-hero-inner">
-    <div class="section-eyebrow">Release History</div>
-    <h1>Changelog</h1>
-    <p>Every version, every change. Most recent first.</p>
-  </div>
-</div>
-
-<div class="cl-body">
-  <div class="cl-inner">
-
-    <!-- v2.0.9 -->
-    <div class="tl-item">
-      <div class="tl-meta">
-        <span class="tl-ver">v2.0.9</span>
-        <span class="tl-date">Apr 2026</span>
-        <span class="tl-badge tl-b-final">Final</span>
-      </div>
-      <div class="tl-content">
-        <h2>Project Discontinued — Final Release</h2>
-        <ul class="change-list">
-          <li class="ci"><span class="ct ct-remove">sunset</span><strong>NIX is shutting down.</strong> Shadowstrap was a proof of concept — a test of what a Roblox bootstrapper could actually be. That question has been answered. No further updates will be released.</li>
-          <li class="ci"><span class="ct ct-add">add</span><strong>Sunset dialog</strong> — a discontinuation notice is shown on every user-facing launch, with a direct <em>Uninstall Now</em> button that triggers the built-in uninstaller to restore the default Roblox launcher.</li>
-          <li class="ci"><span class="ct ct-remove">remove</span><strong>Auto-update permanently disabled</strong> — the update check is removed at the code level. v2.0.9 is the last binary that will ever be distributed.</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- v2.0.8 -->
-    <div class="tl-item">
-      <div class="tl-meta">
-        <span class="tl-ver">v2.0.8</span>
-        <span class="tl-date">Apr 2026</span>
-        <span class="tl-badge tl-b-stable">Stable</span>
-      </div>
-      <div class="tl-content">
-        <h2>Cleanup — Removed Features</h2>
-        <ul class="change-list">
-          <li class="ci"><span class="ct ct-remove">remove</span><strong>Game Profiles</strong> — per-game FastFlag profile tab and all related logic removed. The feature had reliability issues and added complexity without enough practical use.</li>
-          <li class="ci"><span class="ct ct-remove">remove</span><strong>Inventory Viewer</strong> — player collectible inventory lookup tab removed. Roblox API changes made the data unreliable.</li>
-          <li class="ci"><span class="ct ct-remove">remove</span><strong>Hone.gg Integration</strong> — auto-launch integration removed from the Integrations page. The integration had no meaningful adoption.</li>
-          <li class="ci"><span class="ct ct-remove">remove</span><strong>Custom Death Sound</strong> — in-app death sound file picker removed from Mods page. You can still place any <code style="font-family:var(--mono);font-size:0.8em;color:var(--cyan)">ouch.ogg</code> directly in the Modifications folder manually.</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- v2.0.7 -->
-    <div class="tl-item">
-      <div class="tl-meta">
-        <span class="tl-ver">v2.0.7</span>
-        <span class="tl-date">Apr 2026</span>
-        <span class="tl-badge tl-b-stable">Stable</span>
-      </div>
-      <div class="tl-content">
-        <h2>Hotfix — Settings Crash</h2>
-        <ul class="change-list">
-          <li class="ci"><span class="ct ct-fix">fix</span>App crashed immediately when opening the Settings window — <code style="font-family:var(--mono);font-size:0.8em;color:var(--cyan)">XamlParseException: GameChat20 is not a valid value for SymbolRegular</code>. Icon name corrected to a valid <code style="font-family:var(--mono);font-size:0.8em;color:var(--cyan)">SymbolRegular</code> enum value.</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- v2.0.6 -->
-    <div class="tl-item">
-      <div class="tl-meta">
-        <span class="tl-ver">v2.0.6</span>
-        <span class="tl-date">Apr 2026</span>
-        <span class="tl-badge tl-b-stable">Stable</span>
-      </div>
-      <div class="tl-content">
-        <h2>Per-Game FastFlag Profiles &amp; Community Sharing</h2>
-        <ul class="change-list">
-          <li class="ci"><span class="ct ct-add">add</span><strong>Game Profiles</strong> — new sidebar tab. NIX automatically writes a custom FastFlag set when you join a specific game and restores your original flags on leave.</li>
-          <li class="ci"><span class="ct ct-add">add</span>8 built-in game presets: The Strongest Battlegrounds, Blox Fruits, Murder Mystery 2, Jailbreak, Arsenal, Da Hood, Brookhaven RP, Pet Simulator 99 — each tuned for max FPS and reduced visual overhead.</li>
-          <li class="ci"><span class="ct ct-add">add</span>Custom profile CRUD — add, edit, and delete your own per-game flag sets with a place ID lookup that auto-fills the game name.</li>
-          <li class="ci"><span class="ct ct-add">add</span>Profile toggle — enable or disable any built-in or custom profile individually without deleting it.</li>
-          <li class="ci"><span class="ct ct-add">add</span>User profiles override built-in profiles for the same Place ID, giving full per-game customisation without losing the defaults.</li>
-          <li class="ci"><span class="ct ct-add">add</span><strong>Community flag sharing</strong> — Share preset and Browse Community buttons in the FastFlag Editor export or import flag bundles as JSON for GitHub pull requests.</li>
-          <li class="ci"><span class="ct ct-add">add</span><code style="font-family:var(--mono);font-size:0.8em;color:var(--cyan)">community/flags.json</code> added to the repo — community-contributed FastFlag presets live here.</li>
-          <li class="ci"><span class="ct ct-add">add</span>Import Community Profile — paste a JSON blob from GitHub directly into the Game Profiles tab to add a profile without manual entry.</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- v2.0.5 -->
-    <div class="tl-item">
-      <div class="tl-meta">
-        <span class="tl-ver">v2.0.5</span>
-        <span class="tl-date">Apr 2026</span>
-        <span class="tl-badge tl-b-stable">Stable</span>
-      </div>
-      <div class="tl-content">
-        <h2>FastFlag Editor Tab &amp; Inventory Viewer</h2>
-        <ul class="change-list">
-          <li class="ci"><span class="ct ct-add">add</span>FastFlag Editor is now a top-level sidebar tab — no longer hidden behind the presets page or gated by Roblox Studio.</li>
-          <li class="ci"><span class="ct ct-add">add</span>New <strong>Inventory</strong> tab — enter any Roblox username or user ID to view their public collectible inventory with item thumbnails, names, RAP, and serial numbers.</li>
-          <li class="ci"><span class="ct ct-add">add</span>Total RAP summary card shown at the top of the inventory results.</li>
-          <li class="ci"><span class="ct ct-add">add</span>Cursor-based Load More pagination for large inventories.</li>
-          <li class="ci"><span class="ct ct-add">add</span>Private inventory detection — clear error message instead of an empty list.</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- v2.0.4 -->
-    <div class="tl-item">
-      <div class="tl-meta">
-        <span class="tl-ver">v2.0.4</span>
-        <span class="tl-date">Apr 2026</span>
-        <span class="tl-badge tl-b-stable">Stable</span>
-      </div>
-      <div class="tl-content">
-        <h2>Hotfix — Session Summary &amp; Rendering Modes</h2>
-        <ul class="change-list">
-          <li class="ci"><span class="ct ct-fix">fix</span>Session Summary now shows the correct game — it was always displaying the <em>first</em> game of the session because the History list is ordered newest→oldest and the wrong end was being read.</li>
-          <li class="ci"><span class="ct ct-change">change</span>Removed OpenGL and Vulkan rendering mode options (reverted from v2.0.3).</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- v2.0.3 -->
-    <div class="tl-item">
-      <div class="tl-meta">
-        <span class="tl-ver">v2.0.3</span>
-        <span class="tl-date">Apr 2026</span>
-        <span class="tl-badge tl-b-stable">Stable</span>
-      </div>
-      <div class="tl-content">
-        <h2>FastFlags Fix &amp; Rendering Modes</h2>
-        <ul class="change-list">
-          <li class="ci"><span class="ct ct-fix">fix</span>Performance Presets now actually apply — <code style="font-family:var(--mono);font-size:0.8em;color:var(--cyan)">ClientAppSettings.json</code> was never written to disk when clicking Apply. All flag setters now call <code style="font-family:var(--mono);font-size:0.8em;color:var(--cyan)">Save()</code> immediately.</li>
-          <li class="ci"><span class="ct ct-fix">fix</span>FPS Counter toggle now persists — enabling <code style="font-family:var(--mono);font-size:0.8em;color:var(--cyan)">FFlagDebugDisplayFPS</code> is written to disk on toggle so the overlay appears in-game without needing a separate Save click.</li>
-          <li class="ci"><span class="ct ct-fix">fix</span>MSAA, Rendering Mode, Texture Quality, and Display Scaling dropdowns/toggles all save immediately on change.</li>
-          <li class="ci"><span class="ct ct-add">add</span>Active preset highlight — the card for the currently applied preset glows purple on the FastFlags page, persisted across sessions.</li>
-          <li class="ci"><span class="ct ct-add">add</span>OpenGL rendering mode — <code style="font-family:var(--mono);font-size:0.8em;color:var(--cyan)">FFlagDebugGraphicsPreferOpenGL</code> exposed in the Rendering Mode dropdown.</li>
-          <li class="ci"><span class="ct ct-add">add</span>Vulkan rendering mode — <code style="font-family:var(--mono);font-size:0.8em;color:var(--cyan)">FFlagDebugGraphicsPreferVulkan</code> exposed in the Rendering Mode dropdown.</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- v2.0.2 -->
-    <div class="tl-item">
-      <div class="tl-meta">
-        <span class="tl-ver">v2.0.2</span>
-        <span class="tl-date">Apr 2026</span>
-        <span class="tl-badge tl-b-stable">Stable</span>
-      </div>
-      <div class="tl-content">
-        <h2>Server Browser &amp; Session Summary</h2>
-        <ul class="change-list">
-          <li class="ci"><span class="ct ct-add">add</span>Server Browser — tray menu item that lets you browse open public servers for any game by Place ID. Shows player count, ping, FPS, and estimated region for each server instance.</li>
-          <li class="ci"><span class="ct ct-add">add</span>Join specific server directly from the browser list via <code style="font-family:var(--mono);font-size:0.8em;color:var(--cyan)">roblox://experiences/start?placeId=…&amp;gameInstanceId=…</code></li>
-          <li class="ci"><span class="ct ct-add">add</span>Hide Full filter and cursor-based Load More pagination in the server list</li>
-          <li class="ci"><span class="ct ct-add">add</span>Session Summary popup — shown automatically after leaving a game. Displays game thumbnail, name, time played, join/leave times, and server region (loaded async via ipinfo.io).</li>
-          <li class="ci"><span class="ct ct-add">add</span>Rejoin button in session summary jumps back into the same server</li>
-          <li class="ci"><span class="ct ct-add">add</span><code style="font-family:var(--mono);font-size:0.8em;color:var(--cyan)">ShowSessionSummary</code> setting to disable the popup if unwanted (default on)</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- v2.0.1 -->
-    <div class="tl-item">
-      <div class="tl-meta">
-        <span class="tl-ver">v2.0.1</span>
-        <span class="tl-date">Apr 2026</span>
-        <span class="tl-badge tl-b-stable">Stable</span>
-      </div>
-      <div class="tl-content">
-        <h2>Hotfix &amp; version bump</h2>
-        <ul class="change-list">
-          <li class="ci"><span class="ct ct-fix">fix</span>Crash on Mods tab load caused by invalid WPF UI icon name (<code style="font-family:var(--mono);font-size:0.8em;color:var(--cyan)">MusicNote1Add24</code> → <code style="font-family:var(--mono);font-size:0.8em;color:var(--cyan)">MusicNote124</code>)</li>
-          <li class="ci"><span class="ct ct-change">change</span>Version corrected from leftover <code style="font-family:var(--mono);font-size:0.8em;color:var(--cyan)">2.11.0</code> Bloxstrap value to <code style="font-family:var(--mono);font-size:0.8em;color:var(--cyan)">2.0.1</code></li>
-          <li class="ci"><span class="ct ct-change">change</span>Auto-updater now correctly compares against v2.0.x tags — users on v2.0.0 are prompted on next launch</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- v2.0.0 -->
-    <div class="tl-item">
-      <div class="tl-meta">
-        <span class="tl-ver">v2.0.0</span>
-        <span class="tl-date">Apr 2026</span>
-        <span class="tl-badge tl-b-stable">Stable</span>
-      </div>
-      <div class="tl-content">
-        <h2>NIX — initial public release</h2>
-        <ul class="change-list">
-          <li class="ci"><span class="ct ct-add">add</span>Full rebrand from Bloxstrap to NIX (Shadowstrap) — new name, purple #8B5CF6 theme, updated assets throughout</li>
-          <li class="ci"><span class="ct ct-add">add</span>Performance Presets — one-click FastFlag bundles for Default, Balanced, and Max Performance modes</li>
-          <li class="ci"><span class="ct ct-add">add</span>Process Priority Boost — elevate Roblox to Above Normal, High, or Realtime CPU scheduling class</li>
-          <li class="ci"><span class="ct ct-add">add</span>Multi-Instance support — closes the RobloxSingletonMutex via P/Invoke so multiple windows can run simultaneously</li>
-          <li class="ci"><span class="ct ct-add">add</span>RAM Cleaner — trims other processes' working sets using <code style="font-family:var(--mono);font-size:0.8em;color:var(--cyan)">SetProcessWorkingSetSize</code> before Roblox launches</li>
-          <li class="ci"><span class="ct ct-add">add</span>FPS Counter toggle — <code style="font-family:var(--mono);font-size:0.8em;color:var(--cyan)">FFlagDebugDisplayFPS</code> preset wired into the FastFlags page</li>
-          <li class="ci"><span class="ct ct-add">add</span>Auto-Rejoin — Watcher process monitors Roblox exit and relaunches the original <code style="font-family:var(--mono);font-size:0.8em;color:var(--cyan)">roblox://</code> URL after 5 seconds</li>
-          <li class="ci"><span class="ct ct-add">add</span>Custom Death Sound — file picker for .ogg, .mp3, .wav; copies to <code style="font-family:var(--mono);font-size:0.8em;color:var(--cyan)">Modifications/content/sounds/ouch.ogg</code></li>
-          <li class="ci"><span class="ct ct-add">add</span>Hone.gg integration — auto-detects and launches Hone before Roblox with a 2.5s initialization window</li>
-          <li class="ci"><span class="ct ct-add">add</span>GitHub Actions CI pipeline — builds and publishes release artifacts on version tags</li>
-          <li class="ci"><span class="ct ct-add">add</span>Full GitHub wiki — 17 pages covering all features, settings, troubleshooting, and modding</li>
-          <li class="ci"><span class="ct ct-change">change</span>Winget package identifier updated from <code style="font-family:var(--mono);font-size:0.8em;color:var(--cyan)">pizzaboxer.Bloxstrap</code> to <code style="font-family:var(--mono);font-size:0.8em;color:var(--cyan)">binx-ux.Shadowstrap</code></li>
-          <li class="ci"><span class="ct ct-change">change</span>All namespaces, assembly names, and string resources renamed from Bloxstrap to Shadowstrap</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Upstream note -->
-    <div class="tl-item">
-      <div class="tl-meta">
-        <span class="tl-ver">—</span>
-        <span class="tl-date">Prior</span>
-        <span class="tl-badge tl-b-legacy">Upstream</span>
-      </div>
-      <div class="tl-content">
-        <h2>Based on Bloxstrap</h2>
-        <ul class="change-list">
-          <li class="ci"><span class="ct ct-change">note</span>NIX is a fork of <a href="https://github.com/bloxstraplabs/bloxstrap" target="_blank" rel="noopener" style="color:var(--accent-hi)">Bloxstrap</a> by pizzaboxer. Earlier feature history (Discord RPC, FastFlag editor, mod support, activity tracking) originates there.</li>
-        </ul>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<footer class="footer">
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <a class="nav-logo" href="index.html"><span class="nav-logo-mark">NIX</span></a>
-      <p>Discontinued Apr 2026. Source remains public under MIT License.</p>
-    </div>
-    <div class="footer-col">
-      <h5>Project</h5>
-      <ul>
-        <li><a href="https://github.com/binx-ux/shadowstrap" target="_blank" rel="noopener">GitHub</a></li>
-        <li><a href="https://github.com/binx-ux/shadowstrap/releases" target="_blank" rel="noopener">Releases</a></li>
-        <li><a href="https://github.com/binx-ux/shadowstrap/wiki" target="_blank" rel="noopener">Wiki</a></li>
+  <nav class="nav" id="nav">
+    <div class="nav__inner container">
+      <a href="index.html" class="nav__logo" aria-label="NIX Setup Bot home">
+        <span class="nav__logo-pill">NIX</span>
+        <span class="nav__logo-text">Setup</span>
+      </a>
+      <ul class="nav__links" role="list">
+        <li><a href="index.html#templates" class="nav__link">Templates</a></li>
+        <li><a href="index.html#how-it-works" class="nav__link">How It Works</a></li>
+        <li><a href="changelog.html" class="nav__link nav__link--active">Changelog</a></li>
+        <li><a href="faq.html" class="nav__link">FAQ</a></li>
+        <li><a href="requests.html" class="nav__link">Requests</a></li>
       </ul>
+      <a href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot" class="btn btn--primary nav__cta" target="_blank" rel="noopener noreferrer">Add to Server</a>
+      <button class="nav__hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>
-    <div class="footer-col">
-      <h5>Site</h5>
-      <ul>
-        <li><a href="changelog.html">Changelog</a></li>
-        <li><a href="faq.html">FAQ</a></li>
-        <li><a href="https://discord.gg/nKjV3mGq6R" target="_blank" rel="noopener">Discord</a></li>
-      </ul>
+    <div class="nav__mobile" id="navMobile" aria-hidden="true">
+      <a href="index.html#templates" class="nav__mobile-link">Templates</a>
+      <a href="index.html#how-it-works" class="nav__mobile-link">How It Works</a>
+      <a href="changelog.html" class="nav__mobile-link">Changelog</a>
+      <a href="faq.html" class="nav__mobile-link">FAQ</a>
+      <a href="requests.html" class="nav__mobile-link">Requests</a>
+      <a href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot" class="btn btn--primary nav__mobile-cta" target="_blank" rel="noopener noreferrer">Add to Server</a>
     </div>
-    <div class="footer-col">
-      <h5>Legal</h5>
-      <ul>
-        <li><a href="https://github.com/binx-ux/shadowstrap/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a></li>
-        <li><a href="https://github.com/binx-ux/shadowstrap/blob/main/SECURITY.md" target="_blank" rel="noopener">Security Policy</a></li>
-      </ul>
+  </nav>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <div class="section-label">CHANGELOG</div>
+        <h1>Release History</h1>
+        <p>Every update to NIX Bot, automatically synced on each release.</p>
+      </div>
+    </section>
+
+    <section class="timeline">
+      <div class="container">
+        <div class="timeline__inner" id="timelineInner">
+          <div class="cl-loading">
+            <div class="cl-loading__spinner"></div>
+            Loading changelog...
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__left">
+        <a href="index.html" class="footer__logo" aria-label="NIX Setup Bot home">
+          <span class="nav__logo-pill">NIX</span>
+          <span class="nav__logo-text">Setup</span>
+        </a>
+        <p class="footer__tagline">Your server, built in seconds.</p>
+      </div>
+      <nav class="footer__links" aria-label="Footer navigation">
+        <a href="changelog.html" class="footer__link">Changelog</a>
+        <a href="faq.html" class="footer__link">FAQ</a>
+        <a href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot" class="footer__link" target="_blank" rel="noopener noreferrer">Add to Server</a>
+      </nav>
     </div>
-  </div>
-  <div class="footer-bottom">
-    <span class="footer-copy">© 2026 binx-ux · MIT License</span>
-    <span class="footer-copy">Not affiliated with Roblox Corporation</span>
-  </div>
-</footer>
+    <div class="container footer__bottom">
+      <p class="footer__copy">&copy; 2026 binxix &middot; NIX Setup Bot &middot; Not affiliated with Discord Inc.</p>
+    </div>
+  </footer>
 
-<script>
-(function() {
-  fetch('https://api.github.com/repos/binx-ux/shadowstrap/releases/latest')
-    .then(r => r.json())
-    .then(d => { if (d.tag_name) document.getElementById('nav-ver').textContent = d.tag_name; })
-    .catch(() => {});
+  <script>
+    const progressBar = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', () => {
+      const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+      progressBar.style.width = pct + '%';
+    }, { passive: true });
 
-  const scrollBar = document.getElementById('scroll-bar');
-  const navEl = document.querySelector('.nav');
-  window.addEventListener('scroll', () => {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    if (scrollBar) scrollBar.style.width = (max > 0 ? window.scrollY / max * 100 : 0) + '%';
-    navEl?.classList.toggle('scrolled', window.scrollY > 60);
-  }, { passive: true });
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('nav--scrolled', window.scrollY > 40);
+    }, { passive: true });
 
-  const ro = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); ro.unobserve(e.target); } });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-  document.querySelectorAll('[data-reveal]').forEach(el => ro.observe(el));
-})();
-</script>
+    const hamburger = document.getElementById('navHamburger');
+    const mobileMenu = document.getElementById('navMobile');
+    hamburger.addEventListener('click', () => {
+      const open = hamburger.getAttribute('aria-expanded') === 'true';
+      hamburger.setAttribute('aria-expanded', String(!open));
+      mobileMenu.setAttribute('aria-hidden', String(open));
+      hamburger.classList.toggle('is-open', !open);
+      mobileMenu.classList.toggle('is-open', !open);
+    });
+
+    function formatDate(str) {
+      return new Date(str + 'T00:00:00').toLocaleDateString('en-US', {
+        year: 'numeric', month: 'long', day: 'numeric'
+      });
+    }
+
+    function renderChangelog(entries) {
+      const container = document.getElementById('timelineInner');
+      if (!entries.length) {
+        container.innerHTML = '<div class="cl-error">No changelog entries found.</div>';
+        return;
+      }
+      entries.sort((a, b) => new Date(b.date) - new Date(a.date));
+      container.innerHTML = entries.map(entry => `
+        <div class="cl-entry">
+          <div class="cl-entry__meta">
+            <span class="cl-entry__version">v${entry.version}</span>
+            <span class="cl-entry__date">${formatDate(entry.date)}</span>
+          </div>
+          <div class="cl-entry__line">
+            <div class="cl-entry__dot"></div>
+            <div class="cl-entry__track"></div>
+          </div>
+          <div class="cl-entry__content">
+            <div class="cl-entry__title">${entry.title}</div>
+            <div class="cl-entry__changes">
+              ${entry.changes.map(c => `<div class="cl-entry__change">${c}</div>`).join('')}
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    (async () => {
+      const URL = 'https://mngubaoitgpuzantzjjf.supabase.co';
+      const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1uZ3ViYW9pdGdwdXphbnR6ampmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3MTQzMjYsImV4cCI6MjA5MzI5MDMyNn0.p0Z75TNm9iE-IO2cWXh4XJAQGhFI38oosTNKPsWwj7s';
+      try {
+        const res = await fetch(`${URL}/rest/v1/changelog?select=*&order=date.desc`, {
+          headers: { apikey: KEY, Authorization: `Bearer ${KEY}` }
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        renderChangelog(await res.json());
+      } catch (err) {
+        document.getElementById('timelineInner').innerHTML =
+          '<div class="cl-error">Could not load changelog. Try refreshing.</div>';
+      }
+    })();
+  </script>
+
 </body>
 </html>
