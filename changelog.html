@@ -267,7 +267,17 @@
         container.innerHTML = '<div class="cl-error">No changelog entries found.</div>';
         return;
       }
-      entries.sort((a, b) => new Date(b.date) - new Date(a.date));
+      entries.sort((a, b) => {
+        const dateDiff = new Date(b.date) - new Date(a.date);
+        if (dateDiff !== 0) return dateDiff;
+        // Same date — sort by version descending as tiebreaker
+        const va = a.version.split('.').map(Number);
+        const vb = b.version.split('.').map(Number);
+        for (let i = 0; i < 3; i++) {
+          if ((vb[i] ?? 0) !== (va[i] ?? 0)) return (vb[i] ?? 0) - (va[i] ?? 0);
+        }
+        return 0;
+      });
       container.innerHTML = entries.map(entry => `
         <div class="cl-entry">
           <div class="cl-entry__meta">
