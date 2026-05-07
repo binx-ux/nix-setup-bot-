@@ -1168,10 +1168,58 @@ h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.15; color: var
   .steps__number { font-size: 1.6rem; }
 }
 
+/* Mouse-parallax aurora — set by JS via --mouse-x and --mouse-y custom props (range -1..1) */
+.aurora {
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.aurora__blob--1 { transform: translate3d(calc(var(--mouse-x, 0) * 24px), calc(var(--mouse-y, 0) * 24px), 0); }
+.aurora__blob--2 { transform: translate3d(calc(var(--mouse-x, 0) * -32px), calc(var(--mouse-y, 0) * -32px), 0); }
+.aurora__blob--3 { transform: translate3d(calc(var(--mouse-x, 0) * 18px), calc(var(--mouse-y, 0) * -22px), 0); }
+
+/* CTA shimmer — sweeping highlight across primary button on hover */
+.btn--primary {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.btn--primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.18) 48%, rgba(255, 255, 255, 0.32) 50%, rgba(255, 255, 255, 0.18) 52%, transparent 70%);
+  transform: translateX(-110%);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  z-index: -1;
+}
+.btn--primary:hover::after { transform: translateX(110%); }
+
+/* Stat item lift on hover */
+.stats__item {
+  transition: transform var(--transition-base);
+}
+.stats__item:hover { transform: translateY(-4px); }
+
+/* Stat number gentle gradient shimmer */
+.stats__number {
+  background: linear-gradient(120deg, var(--color-purple-light) 0%, var(--color-white) 50%, var(--color-purple-light) 100%);
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: stat-shine 6s ease-in-out infinite;
+}
+@keyframes stat-shine {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
   .aurora__blob { animation: none; }
+  .aurora__blob--1, .aurora__blob--2, .aurora__blob--3 { transform: none; }
   .marquee__track { animation: none; }
   [data-reveal] { opacity: 1; transform: none; }
+  .stats__number { animation: none; background: var(--color-white); -webkit-text-fill-color: var(--color-white); }
 }

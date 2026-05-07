@@ -8,6 +8,7 @@
   <meta property="og:title" content="NIX Setup Bot" />
   <meta property="og:description" content="Pick from 25+ Discord server templates. Roles, channels, and categories created instantly. Free forever." />
   <meta property="og:type" content="website" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -167,7 +168,7 @@
       <div class="container">
         <div class="stats__inner" data-reveal="up">
           <div class="stats__item">
-            <div class="stats__number">25+</div>
+            <div class="stats__number" data-counter="45" data-suffix="+">0</div>
             <div class="stats__label">Templates</div>
           </div>
           <div class="stats__divider" aria-hidden="true"></div>
@@ -856,8 +857,37 @@
       }
     });
 
+    // Animated counter — counts an element from 0 to target over duration
+    function animateCounter(el, target, { duration = 1400, decimals = 0, suffix = '' } = {}) {
+      const start = performance.now();
+      const ease = t => 1 - Math.pow(1 - t, 3); // easeOutCubic
+      function tick(now) {
+        const t = Math.min(1, (now - start) / duration);
+        const value = ease(t) * target;
+        el.textContent = value.toFixed(decimals) + suffix;
+        if (t < 1) requestAnimationFrame(tick);
+        else el.textContent = target.toFixed(decimals) + suffix;
+      }
+      requestAnimationFrame(tick);
+    }
+
+    // Trigger [data-counter] elements when they scroll into view
+    const counterEls = document.querySelectorAll('[data-counter]');
+    const counterObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        animateCounter(el, parseFloat(el.dataset.counter), {
+          decimals: el.dataset.decimals ? parseInt(el.dataset.decimals, 10) : 0,
+          suffix: el.dataset.suffix || '',
+        });
+        counterObs.unobserve(el);
+      });
+    }, { threshold: 0.5 });
+    counterEls.forEach(el => counterObs.observe(el));
+
     // Confirm button
-    // Live ratings from Supabase
+    // Live ratings from Supabase — animated counter
     (async () => {
       try {
         const res = await fetch('https://mngubaoitgpuzantzjjf.supabase.co/rest/v1/ratings?select=rating', {
@@ -869,11 +899,31 @@
         if (!res.ok) return;
         const rows = await res.json();
         if (!rows.length) return;
-        const avg = (rows.reduce((s, r) => s + r.rating, 0) / rows.length).toFixed(1);
-        document.getElementById('stat-rating').textContent  = avg + ' / 5';
-        document.getElementById('stat-reviews').textContent = rows.length;
+        const avg = rows.reduce((s, r) => s + r.rating, 0) / rows.length;
+        const ratingEl  = document.getElementById('stat-rating');
+        const reviewsEl = document.getElementById('stat-reviews');
+        animateCounter(ratingEl,  avg,         { decimals: 1, suffix: ' / 5' });
+        animateCounter(reviewsEl, rows.length, { decimals: 0 });
       } catch {}
     })();
+
+    // Mouse parallax — aurora blobs drift slightly with cursor (throttled via requestAnimationFrame)
+    const aurora = document.querySelector('.aurora');
+    if (aurora) {
+      let mouseX = 0, mouseY = 0, ticking = false;
+      window.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / window.innerWidth)  * 2 - 1; // -1 to 1
+        mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            aurora.style.setProperty('--mouse-x', mouseX.toFixed(3));
+            aurora.style.setProperty('--mouse-y', mouseY.toFixed(3));
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+    }
 
     mockupConfirm.addEventListener('click', () => {
       if (mockupActive < 0) return;
