@@ -1214,6 +1214,91 @@ h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.15; color: var
   50%      { background-position: 100% 50%; }
 }
 
+/* ─────────────────────────────────────────────────────────────────
+   Letter-by-letter hero reveal
+   ───────────────────────────────────────────────────────────────── */
+.hero__headline .char {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(24px);
+  animation: char-reveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: opacity, transform, filter;
+}
+@keyframes char-reveal {
+  to { opacity: 1; filter: blur(0); transform: translateY(0); }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   3D tilt — perspective on parent so cards tilt in 3D space
+   ───────────────────────────────────────────────────────────────── */
+.features__grid {
+  perspective: 1200px;
+}
+.feature-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Magnetic buttons — JS sets transform; we just speed up the easing
+   ───────────────────────────────────────────────────────────────── */
+.btn--primary {
+  will-change: transform;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Custom cursor — only on devices with a real pointer
+   ───────────────────────────────────────────────────────────────── */
+.cursor-dot, .cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  will-change: transform;
+}
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--color-purple-light);
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
+  transform: translate(-50%, -50%);
+}
+.cursor-ring {
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid rgba(168, 85, 247, 0.55);
+  transform: translate(-50%, -50%);
+  transition: width 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+              height 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+              background 0.22s ease,
+              border-color 0.22s ease,
+              opacity 0.25s ease;
+}
+.cursor-ring.is-hovering {
+  width: 56px;
+  height: 56px;
+  background: rgba(168, 85, 247, 0.1);
+  border-color: rgba(168, 85, 247, 0.85);
+}
+.cursor-active .cursor-dot,
+.cursor-active .cursor-ring { opacity: 1; }
+
+@media (hover: hover) and (pointer: fine) {
+  .cursor-active,
+  .cursor-active a,
+  .cursor-active button,
+  .cursor-active input,
+  .cursor-active textarea { cursor: none !important; }
+}
+@media (hover: none), (pointer: coarse) {
+  .cursor-dot, .cursor-ring { display: none; }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
@@ -1222,4 +1307,8 @@ h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.15; color: var
   .marquee__track { animation: none; }
   [data-reveal] { opacity: 1; transform: none; }
   .stats__number { animation: none; background: var(--color-white); -webkit-text-fill-color: var(--color-white); }
+  .hero__headline .char { opacity: 1; filter: none; transform: none; animation: none; }
+  .feature-card { transform: none !important; }
+  .btn--primary { transform: none !important; }
+  .cursor-dot, .cursor-ring { display: none; }
 }

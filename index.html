@@ -16,6 +16,10 @@
 </head>
 <body>
 
+  <!-- Custom cursor -->
+  <div class="cursor-dot"  id="cursorDot"  aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
   <!-- Scroll progress bar -->
   <div class="scroll-progress" id="scrollProgress"></div>
 
@@ -74,7 +78,7 @@
           <span class="hero__badge-dot"></span>
           <span>Free forever. No configuration required.</span>
         </div>
-        <h1 class="hero__headline" data-reveal="up">
+        <h1 class="hero__headline" id="heroHeadline">
           Your server,<br />
           built in <span class="text-gradient">seconds.</span>
         </h1>
@@ -924,6 +928,140 @@
         }
       }, { passive: true });
     }
+
+    // ── Letter-by-letter hero reveal ────────────────────────────────────
+    (function splitHeroChars() {
+      const headline = document.getElementById('heroHeadline');
+      if (!headline) return;
+      let i = 0;
+      function walk(node) {
+        Array.from(node.childNodes).forEach(child => {
+          if (child.nodeType === Node.TEXT_NODE) {
+            const text = child.textContent;
+            const frag = document.createDocumentFragment();
+            for (const ch of text) {
+              if (ch === ' ' || ch === '\n' || ch === '\t') {
+                frag.appendChild(document.createTextNode(ch));
+                continue;
+              }
+              const span = document.createElement('span');
+              span.className = 'char';
+              span.textContent = ch;
+              span.style.animationDelay = (i * 32) + 'ms';
+              frag.appendChild(span);
+              i++;
+            }
+            child.replaceWith(frag);
+          } else if (child.nodeType === Node.ELEMENT_NODE && child.tagName !== 'BR') {
+            walk(child);
+          }
+        });
+      }
+      walk(headline);
+    })();
+
+    // ── 3D tilt on feature cards ────────────────────────────────────────
+    document.querySelectorAll('.feature-card').forEach(card => {
+      let rafId;
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width  - 0.5; // -0.5 to 0.5
+        const y = (e.clientY - rect.top)  / rect.height - 0.5;
+        cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(() => {
+          card.style.transition = 'transform 80ms linear';
+          card.style.transform = `rotateX(${-y * 8}deg) rotateY(${x * 10}deg) translateZ(0)`;
+        });
+      });
+      card.addEventListener('mouseleave', () => {
+        cancelAnimationFrame(rafId);
+        card.style.transition = 'transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)';
+        card.style.transform = 'rotateX(0) rotateY(0) translateZ(0)';
+      });
+    });
+
+    // ── Magnetic primary buttons ────────────────────────────────────────
+    document.querySelectorAll('.btn--primary').forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width  / 2;
+        const y = e.clientY - rect.top  - rect.height / 2;
+        btn.style.transition = 'transform 90ms linear';
+        btn.style.transform = `translate(${x * 0.22}px, ${y * 0.35}px)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transition = 'transform 0.45s cubic-bezier(0.22, 1, 0.36, 1)';
+        btn.style.transform = 'translate(0, 0)';
+      });
+    });
+
+    // ── Custom cursor — dot + lagging ring ──────────────────────────────
+    (function customCursor() {
+      // Only enable on devices with a fine pointer + hover
+      if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+      const dot  = document.getElementById('cursorDot');
+      const ring = document.getElementById('cursorRing');
+      if (!dot || !ring) return;
+
+      document.body.classList.add('cursor-active');
+
+      let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+      let rx = mx, ry = my;
+
+      window.addEventListener('mousemove', (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
+      }, { passive: true });
+
+      // Smooth lagging ring
+      (function ringFollow() {
+        rx += (mx - rx) * 0.18;
+        ry += (my - ry) * 0.18;
+        ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
+        requestAnimationFrame(ringFollow);
+      })();
+
+      // Hover state on interactive elements
+      const interactiveSelector = 'a, button, [role="button"], .feature-card, .stats__item, .mockup__select, .mockup__channel-list .mockup__channel';
+      document.addEventListener('mouseover', (e) => {
+        if (e.target.closest(interactiveSelector)) ring.classList.add('is-hovering');
+      });
+      document.addEventListener('mouseout', (e) => {
+        if (e.target.closest(interactiveSelector)) ring.classList.remove('is-hovering');
+      });
+    })();
+
+    // ── Subtle click sound on every button / link click ─────────────────
+    (function clickSound() {
+      let audioCtx = null;
+      function getCtx() {
+        if (!audioCtx) {
+          const C = window.AudioContext || window.webkitAudioContext;
+          if (!C) return null;
+          audioCtx = new C();
+        }
+        return audioCtx;
+      }
+      function playClick() {
+        const ctx = getCtx();
+        if (!ctx) return;
+        const t = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(880, t);
+        osc.frequency.exponentialRampToValueAtTime(220, t + 0.06);
+        gain.gain.setValueAtTime(0.08, t);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.07);
+        osc.connect(gain).connect(ctx.destination);
+        osc.start(t);
+        osc.stop(t + 0.08);
+      }
+      document.addEventListener('click', (e) => {
+        if (e.target.closest('a, button, [role="button"]')) playClick();
+      });
+    })();
 
     mockupConfirm.addEventListener('click', () => {
       if (mockupActive < 0) return;
