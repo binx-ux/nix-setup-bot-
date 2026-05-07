@@ -930,6 +930,8 @@
     }
 
     // ── Letter-by-letter hero reveal ────────────────────────────────────
+    // Wrap each char in a .char span EXCEPT for elements with gradient/special
+    // styling — those get animated as a single unit so we don't break their effect.
     (function splitHeroChars() {
       const headline = document.getElementById('heroHeadline');
       if (!headline) return;
@@ -953,7 +955,15 @@
             }
             child.replaceWith(frag);
           } else if (child.nodeType === Node.ELEMENT_NODE && child.tagName !== 'BR') {
-            walk(child);
+            // Treat gradient-text spans as one animated unit (preserves the gradient)
+            if (child.classList?.contains('text-gradient')) {
+              child.classList.add('char');
+              child.style.animationDelay = (i * 32) + 'ms';
+              // Advance the index by visible char count so subsequent letters keep the cadence
+              i += (child.textContent || '').replace(/\s/g, '').length;
+            } else {
+              walk(child);
+            }
           }
         });
       }
