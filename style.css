@@ -1215,6 +1215,104 @@ h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.15; color: var
 }
 
 /* ─────────────────────────────────────────────────────────────────
+   Top-of-page announcement banner — dismissible, persists via localStorage
+   ───────────────────────────────────────────────────────────────── */
+.announcement {
+  position: relative;
+  z-index: 50;
+  background:
+    linear-gradient(90deg,
+      rgba(124, 58, 237, 0.18) 0%,
+      rgba(168, 85, 247, 0.28) 50%,
+      rgba(124, 58, 237, 0.18) 100%);
+  border-bottom: 1px solid rgba(168, 85, 247, 0.35);
+  padding: 11px 0;
+  font-size: 0.85rem;
+  color: var(--color-text);
+  overflow: hidden;
+  animation: announce-slide-down 0.55s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+@keyframes announce-slide-down {
+  from { opacity: 0; transform: translateY(-100%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.announcement::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.12) 48%,
+    rgba(255, 255, 255, 0.22) 50%,
+    rgba(255, 255, 255, 0.12) 52%,
+    transparent 70%);
+  background-size: 250% 100%;
+  animation: announce-shimmer 5s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes announce-shimmer {
+  0%   { background-position: -150% 50%; }
+  100% { background-position:  250% 50%; }
+}
+.announcement__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+.announcement__pill {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-purple-light);
+  background: rgba(124, 58, 237, 0.18);
+  border: 1px solid rgba(124, 58, 237, 0.35);
+  border-radius: var(--radius-full);
+  padding: 3px 10px;
+}
+.announcement__text { color: var(--color-text); }
+.announcement__text strong { color: var(--color-white); font-weight: 600; }
+.announcement__eta {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--color-purple-light);
+  background: rgba(124, 58, 237, 0.12);
+  border: 1px solid rgba(124, 58, 237, 0.25);
+  border-radius: var(--radius-full);
+  padding: 2px 9px;
+  margin-left: 4px;
+}
+.announcement__close {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: 0;
+  color: var(--color-text-muted);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: color var(--transition-fast);
+}
+.announcement__close:hover { color: var(--color-white); }
+.announcement.is-dismissed { display: none; }
+
+@media (max-width: 600px) {
+  .announcement__inner { padding-right: 36px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .announcement, .announcement::before { animation: none; }
+}
+
+/* ─────────────────────────────────────────────────────────────────
    Letter-by-letter reveal — hero animates on load,
    section headings animate when scrolled into view
    ───────────────────────────────────────────────────────────────── */

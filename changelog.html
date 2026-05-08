@@ -212,6 +212,18 @@
   </div>
   <div class="noise" aria-hidden="true"></div>
 
+  <!-- Announcement banner — dismissible, persists via localStorage -->
+  <div class="announcement" id="announcementBanner" data-eta="2026-05-10T16:00:00Z" data-version="v1.9">
+    <div class="container announcement__inner">
+      <span class="announcement__pill">Heads up</span>
+      <span class="announcement__text">
+        <strong>Big update incoming.</strong> Major feature drops in
+      </span>
+      <span class="announcement__eta" id="announcementEta">~2 days</span>
+      <button class="announcement__close" id="announcementClose" aria-label="Dismiss announcement">×</button>
+    </div>
+  </div>
+
   <nav class="nav" id="nav">
     <div class="nav__inner container">
       <a href="index.html" class="nav__logo" aria-label="NIX Setup Bot home">
@@ -317,6 +329,29 @@
   </footer>
 
   <script>
+    // Announcement banner — countdown + dismiss persistence
+    (function announcement() {
+      const banner = document.getElementById('announcementBanner');
+      if (!banner) return;
+      const storageKey = `nix-announce-dismissed-${banner.dataset.version || 'v1'}`;
+      if (localStorage.getItem(storageKey) === 'yes') { banner.classList.add('is-dismissed'); return; }
+      const eta = new Date(banner.dataset.eta);
+      const etaEl = document.getElementById('announcementEta');
+      function tick() {
+        const ms = eta - new Date();
+        if (ms <= 0) { etaEl.textContent = 'now'; return; }
+        const days  = Math.floor(ms / 86400000);
+        const hours = Math.floor((ms % 86400000) / 3600000);
+        const mins  = Math.floor((ms % 3600000) / 60000);
+        etaEl.textContent = days > 0 ? `${days}d ${hours}h` : hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
+      }
+      tick(); setInterval(tick, 60000);
+      document.getElementById('announcementClose').addEventListener('click', () => {
+        banner.classList.add('is-dismissed');
+        localStorage.setItem(storageKey, 'yes');
+      });
+    })();
+
     const progressBar = document.getElementById('scrollProgress');
     window.addEventListener('scroll', () => {
       const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
