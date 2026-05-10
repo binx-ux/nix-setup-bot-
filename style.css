@@ -1288,6 +1288,15 @@ h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.15; color: var
   padding: 2px 9px;
   margin-left: 4px;
 }
+.announcement__link {
+  color: var(--color-purple-light);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  margin-left: 4px;
+  transition: color var(--transition-fast);
+}
+.announcement__link:hover { color: var(--color-white); }
+
 .announcement__close {
   position: absolute;
   right: 16px;

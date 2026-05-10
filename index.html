@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NIX Setup Bot — Your server, built in seconds.</title>
-  <meta name="description" content="NIX Setup Bot by binxix. Pick from 25+ Discord server templates and get roles, channels, and categories created instantly. Free forever." />
+  <meta name="description" content="NIX Setup Bot by binxix. Pick from 45+ Discord server templates, or export your own server as a shareable code. Roles, channels, and categories created instantly. Free forever." />
   <meta property="og:title" content="NIX Setup Bot" />
-  <meta property="og:description" content="Pick from 25+ Discord server templates. Roles, channels, and categories created instantly. Free forever." />
+  <meta property="og:description" content="Pick from 45+ Discord server templates. Or export your own server as a shareable code. Free forever." />
   <meta property="og:type" content="website" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -21,13 +21,12 @@
   <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
 
   <!-- Announcement banner — dismissible, persists via localStorage -->
-  <div class="announcement" id="announcementBanner" data-eta="2026-05-11T16:00:00Z" data-version="v1.9.1">
+  <div class="announcement" id="announcementBanner" data-version="v1.9-live">
     <div class="container announcement__inner">
-      <span class="announcement__pill">Update</span>
+      <span class="announcement__pill">New</span>
       <span class="announcement__text">
-        <strong>Update pushed back to May 11.</strong> Now dropping in
+        <strong>v1.9.0 is live</strong> — Server Export &amp; Import is here. <a href="changelog.html" class="announcement__link">See what's new →</a>
       </span>
-      <span class="announcement__eta" id="announcementEta">~3 days</span>
       <button class="announcement__close" id="announcementClose" aria-label="Dismiss announcement">×</button>
     </div>
   </div>
@@ -95,7 +94,7 @@
           built in <span class="text-gradient">seconds.</span>
         </h1>
         <p class="hero__sub" data-reveal="up">
-          Pick from 25+ professionally designed server templates. NIX creates every role,
+          Pick from 45+ professionally designed server templates. NIX creates every role,
           channel, and category automatically — then steps aside.
         </p>
         <div class="hero__ctas" data-reveal="up">
@@ -247,7 +246,7 @@
               <h3 class="steps__title">Run /setup</h3>
               <p class="steps__desc">
                 Type <code class="code-inline">/setup</code> in any channel. A dropdown appears
-                with all 25+ templates. Select the one that fits your community.
+                with all 45+ templates. Select the one that fits your community.
               </p>
             </div>
           </div>
@@ -643,21 +642,23 @@
         return;
       }
 
-      // Live countdown
-      const eta = new Date(banner.dataset.eta);
+      // Live countdown — only runs if banner has a data-eta and an eta element
       const etaEl = document.getElementById('announcementEta');
-      function tick() {
-        const ms = eta - new Date();
-        if (ms <= 0) { etaEl.textContent = 'now'; return; }
-        const days  = Math.floor(ms / 86400000);
-        const hours = Math.floor((ms % 86400000) / 3600000);
-        const mins  = Math.floor((ms % 3600000) / 60000);
-        if (days > 0)       etaEl.textContent = `${days}d ${hours}h`;
-        else if (hours > 0) etaEl.textContent = `${hours}h ${mins}m`;
-        else                etaEl.textContent = `${mins}m`;
+      if (banner.dataset.eta && etaEl) {
+        const eta = new Date(banner.dataset.eta);
+        function tick() {
+          const ms = eta - new Date();
+          if (ms <= 0) { etaEl.textContent = 'now'; return; }
+          const days  = Math.floor(ms / 86400000);
+          const hours = Math.floor((ms % 86400000) / 3600000);
+          const mins  = Math.floor((ms % 3600000) / 60000);
+          if (days > 0)       etaEl.textContent = `${days}d ${hours}h`;
+          else if (hours > 0) etaEl.textContent = `${hours}h ${mins}m`;
+          else                etaEl.textContent = `${mins}m`;
+        }
+        tick();
+        setInterval(tick, 60000);
       }
-      tick();
-      setInterval(tick, 60000);
 
       document.getElementById('announcementClose').addEventListener('click', () => {
         banner.classList.add('is-dismissed');

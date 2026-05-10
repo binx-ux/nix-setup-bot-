@@ -128,13 +128,12 @@
 <body>
 
   <!-- Announcement banner -->
-  <div class="announcement" id="announcementBanner" data-eta="2026-05-11T16:00:00Z" data-version="v1.9.1">
+  <div class="announcement" id="announcementBanner" data-version="v1.9-live">
     <div class="container announcement__inner">
-      <span class="announcement__pill">Update</span>
+      <span class="announcement__pill">New</span>
       <span class="announcement__text">
-        <strong>Update pushed back to May 11.</strong> Now dropping in
+        <strong>v1.9.0 is live</strong> — Server Export &amp; Import is here. <a href="changelog.html" class="announcement__link">See what's new →</a>
       </span>
-      <span class="announcement__eta" id="announcementEta">~3 days</span>
       <button class="announcement__close" id="announcementClose" aria-label="Dismiss announcement">×</button>
     </div>
   </div>
@@ -335,6 +334,84 @@
 
           </div>
 
+          <!-- Export / Import -->
+          <div class="faq-group">
+            <div class="faq-group__label">Export &amp; Import</div>
+
+            <div class="faq-item">
+              <button class="faq-item__trigger" aria-expanded="false">
+                <span class="faq-item__question">What does /export do?</span>
+                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
+              </button>
+              <div class="faq-item__body">
+                <div class="faq-item__answer">/export packages your server's channel layout (categories and channels) into a short shareable code like <code>NIX-A3K7B2</code>. The code gets DMed to you privately. Anyone you share it with can run /import to build the same channel structure on their own server.</div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-item__trigger" aria-expanded="false">
+                <span class="faq-item__question">What gets included in an export?</span>
+                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
+              </button>
+              <div class="faq-item__body">
+                <div class="faq-item__answer">Only the channel layout: category names and channel names (text + voice). <strong>Roles are NOT exported by design</strong> — this prevents anyone from sharing roles with malicious permissions. <strong>Also never included:</strong> messages, member lists, server settings, audit logs, integrations, custom emojis, or anything user-specific. Channels-only by design.</div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-item__trigger" aria-expanded="false">
+                <span class="faq-item__question">How do you stop scammers from sharing harmful templates?</span>
+                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
+              </button>
+              <div class="faq-item__body">
+                <div class="faq-item__answer">Every export goes through a 4-layer moderation pipeline before a code is generated: a hard-block keyword list (scams, phishing, malware tools), pattern detection for homoglyph attacks and obfuscation, size limits, and AI moderation via OpenAI's content policy API. Exports get re-checked again on import in case rules tightened. Anything flagged is rejected with no code created and the rejection is logged for review.</div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-item__trigger" aria-expanded="false">
+                <span class="faq-item__question">Do export codes expire?</span>
+                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
+              </button>
+              <div class="faq-item__body">
+                <div class="faq-item__answer">Yes. Every code automatically expires 30 days after creation. You can also revoke a code anytime with <code>/revoke &lt;code&gt;</code> if you change your mind or it leaks.</div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-item__trigger" aria-expanded="false">
+                <span class="faq-item__question">Are there limits on how often I can export or import?</span>
+                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
+              </button>
+              <div class="faq-item__body">
+                <div class="faq-item__answer">Yes — to prevent abuse: max 3 exports per user per 24 hours, max 10 imports per user per 24 hours. Use <code>/exports</code> to see all the codes you've created and how many times each has been imported.</div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-item__trigger" aria-expanded="false">
+                <span class="faq-item__question">Can other people see codes I created?</span>
+                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
+              </button>
+              <div class="faq-item__body">
+                <div class="faq-item__answer">No. There's no public gallery or browse list — codes only travel through DMs you choose to send. Anyone with a code can use it though, so treat it like a private link. Only the original creator can revoke a code with <code>/revoke</code>.</div>
+              </div>
+            </div>
+
+          </div>
+
         </div>
       </div>
     </section>
@@ -367,17 +444,19 @@
       if (!banner) return;
       const storageKey = `nix-announce-dismissed-${banner.dataset.version || 'v1'}`;
       if (localStorage.getItem(storageKey) === 'yes') { banner.classList.add('is-dismissed'); return; }
-      const eta = new Date(banner.dataset.eta);
       const etaEl = document.getElementById('announcementEta');
-      function tick() {
-        const ms = eta - new Date();
-        if (ms <= 0) { etaEl.textContent = 'now'; return; }
-        const days  = Math.floor(ms / 86400000);
-        const hours = Math.floor((ms % 86400000) / 3600000);
-        const mins  = Math.floor((ms % 3600000) / 60000);
-        etaEl.textContent = days > 0 ? `${days}d ${hours}h` : hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
+      if (banner.dataset.eta && etaEl) {
+        const eta = new Date(banner.dataset.eta);
+        function tick() {
+          const ms = eta - new Date();
+          if (ms <= 0) { etaEl.textContent = 'now'; return; }
+          const days  = Math.floor(ms / 86400000);
+          const hours = Math.floor((ms % 86400000) / 3600000);
+          const mins  = Math.floor((ms % 3600000) / 60000);
+          etaEl.textContent = days > 0 ? `${days}d ${hours}h` : hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
+        }
+        tick(); setInterval(tick, 60000);
       }
-      tick(); setInterval(tick, 60000);
       document.getElementById('announcementClose').addEventListener('click', () => {
         banner.classList.add('is-dismissed');
         localStorage.setItem(storageKey, 'yes');
