@@ -10,6 +10,7 @@
   <meta property="og:type" content="website" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
@@ -53,6 +54,7 @@
       </a>
       <ul class="nav__links" role="list">
         <li><a href="#templates" class="nav__link">Templates</a></li>
+        <li><a href="#meet" class="nav__link">Meet NIX</a></li>
         <li><a href="#how-it-works" class="nav__link">How It Works</a></li>
         <li><a href="changelog.html" class="nav__link">Changelog</a></li>
         <li><a href="faq.html" class="nav__link">FAQ</a></li>
@@ -206,6 +208,46 @@
             <div class="stats__number" id="stat-reviews">—</div>
             <div class="stats__label">Ratings</div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== MEET NIX (3D model) ===================== -->
+    <section class="meet" id="meet" aria-label="3D model of NIX Bot">
+      <div class="container meet__inner">
+        <div class="meet__copy" data-reveal="up">
+          <div class="section-label">MEET NIX</div>
+          <h2 class="section-heading">The bot, in 3D.</h2>
+          <p class="meet__sub">
+            Drag to rotate. Scroll to zoom. Tap and hold on mobile.
+            That's NIX — the bot that builds your server for you.
+          </p>
+        </div>
+        <div class="meet__viewer" data-reveal="up">
+          <model-viewer
+            id="nixModel"
+            src="assets/3d/nix-bot.glb"
+            alt="NIX Bot 3D model"
+            camera-controls
+            touch-action="pan-y"
+            auto-rotate
+            auto-rotate-delay="3000"
+            rotation-per-second="20deg"
+            interaction-prompt="auto"
+            shadow-intensity="1"
+            exposure="1"
+            environment-image="neutral"
+            loading="lazy"
+            reveal="auto"
+            ar
+            ar-modes="webxr scene-viewer quick-look"
+          >
+            <div slot="poster" class="meet__poster">
+              <div class="meet__poster-spinner"></div>
+              <span>Loading 3D model…</span>
+            </div>
+            <div slot="progress-bar" class="meet__progress"></div>
+          </model-viewer>
         </div>
       </div>
     </section>

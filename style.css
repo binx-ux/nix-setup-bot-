@@ -1215,6 +1215,93 @@ h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.15; color: var
 }
 
 /* ─────────────────────────────────────────────────────────────────
+   Meet NIX — 3D model viewer section
+   ───────────────────────────────────────────────────────────────── */
+.meet {
+  padding: 96px 0;
+  position: relative;
+  z-index: 2;
+}
+.meet__inner {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 64px;
+  align-items: center;
+}
+.meet__copy { max-width: 460px; }
+.meet__sub {
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-top: 18px;
+}
+.meet__viewer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-width: 560px;
+  margin-left: auto;
+  border-radius: var(--radius-xl, 24px);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(168, 85, 247, 0.16), transparent 60%),
+    radial-gradient(circle at 70% 70%, rgba(124, 58, 237, 0.12), transparent 60%),
+    var(--color-bg-elev, #0e1018);
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.08));
+  box-shadow: 0 30px 80px -30px rgba(124, 58, 237, 0.5);
+}
+.meet__viewer model-viewer {
+  width: 100%;
+  height: 100%;
+  --poster-color: transparent;
+  background-color: transparent;
+  outline: none;
+}
+.meet__poster {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(168, 85, 247, 0.16), transparent 60%),
+    radial-gradient(circle at 70% 70%, rgba(124, 58, 237, 0.12), transparent 60%),
+    var(--color-bg-elev, #0e1018);
+}
+.meet__poster-spinner {
+  width: 36px;
+  height: 36px;
+  border: 2px solid rgba(168, 85, 247, 0.25);
+  border-top-color: var(--color-purple-light);
+  border-radius: 50%;
+  animation: meet-spin 0.9s linear infinite;
+}
+@keyframes meet-spin { to { transform: rotate(360deg); } }
+.meet__progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-purple-light), var(--color-purple));
+  transition: width 0.2s ease;
+}
+
+@media (max-width: 900px) {
+  .meet { padding: 64px 0; }
+  .meet__inner { grid-template-columns: 1fr; gap: 32px; }
+  .meet__copy { max-width: none; text-align: center; margin: 0 auto; }
+  .meet__viewer { max-width: 100%; margin: 0 auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .meet__poster-spinner { animation: none; }
+}
+
+/* ─────────────────────────────────────────────────────────────────
    Top-of-page announcement banner — dismissible, persists via localStorage
    ───────────────────────────────────────────────────────────────── */
 .announcement {
