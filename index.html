@@ -264,7 +264,11 @@
     <section class="steps" id="how-it-works">
       <div class="container">
         <div class="section-label" data-reveal="up">HOW IT WORKS</div>
-        <h2 class="section-heading" data-reveal="up">Three steps. No configuration.</h2>
+        <h2 class="section-heading" data-reveal="up">Four steps. No configuration.</h2>
+        <p class="steps__intro" data-reveal="up">
+          From empty server to fully built community in under a minute. Here's exactly what happens at each step.
+        </p>
+
         <div class="steps__list">
 
           <div class="steps__item" data-reveal="up">
@@ -275,14 +279,18 @@
             <div class="steps__content">
               <h3 class="steps__title">Invite the bot</h3>
               <p class="steps__desc">
-                Add NIX to your Discord server with a single click. It requests only
-                the permissions needed to build your server structure.
+                Add NIX to your Discord server with a single click. It requests only the four
+                permissions it needs: <em>Manage Channels</em>, <em>Manage Roles</em>,
+                <em>View Channels</em>, and <em>Send Messages</em>. Nothing else.
               </p>
+              <ul class="steps__bullets">
+                <li>Takes about 10 seconds end to end</li>
+                <li>You can kick the bot at any time with no side effects</li>
+                <li>No data is collected about your existing members or messages</li>
+              </ul>
               <a
-                href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot"
+                href="https://nix-setup-bot.vercel.app/add"
                 class="steps__link"
-                target="_blank"
-                rel="noopener noreferrer"
               >Add to Server &rarr;</a>
             </div>
           </div>
@@ -293,28 +301,95 @@
               <div class="steps__line" aria-hidden="true"></div>
             </div>
             <div class="steps__content">
-              <h3 class="steps__title">Run /setup</h3>
+              <h3 class="steps__title">Run /setup and pick a template</h3>
               <p class="steps__desc">
-                Type <code class="code-inline">/setup</code> in any channel. A dropdown appears
-                with all 45+ templates. Select the one that fits your community.
+                Type <code class="code-inline">/setup</code> in any channel. Only the server
+                owner can run it. A category dropdown appears first (Shooter, Survival, VR,
+                Trading, plus 13 more), then a template picker, then a full preview.
               </p>
+              <ul class="steps__bullets">
+                <li>46+ templates across 17 picker categories</li>
+                <li>See every role and channel before you confirm anything</li>
+                <li>"Build &amp; Leave" or "Build &amp; Stay" — your choice</li>
+                <li>Cancel any time before the final confirm</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="steps__item" data-reveal="up">
+            <div class="steps__left">
+              <div class="steps__number">03</div>
+              <div class="steps__line" aria-hidden="true"></div>
+            </div>
+            <div class="steps__content">
+              <h3 class="steps__title">Server is built in real time</h3>
+              <p class="steps__desc">
+                NIX creates every role bottom-up so the hierarchy comes out right, then builds
+                categories and channels with the correct permission tiers. You watch live progress
+                in the embed as it runs.
+              </p>
+              <ul class="steps__bullets">
+                <li>Live counter shows roles and channels as they're created</li>
+                <li>Existing roles or channels with the same name are skipped, not overwritten</li>
+                <li>Assign Admin and Moderator roles to your team without leaving Discord</li>
+                <li>Full setup summary delivered to your DMs — or in-channel if DMs are off</li>
+                <li>Run <code class="code-inline">/undo</code> to roll everything back if you change your mind</li>
+              </ul>
             </div>
           </div>
 
           <div class="steps__item steps__item--last" data-reveal="up">
             <div class="steps__left">
-              <div class="steps__number">03</div>
+              <div class="steps__number">04</div>
             </div>
             <div class="steps__content">
-              <h3 class="steps__title">Done — it leaves</h3>
+              <h3 class="steps__title">Share or duplicate your server</h3>
               <p class="steps__desc">
-                NIX creates every role, channel, and category instantly. You receive a
-                DM with a full summary and optional invite links for Carl-bot and Arcane.
-                NIX can leave your server automatically so it stays clean.
+                Once your server is set up the way you like it, run
+                <code class="code-inline">/export</code> to package the channel layout into a
+                shareable code like <code class="code-inline">NIX-A3K7B2</code>. Send the code
+                to a friend, they run <code class="code-inline">/import</code> and rebuild your
+                structure on their own server in seconds.
               </p>
+              <ul class="steps__bullets">
+                <li>Channels-only by design — no roles travel, no security risk</li>
+                <li>Every export passes 4 moderation layers before a code is generated</li>
+                <li>Codes auto-expire after 30 days, revoke anytime with <code class="code-inline">/revoke</code></li>
+                <li>Track all your codes with <code class="code-inline">/exports</code></li>
+              </ul>
             </div>
           </div>
 
+        </div>
+
+        <!-- Behind-the-scenes callouts — extra things NIX does automatically -->
+        <div class="behind" data-reveal="up">
+          <div class="behind__heading">
+            <div class="section-label">BEHIND THE SCENES</div>
+            <h3 class="behind__title">Things NIX handles automatically</h3>
+          </div>
+          <div class="behind__grid">
+            <div class="behind__card">
+              <div class="behind__icon">🛡️</div>
+              <div class="behind__name">File scanning</div>
+              <p class="behind__desc">Every executable, script, or installer uploaded to your server is auto-scanned with VirusTotal against 70+ engines. Malicious files are deleted automatically.</p>
+            </div>
+            <div class="behind__card">
+              <div class="behind__icon">📰</div>
+              <div class="behind__name">AI news feeds</div>
+              <p class="behind__desc">12 AI labs polled every 30 minutes. Each source posts to its own dedicated channel if you have one (#openai, #anthropic, #midjourney, etc.).</p>
+            </div>
+            <div class="behind__card">
+              <div class="behind__icon">🚫</div>
+              <div class="behind__name">Scam protection on exports</div>
+              <p class="behind__desc">Hard-block keywords, homoglyph attack detection, size limits, and OpenAI's Moderation API screen every export before a code is generated.</p>
+            </div>
+            <div class="behind__card">
+              <div class="behind__icon">📊</div>
+              <div class="behind__name">Setup history tracking</div>
+              <p class="behind__desc">Every <code class="code-inline">/setup</code> is logged with role and channel IDs so <code class="code-inline">/undo</code> always knows exactly what to remove.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
