@@ -42,13 +42,11 @@ export default async function handler(req, res) {
   };
 
   // ── 1. Insert into Supabase ─────────────────────────────────────────────
-  const SUPABASE_URL = process.env.SUPABASE_URL;
-  const SUPABASE_KEY = process.env.SUPABASE_ANON_KEY;
-
-  if (!SUPABASE_URL || !SUPABASE_KEY) {
-    console.error('[SUBMIT] Supabase env vars missing');
-    return res.status(500).json({ error: 'Server is misconfigured. Try again later.' });
-  }
+  // Public anon key — already embedded in requests.html for client-side reads.
+  // RLS policies on Supabase are what actually protect the data.
+  // Env vars take precedence if set in Vercel.
+  const SUPABASE_URL = process.env.SUPABASE_URL ?? 'https://mngubaoitgpuzantzjjf.supabase.co';
+  const SUPABASE_KEY = process.env.SUPABASE_ANON_KEY ?? 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1uZ3ViYW9pdGdwdXphbnR6ampmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3MTQzMjYsImV4cCI6MjA5MzI5MDMyNn0.p0Z75TNm9iE-IO2cWXh4XJAQGhFI38oosTNKPsWwj7s';
 
   try {
     const insertRes = await fetch(`${SUPABASE_URL}/rest/v1/template_requests`, {
