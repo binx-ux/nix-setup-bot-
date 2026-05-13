@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Templates — NIX Setup Bot</title>
+  <meta name="description" content="Browse all 46+ Discord server templates available in NIX Setup Bot. Filter by category, expand to see every channel and role." />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-hero {
+      padding: 120px 0 48px;
+      text-align: center;
+    }
+    .page-hero .section-label { margin-bottom: 16px; }
+    .page-hero h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      color: var(--color-white);
+      margin-bottom: 12px;
+    }
+    .page-hero p {
+      color: var(--color-text-muted);
+      font-size: 1rem;
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    /* Search + filter row */
+    .tpl-controls {
+      max-width: 1100px;
+      margin: 0 auto 32px;
+      padding: 0 var(--space-6);
+    }
+    .tpl-search {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md, 12px);
+      color: var(--color-white);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+    .tpl-search:focus {
+      outline: none;
+      border-color: rgba(168, 85, 247, 0.55);
+      background: rgba(124, 58, 237, 0.05);
+    }
+    .tpl-search::placeholder { color: var(--color-text-faint); }
+
+    .tpl-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .tpl-filter {
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-full);
+      padding: 5px 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .tpl-filter:hover {
+      color: var(--color-white);
+      border-color: rgba(168, 85, 247, 0.3);
+    }
+    .tpl-filter.is-active {
+      background: rgba(124, 58, 237, 0.18);
+      color: var(--color-purple-light);
+      border-color: rgba(124, 58, 237, 0.55);
+    }
+    .tpl-count {
+      color: var(--color-text-muted);
+      font-size: 0.85rem;
+      margin-top: 16px;
+      font-family: var(--font-mono);
+    }
+
+    /* Templates grid */
+    .tpl-section {
+      padding: 0 var(--space-6) 96px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .tpl-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 16px;
+    }
+    .tpl-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg, 16px);
+      padding: 18px;
+      cursor: pointer;
+      transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .tpl-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--card-color, #7C3AED);
+      opacity: 0.6;
+    }
+    .tpl-card:hover {
+      border-color: rgba(168, 85, 247, 0.35);
+      background: rgba(124, 58, 237, 0.03);
+      transform: translateY(-2px);
+    }
+    .tpl-card.is-placeholder {
+      opacity: 0.6;
+    }
+    .tpl-card__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .tpl-card__title {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: var(--color-white);
+    }
+    .tpl-card__placeholder-pill {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #fbbf24;
+      background: rgba(251,191,36,0.1);
+      border: 1px solid rgba(251,191,36,0.25);
+      border-radius: var(--radius-full);
+      padding: 2px 8px;
+    }
+    .tpl-card__category {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--color-purple-light);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+    .tpl-card__desc {
+      color: var(--color-text);
+      font-size: 0.85rem;
+      line-height: 1.55;
+      margin-bottom: 12px;
+    }
+    .tpl-card__stats {
+      display: flex;
+      gap: 14px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--color-text-muted);
+    }
+    .tpl-card__stats strong { color: var(--color-white); font-weight: 600; }
+    .tpl-card__expand-hint {
+      color: var(--color-text-faint);
+      font-size: 0.7rem;
+      margin-top: 12px;
+      text-align: right;
+      font-family: var(--font-mono);
+    }
+
+    /* Modal/details overlay */
+    .tpl-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: tpl-fade-in 0.2s ease;
+    }
+    .tpl-modal.is-open { display: flex; }
+    @keyframes tpl-fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+    .tpl-modal__inner {
+      background: var(--color-bg-elev, #0e1018);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl, 20px);
+      width: 100%;
+      max-width: 700px;
+      max-height: 85vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      animation: tpl-slide-up 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes tpl-slide-up {
+      from { transform: translateY(20px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+    .tpl-modal__header {
+      padding: 22px 24px;
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .tpl-modal__title {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--color-white);
+      margin-bottom: 4px;
+    }
+    .tpl-modal__sub {
+      color: var(--color-text-muted);
+      font-size: 0.88rem;
+      line-height: 1.55;
+    }
+    .tpl-modal__close {
+      background: none;
+      border: 0;
+      color: var(--color-text-muted);
+      font-size: 1.4rem;
+      cursor: pointer;
+      padding: 4px 10px;
+      transition: color 0.15s ease;
+      flex-shrink: 0;
+    }
+    .tpl-modal__close:hover { color: var(--color-white); }
+    .tpl-modal__body {
+      padding: 22px 24px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .tpl-modal__stats-row {
+      display: flex;
+      gap: 18px;
+      margin-bottom: 22px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--color-border);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--color-text-muted);
+    }
+    .tpl-modal__stat strong { color: var(--color-white); font-size: 0.95rem; display: block; font-family: var(--font-heading); }
+    .tpl-modal__section-h {
+      font-family: var(--font-heading);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-purple-light);
+      margin: 18px 0 10px;
+    }
+    .tpl-modal__roles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .tpl-modal__role {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--color-border);
+    }
+    .tpl-modal__cat {
+      margin-bottom: 14px;
+    }
+    .tpl-modal__cat-name {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--color-white);
+      margin-bottom: 6px;
+      letter-spacing: 0.04em;
+    }
+    .tpl-modal__channels {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 10px;
+      padding-left: 4px;
+    }
+    .tpl-modal__channel {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--color-text);
+    }
+    .tpl-modal__channel--voice {
+      color: var(--color-text-muted);
+    }
+    .tpl-modal__channel::before { content: '#'; opacity: 0.5; margin-right: 1px; }
+    .tpl-modal__channel--voice::before { content: '🔊'; opacity: 0.6; margin-right: 5px; }
+    .tpl-modal__placeholder-note {
+      background: rgba(251,191,36,0.08);
+      border: 1px solid rgba(251,191,36,0.25);
+      border-radius: var(--radius-md, 12px);
+      padding: 14px 16px;
+      color: #fbbf24;
+      font-size: 0.85rem;
+      line-height: 1.55;
+    }
+    .tpl-empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--color-text-muted);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Custom cursor (matches index.html) -->
+  <div class="cursor-dot"  id="cursorDot"  aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+  <!-- Announcement banner -->
+  <div class="announcement" id="announcementBanner" data-version="v1.9-live">
+    <div class="container announcement__inner">
+      <span class="announcement__pill">New</span>
+      <span class="announcement__text">
+        <strong>v1.9.0 is live</strong> — Server Export &amp; Import is here. <a href="changelog.html" class="announcement__link">See what's new →</a>
+      </span>
+      <button class="announcement__close" id="announcementClose" aria-label="Dismiss announcement">×</button>
+    </div>
+  </div>
+
+  <div class="scroll-progress" id="scrollProgress"></div>
+  <div class="aurora" aria-hidden="true">
+    <div class="aurora__blob aurora__blob--1"></div>
+    <div class="aurora__blob aurora__blob--2"></div>
+    <div class="aurora__blob aurora__blob--3"></div>
+  </div>
+  <div class="noise" aria-hidden="true"></div>
+
+  <nav class="nav" id="nav">
+    <div class="nav__inner container">
+      <a href="index.html" class="nav__logo" aria-label="NIX Setup Bot home">
+        <span class="nav__logo-pill">NIX</span>
+        <span class="nav__logo-text">Setup</span>
+      </a>
+      <ul class="nav__links" role="list">
+        <li><a href="templates.html" class="nav__link nav__link--active">Templates</a></li>
+        <li><a href="index.html#how-it-works" class="nav__link">How It Works</a></li>
+        <li><a href="changelog.html" class="nav__link">Changelog</a></li>
+        <li><a href="faq.html" class="nav__link">FAQ</a></li>
+        <li><a href="requests.html" class="nav__link">Requests</a></li>
+      </ul>
+      <a href="https://nix-setup-bot.vercel.app/add" class="btn btn--primary nav__cta">Add to Server</a>
+      <button class="nav__hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav__mobile-backdrop" id="navBackdrop" aria-hidden="true"></div>
+    <div class="nav__mobile" id="navMobile" aria-hidden="true">
+      <a href="templates.html" class="nav__mobile-link">Templates</a>
+      <a href="index.html#how-it-works" class="nav__mobile-link">How It Works</a>
+      <a href="changelog.html" class="nav__mobile-link">Changelog</a>
+      <a href="faq.html" class="nav__mobile-link">FAQ</a>
+      <a href="requests.html" class="nav__mobile-link">Requests</a>
+      <a href="https://nix-setup-bot.vercel.app/add" class="btn btn--primary nav__mobile-cta">Add to Server</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <div class="section-label">TEMPLATES</div>
+        <h1>Browse Every Template</h1>
+        <p>Every template NIX can build. Filter by category, click any template to see the full channel list and roles.</p>
+      </div>
+    </section>
+
+    <div class="tpl-controls">
+      <input type="text" class="tpl-search" id="tplSearch" placeholder="Search templates by name, description, or category…" />
+      <div class="tpl-filters" id="tplFilters">
+        <button class="tpl-filter is-active" data-cat="all">All</button>
+        <!-- Category filters injected here -->
+      </div>
+      <div class="tpl-count" id="tplCount">Loading…</div>
+    </div>
+
+    <section class="tpl-section">
+      <div class="tpl-grid" id="tplGrid">
+        <!-- Cards injected here -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal -->
+  <div class="tpl-modal" id="tplModal" role="dialog" aria-modal="true" aria-labelledby="tplModalTitle">
+    <div class="tpl-modal__inner">
+      <div class="tpl-modal__header">
+        <div>
+          <div class="tpl-modal__title" id="tplModalTitle"></div>
+          <div class="tpl-modal__sub" id="tplModalSub"></div>
+        </div>
+        <button class="tpl-modal__close" id="tplModalClose" aria-label="Close">×</button>
+      </div>
+      <div class="tpl-modal__body" id="tplModalBody"></div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__left">
+        <a href="index.html" class="footer__logo" aria-label="NIX Setup Bot home">
+          <span class="nav__logo-pill">NIX</span>
+          <span class="nav__logo-text">Setup</span>
+        </a>
+        <p class="footer__tagline">Your server, built in seconds.</p>
+      </div>
+      <nav class="footer__links" aria-label="Footer navigation">
+        <a href="templates.html" class="footer__link">Templates</a>
+        <a href="changelog.html" class="footer__link">Changelog</a>
+        <a href="faq.html" class="footer__link">FAQ</a>
+        <a href="https://nix-setup-bot.vercel.app/add" class="footer__link">Add to Server</a>
+      </nav>
+    </div>
+    <div class="container footer__bottom">
+      <p class="footer__copy">&copy; 2026 binxix &middot; NIX Setup Bot &middot; Not affiliated with Discord Inc.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Announcement banner
+    (function announcement() {
+      const banner = document.getElementById('announcementBanner');
+      if (!banner) return;
+      const storageKey = `nix-announce-dismissed-${banner.dataset.version || 'v1'}`;
+      if (localStorage.getItem(storageKey) === 'yes') { banner.classList.add('is-dismissed'); return; }
+      document.getElementById('announcementClose').addEventListener('click', () => {
+        banner.classList.add('is-dismissed');
+        localStorage.setItem(storageKey, 'yes');
+      });
+    })();
+
+    // Scroll progress
+    const progressBar = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', () => {
+      const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+      progressBar.style.width = pct + '%';
+    }, { passive: true });
+
+    // Nav scrolled state
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('nav--scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    // Hamburger drawer
+    const hamburger  = document.getElementById('navHamburger');
+    const mobileMenu = document.getElementById('navMobile');
+    const backdrop   = document.getElementById('navBackdrop');
+    function setMenu(open) {
+      hamburger.setAttribute('aria-expanded', String(open));
+      mobileMenu.setAttribute('aria-hidden', String(!open));
+      hamburger.classList.toggle('is-open', open);
+      mobileMenu.classList.toggle('is-open', open);
+      if (backdrop) backdrop.classList.toggle('is-visible', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+    hamburger.addEventListener('click', () => setMenu(hamburger.getAttribute('aria-expanded') !== 'true'));
+    if (backdrop) backdrop.addEventListener('click', () => setMenu(false));
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && hamburger.getAttribute('aria-expanded') === 'true') setMenu(false); });
+
+    // Custom cursor
+    (function cursor() {
+      if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+      const dot  = document.getElementById('cursorDot');
+      const ring = document.getElementById('cursorRing');
+      if (!dot || !ring) return;
+      document.body.classList.add('cursor-active');
+      let mx = 0, my = 0, rx = 0, ry = 0;
+      window.addEventListener('mousemove', (e) => {
+        mx = e.clientX; my = e.clientY;
+        dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
+      }, { passive: true });
+      (function follow() {
+        rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18;
+        ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
+        requestAnimationFrame(follow);
+      })();
+      const sel = 'a, button, .tpl-card, .tpl-filter';
+      document.addEventListener('mouseover', e => { if (e.target.closest(sel)) ring.classList.add('is-hovering'); });
+      document.addEventListener('mouseout',  e => { if (e.target.closest(sel)) ring.classList.remove('is-hovering'); });
+    })();
+
+    // ── Templates browser ───────────────────────────────────────────────
+    let TEMPLATES = [];
+    let CATEGORIES = [];
+    let activeCategory = 'all';
+    let searchQuery = '';
+
+    function escHtml(str) {
+      return String(str ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+    function hexColor(int) {
+      return '#' + (int || 0).toString(16).padStart(6, '0');
+    }
+
+    async function loadTemplates() {
+      try {
+        const res = await fetch('data/templates.json?v=' + Date.now());
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        TEMPLATES  = data.templates;
+        CATEGORIES = data.categories;
+        renderFilters();
+        renderCards();
+      } catch (err) {
+        document.getElementById('tplGrid').innerHTML =
+          '<div class="tpl-empty">Could not load templates. Try refreshing.</div>';
+        document.getElementById('tplCount').textContent = '';
+      }
+    }
+
+    function renderFilters() {
+      const filters = document.getElementById('tplFilters');
+      const html = ['<button class="tpl-filter is-active" data-cat="all">All</button>'];
+      // Build counts per category
+      const counts = {};
+      TEMPLATES.forEach(t => { counts[t.category.id] = (counts[t.category.id] ?? 0) + 1; });
+      CATEGORIES.forEach(c => {
+        if (!counts[c.id]) return;
+        html.push(`<button class="tpl-filter" data-cat="${c.id}">${escHtml(c.label)} (${counts[c.id]})</button>`);
+      });
+      filters.innerHTML = html.join('');
+      filters.querySelectorAll('.tpl-filter').forEach(btn => {
+        btn.addEventListener('click', () => {
+          filters.querySelectorAll('.tpl-filter').forEach(b => b.classList.remove('is-active'));
+          btn.classList.add('is-active');
+          activeCategory = btn.dataset.cat;
+          renderCards();
+        });
+      });
+    }
+
+    function renderCards() {
+      const grid = document.getElementById('tplGrid');
+      const q = searchQuery.toLowerCase().trim();
+      const filtered = TEMPLATES.filter(t => {
+        if (activeCategory !== 'all' && t.category.id !== activeCategory) return false;
+        if (!q) return true;
+        return t.name.toLowerCase().includes(q)
+            || t.description.toLowerCase().includes(q)
+            || t.category.label.toLowerCase().includes(q);
+      });
+
+      document.getElementById('tplCount').textContent =
+        filtered.length + ' template' + (filtered.length !== 1 ? 's' : '');
+
+      if (!filtered.length) {
+        grid.innerHTML = '<div class="tpl-empty">No templates match your filters.</div>';
+        return;
+      }
+
+      grid.innerHTML = filtered.map(t => `
+        <div class="tpl-card${t.placeholder ? ' is-placeholder' : ''}" data-id="${escHtml(t.id)}" style="--card-color: ${hexColor(t.color)}">
+          <div class="tpl-card__header">
+            <div class="tpl-card__title">${escHtml(t.emoji)} ${escHtml(t.name)}</div>
+            ${t.placeholder ? '<span class="tpl-card__placeholder-pill">Coming Soon</span>' : ''}
+          </div>
+          <div class="tpl-card__category">${escHtml(t.category.label)}</div>
+          <div class="tpl-card__desc">${escHtml(t.description)}</div>
+          ${t.placeholder ? '' : `
+            <div class="tpl-card__stats">
+              <span><strong>${t.roleCount}</strong> roles</span>
+              <span><strong>${t.channelCount}</strong> channels</span>
+              <span><strong>${t.categoryCount}</strong> categories</span>
+            </div>
+            <div class="tpl-card__expand-hint">Click for full details →</div>
+          `}
+        </div>
+      `).join('');
+
+      grid.querySelectorAll('.tpl-card').forEach(card => {
+        card.addEventListener('click', () => openModal(card.dataset.id));
+      });
+    }
+
+    // Modal
+    const modal      = document.getElementById('tplModal');
+    const modalTitle = document.getElementById('tplModalTitle');
+    const modalSub   = document.getElementById('tplModalSub');
+    const modalBody  = document.getElementById('tplModalBody');
+    document.getElementById('tplModalClose').addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal(); });
+
+    function openModal(id) {
+      const t = TEMPLATES.find(x => x.id === id);
+      if (!t) return;
+      modalTitle.innerHTML = escHtml(t.emoji) + ' ' + escHtml(t.name);
+      modalSub.textContent = t.description;
+
+      let body = '';
+
+      if (t.placeholder) {
+        body += `
+          <div class="tpl-modal__placeholder-note">
+            <strong>Coming Soon —</strong> This template is reserved for a future update.
+            Run /setup and pick a different template for now, or
+            <a href="requests.html" style="color: inherit; text-decoration: underline;">submit a request</a>
+            for what you'd like to see in it.
+          </div>`;
+        modalBody.innerHTML = body;
+        modal.classList.add('is-open');
+        return;
+      }
+
+      body += `
+        <div class="tpl-modal__stats-row">
+          <div class="tpl-modal__stat"><strong>${t.roleCount}</strong>roles</div>
+          <div class="tpl-modal__stat"><strong>${t.channelCount}</strong>channels</div>
+          <div class="tpl-modal__stat"><strong>${t.categoryCount}</strong>categories</div>
+          <div class="tpl-modal__stat"><strong>${escHtml(t.category.label)}</strong>category</div>
+        </div>`;
+
+      // Roles section
+      body += '<div class="tpl-modal__section-h">Roles</div>';
+      body += '<div class="tpl-modal__roles">';
+      t.roles.forEach(r => {
+        body += `<span class="tpl-modal__role" style="border-left: 3px solid ${hexColor(r.color)}">${escHtml(r.name)}</span>`;
+      });
+      body += '</div>';
+
+      // Channels section
+      body += '<div class="tpl-modal__section-h">Channels</div>';
+      t.channels.forEach(cat => {
+        body += '<div class="tpl-modal__cat">';
+        body += `<div class="tpl-modal__cat-name">${escHtml(cat.name)}</div>`;
+        body += '<div class="tpl-modal__channels">';
+        cat.children.forEach(ch => {
+          body += `<span class="tpl-modal__channel${ch.voice ? ' tpl-modal__channel--voice' : ''}">${escHtml(ch.name)}</span>`;
+        });
+        body += '</div></div>';
+      });
+
+      modalBody.innerHTML = body;
+      modal.classList.add('is-open');
+    }
+
+    function closeModal() {
+      modal.classList.remove('is-open');
+    }
+
+    // Search input
+    document.getElementById('tplSearch').addEventListener('input', (e) => {
+      searchQuery = e.target.value;
+      renderCards();
+    });
+
+    loadTemplates();
+  </script>
+
+</body>
+</html>
