@@ -1,0 +1,14 @@
+{
+  "redirects": [
+    {
+      "source": "/add",
+      "destination": "https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot",
+      "permanent": false
+    },
+    {
+      "source": "/invite",
+      "destination": "https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot",
+      "permanent": false
+    }
+  ]
+}
