@@ -538,24 +538,45 @@
       });
     });
 
-    // ── Load requests from data/requests.json
-    async function loadRequests() {
+    // ── Load requests live from Supabase (auto-refreshes every 20s) ──────
+    const SB_URL = 'https://mngubaoitgpuzantzjjf.supabase.co';
+    const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1uZ3ViYW9pdGdwdXphbnR6ampmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3MTQzMjYsImV4cCI6MjA5MzI5MDMyNn0.p0Z75TNm9iE-IO2cWXh4XJAQGhFI38oosTNKPsWwj7s';
+
+    async function loadRequests(initial = true) {
       const container = document.getElementById('reqCards');
-      container.innerHTML = `<div class="req-loading">
-        <div class="req-loading__dot"></div>
-        <div class="req-loading__dot"></div>
-        <div class="req-loading__dot"></div>
-        <span>Loading requests…</span>
-      </div>`;
+      if (initial) {
+        container.innerHTML = `<div class="req-loading">
+          <div class="req-loading__dot"></div>
+          <div class="req-loading__dot"></div>
+          <div class="req-loading__dot"></div>
+          <span>Loading requests…</span>
+        </div>`;
+      }
       try {
-        const res = await fetch('data/requests.json?v=' + Date.now());
-        allRequests = await res.json();
+        // Only show pending / progress / added — skip rejected from public view
+        const res = await fetch(
+          `${SB_URL}/rest/v1/template_requests?status=in.(pending,progress,added)&select=*&order=created_at.desc`,
+          { headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` } }
+        );
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const rows = await res.json();
+        // Normalize date for the existing renderer
+        allRequests = rows.map(r => ({
+          ...r,
+          date: r.created_at ? r.created_at.split('T')[0] : '',
+        }));
         renderRequests(allRequests);
-      } catch {
-        container.innerHTML = `<div class="req-empty"><div class="req-empty__icon">⚠</div><p>Could not load requests. Try again later.</p></div>`;
-        document.getElementById('reqCount').textContent = '';
+      } catch (err) {
+        if (initial) {
+          container.innerHTML = `<div class="req-empty"><div class="req-empty__icon">⚠</div><p>Could not load requests. Try again later.</p></div>`;
+          document.getElementById('reqCount').textContent = '';
+        }
+        // On refresh failure, silently keep showing the last data
       }
     }
+
+    // Auto-refresh every 20s so status changes from Discord appear live
+    setInterval(() => loadRequests(false), 20000);
 
     function renderRequests(data) {
       const filtered = currentFilter === 'all'

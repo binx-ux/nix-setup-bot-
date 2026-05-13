@@ -1,18 +1,17 @@
-// Vercel serverless function — handles template request submissions
-// 1. Sends an email notification via Formspree
-// 2. Appends the new request to data/requests.json in the GitHub repo
-//    so it shows up immediately in the Browse tab without manual edits.
+// Vercel serverless function — handles template request submissions.
+//
+// Flow:
+//   1. Insert into Supabase template_requests table (status='pending')
+//      — NIX Bot polls this table every 15s and posts new rows to Discord
+//   2. Send email notification via Formspree (kept for redundancy)
 //
 // Required Vercel env vars:
-//   GITHUB_TOKEN  — GitHub PAT with contents:write on binx-ux/nix-setup-bot-
-//   FORMSPREE_ID  — mdabnnvj (your Formspree form ID)
-
-const OWNER = 'binx-ux';
-const REPO  = 'nix-setup-bot-';
-const PATH  = 'data/requests.json';
+//   SUPABASE_URL       — your project URL
+//   SUPABASE_ANON_KEY  — public anon key
+//   FORMSPREE_ID       — optional, defaults to existing form
 
 export default async function handler(req, res) {
-  // CORS headers (needed if called from browser)
+  // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -29,82 +28,66 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
+  // Length / spam guards
+  if (template_name.length > 120 || description.length > 2000 || category.length > 60) {
+    return res.status(400).json({ error: 'One or more fields are too long.' });
+  }
+
   const newRequest = {
-    name:        template_name.trim().slice(0, 80),
-    category:    category.trim(),
-    description: description.trim().slice(0, 600),
-    discord:     discord_username?.trim() || null,
-    status:      'pending',
-    date:        new Date().toISOString().split('T')[0],
+    name:             template_name.trim().slice(0, 80),
+    category:         category.trim().slice(0, 40),
+    description:      description.trim().slice(0, 1000),
+    discord_username: discord_username?.trim().slice(0, 60) || null,
+    status:           'pending',
   };
 
-  // ── 1. Email notification via Formspree ──────────────────────────────────
+  // ── 1. Insert into Supabase ─────────────────────────────────────────────
+  const SUPABASE_URL = process.env.SUPABASE_URL;
+  const SUPABASE_KEY = process.env.SUPABASE_ANON_KEY;
+
+  if (!SUPABASE_URL || !SUPABASE_KEY) {
+    console.error('[SUBMIT] Supabase env vars missing');
+    return res.status(500).json({ error: 'Server is misconfigured. Try again later.' });
+  }
+
+  try {
+    const insertRes = await fetch(`${SUPABASE_URL}/rest/v1/template_requests`, {
+      method: 'POST',
+      headers: {
+        'Content-Type':  'application/json',
+        'apikey':        SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Prefer':        'return=minimal',
+      },
+      body: JSON.stringify(newRequest),
+    });
+
+    if (!insertRes.ok) {
+      const text = await insertRes.text().catch(() => '');
+      console.error('[SUBMIT] Supabase insert failed:', insertRes.status, text);
+      return res.status(500).json({ error: 'Could not save your request. Try again.' });
+    }
+  } catch (err) {
+    console.error('[SUBMIT] Supabase network error:', err.message);
+    return res.status(500).json({ error: 'Network error. Try again.' });
+  }
+
+  // ── 2. Email notification via Formspree (best-effort, non-blocking) ─────
   const FORMSPREE_ID = process.env.FORMSPREE_ID ?? 'mdabnnvj';
   try {
     await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
       method:  'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body:    JSON.stringify({
+      body: JSON.stringify({
         template_name: newRequest.name,
         category:      newRequest.category,
         description:   newRequest.description,
-        discord:       newRequest.discord ?? 'Not provided',
+        discord:       newRequest.discord_username ?? 'Not provided',
       }),
     });
   } catch (err) {
     console.error('[SUBMIT] Formspree error:', err.message);
-    // Non-fatal — continue to GitHub update
-  }
-
-  // ── 2. Append to data/requests.json via GitHub API ───────────────────────
-  const TOKEN = process.env.GITHUB_TOKEN;
-  if (!TOKEN) {
-    console.warn('[SUBMIT] GITHUB_TOKEN not set — skipping repo update');
-    return res.status(200).json({ ok: true, note: 'email sent, repo not updated (no token)' });
-  }
-
-  const ghHeaders = {
-    'Authorization': `Bearer ${TOKEN}`,
-    'Accept':        'application/vnd.github+json',
-    'Content-Type':  'application/json',
-    'X-GitHub-Api-Version': '2022-11-28',
-  };
-
-  try {
-    // Get current file content + sha
-    const getRes = await fetch(
-      `https://api.github.com/repos/${OWNER}/${REPO}/contents/${PATH}`,
-      { headers: ghHeaders }
-    );
-    if (!getRes.ok) throw new Error(`GitHub GET ${getRes.status}`);
-    const fileData = await getRes.json();
-
-    const current = JSON.parse(
-      Buffer.from(fileData.content.replace(/\n/g, ''), 'base64').toString('utf8')
-    );
-    current.push(newRequest);
-
-    // Commit updated file
-    const putRes = await fetch(
-      `https://api.github.com/repos/${OWNER}/${REPO}/contents/${PATH}`,
-      {
-        method:  'PUT',
-        headers: ghHeaders,
-        body: JSON.stringify({
-          message: `chore: add template request — ${newRequest.name}`,
-          content: Buffer.from(JSON.stringify(current, null, 2) + '\n').toString('base64'),
-          sha:     fileData.sha,
-        }),
-      }
-    );
-    if (!putRes.ok) {
-      const err = await putRes.json();
-      throw new Error(`GitHub PUT ${putRes.status}: ${err.message}`);
-    }
-  } catch (err) {
-    console.error('[SUBMIT] GitHub error:', err.message);
-    // Still return ok — email was sent
-    return res.status(200).json({ ok: true, note: 'email sent, repo update failed' });
+    // Non-fatal — Supabase already has the request
   }
 
   return res.status(200).json({ ok: true });
