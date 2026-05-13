@@ -223,7 +223,14 @@
             That's NIX — the bot that builds your server for you.
           </p>
         </div>
-        <div class="meet__viewer" data-reveal="up">
+        <div class="meet__viewer" id="meetViewer" data-reveal="up">
+          <!-- Fallback state — shown if the GLB asset isn't deployed yet -->
+          <div class="meet__placeholder" id="meetPlaceholder">
+            <div class="meet__placeholder-icon">📦</div>
+            <div class="meet__placeholder-title">3D preview coming soon</div>
+            <div class="meet__placeholder-sub">We're optimizing the model. Check back shortly.</div>
+          </div>
+
           <model-viewer
             id="nixModel"
             src="assets/3d/nix-bot.glb"
@@ -241,6 +248,7 @@
             reveal="auto"
             ar
             ar-modes="webxr scene-viewer quick-look"
+            style="display:none"
           >
             <div slot="poster" class="meet__poster">
               <div class="meet__poster-spinner"></div>
@@ -671,6 +679,24 @@
   </footer>
 
   <script>
+    // ── 3D model — only show the viewer if the GLB file actually exists ─
+    // Avoids the infinite spinner when the asset hasn't been uploaded yet.
+    (async function checkModelExists() {
+      const placeholder = document.getElementById('meetPlaceholder');
+      const viewer     = document.getElementById('nixModel');
+      if (!placeholder || !viewer) return;
+      try {
+        const res = await fetch(viewer.getAttribute('src'), { method: 'HEAD' });
+        if (res.ok) {
+          // File exists — show the viewer, hide the placeholder
+          placeholder.style.display = 'none';
+          viewer.style.display = '';
+        }
+      } catch {
+        // Network error — leave placeholder visible
+      }
+    })();
+
     // ── Announcement banner — countdown + dismiss persistence ──────────
     (function announcement() {
       const banner = document.getElementById('announcementBanner');

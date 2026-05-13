@@ -1290,6 +1290,43 @@ h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.15; color: var
   transition: width 0.2s ease;
 }
 
+/* Placeholder shown while the GLB asset hasn't been uploaded yet */
+.meet__placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+  padding: 24px;
+  z-index: 1;
+}
+.meet__placeholder-icon {
+  font-size: 2.5rem;
+  opacity: 0.7;
+  filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.5));
+  animation: meet-bob 3s ease-in-out infinite;
+}
+@keyframes meet-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+.meet__placeholder-title {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-white);
+}
+.meet__placeholder-sub {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+@media (prefers-reduced-motion: reduce) {
+  .meet__placeholder-icon { animation: none; }
+}
+
 @media (max-width: 900px) {
   .meet { padding: 64px 0; }
   .meet__inner { grid-template-columns: 1fr; gap: 32px; }
