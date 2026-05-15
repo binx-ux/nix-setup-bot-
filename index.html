@@ -22,11 +22,11 @@
   <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
 
   <!-- Announcement banner — dismissible, persists via localStorage -->
-  <div class="announcement" id="announcementBanner" data-version="anime-overhaul-early">
+  <div class="announcement" id="announcementBanner" data-version="v2-live-pause">
     <div class="container announcement__inner">
-      <span class="announcement__pill">Dropping Early</span>
+      <span class="announcement__pill">v2.0 Live</span>
       <span class="announcement__text">
-        <strong>The Anime Update is coming early</strong> — new templates, release feed, quiz, AniList linking, and more. <a href="changelog.html" class="announcement__link">See what's coming →</a>
+        <strong>The Anime Update is here</strong> — and it'll be the last big update for a while. Bot stays online 24/7 with all features working. <a href="changelog.html" class="announcement__link">See what shipped →</a>
       </span>
       <button class="announcement__close" id="announcementClose" aria-label="Dismiss announcement">×</button>
     </div>
@@ -205,6 +205,29 @@
             <span class="v2-chip">+13 more</span>
           </div>
           <a href="changelog.html" class="v2-highlight__cta">See the full changelog →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== UPDATES PAUSED NOTICE ===================== -->
+    <section class="pause-notice" aria-label="Updates pause notice">
+      <div class="container">
+        <div class="pause-notice__inner" data-reveal="up">
+          <div class="pause-notice__icon" aria-hidden="true">📌</div>
+          <div class="pause-notice__body">
+            <h3 class="pause-notice__heading">Taking a break from new features.</h3>
+            <p class="pause-notice__sub">
+              v2.0 was a 3-week sprint and the biggest release ever. NIX is now feature-complete for now —
+              <strong>the bot stays online 24/7</strong> and every command keeps working. Stepping back to focus on
+              other projects and recharge before the next update cycle.
+            </p>
+            <ul class="pause-notice__list">
+              <li><span class="pause-dot pause-dot--green"></span> Bot online — all features working</li>
+              <li><span class="pause-dot pause-dot--green"></span> Critical bug fixes still get attention</li>
+              <li><span class="pause-dot pause-dot--yellow"></span> New commands &amp; templates paused</li>
+              <li><span class="pause-dot pause-dot--gray"></span> Updates resume when inspiration hits</li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
