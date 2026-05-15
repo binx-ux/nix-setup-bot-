@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NIX Setup Bot — Your server, built in seconds.</title>
-  <meta name="description" content="NIX Setup Bot by binxix. Pick from 45+ Discord server templates, or export your own server as a shareable code. Roles, channels, and categories created instantly. Free forever." />
+  <meta name="description" content="NIX Setup Bot by binxix. Pick from 47+ Discord server templates, or export your own server as a shareable code. Roles, channels, and categories created instantly. Free forever." />
   <meta property="og:title" content="NIX Setup Bot" />
-  <meta property="og:description" content="Pick from 45+ Discord server templates. Or export your own server as a shareable code. Free forever." />
+  <meta property="og:description" content="Pick from 47+ Discord server templates. Or export your own server as a shareable code. Free forever." />
   <meta property="og:type" content="website" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -22,11 +22,11 @@
   <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
 
   <!-- Announcement banner — dismissible, persists via localStorage -->
-  <div class="announcement" id="announcementBanner" data-version="anime-overhaul-2026-05-20">
+  <div class="announcement" id="announcementBanner" data-version="anime-overhaul-early">
     <div class="container announcement__inner">
-      <span class="announcement__pill">Coming Soon</span>
+      <span class="announcement__pill">Dropping Early</span>
       <span class="announcement__text">
-        <strong>Anime templates are getting a major overhaul</strong> — new structure, channels, and roles. ETA <strong>May 20th</strong>. <a href="changelog.html" class="announcement__link">Stay tuned →</a>
+        <strong>The Anime Update is coming early</strong> — new templates, release feed, quiz, AniList linking, and more. <a href="changelog.html" class="announcement__link">See what's coming →</a>
       </span>
       <button class="announcement__close" id="announcementClose" aria-label="Dismiss announcement">×</button>
     </div>
@@ -97,7 +97,7 @@
           built in <span class="text-gradient">seconds.</span>
         </h1>
         <p class="hero__sub" data-reveal="up">
-          Pick from 45+ professionally designed server templates. NIX creates every role,
+          Pick from 47+ professionally designed server templates. NIX creates every role,
           channel, and category automatically — then steps aside.
         </p>
         <div class="hero__ctas" data-reveal="up">
@@ -178,6 +178,34 @@
         </div>
         <!-- End mockup -->
 
+      </div>
+    </section>
+
+    <!-- ===================== V2.0 HIGHLIGHT STRIP ===================== -->
+    <section class="v2-highlight" aria-label="What's new in v2.0">
+      <div class="container">
+        <div class="v2-highlight__inner" data-reveal="up">
+          <div class="v2-highlight__pill">v2.0 — The Anime Update</div>
+          <h2 class="v2-highlight__heading">23 new commands. 3 new templates. 1 huge anime overhaul.</h2>
+          <p class="v2-highlight__sub">
+            Anime release feed, AniList integration, quiz mini-game, tier list builder, watch parties,
+            site monitoring, welcome flow, custom commands, and more.
+          </p>
+          <div class="v2-highlight__chips">
+            <span class="v2-chip">/anime</span>
+            <span class="v2-chip">/manga</span>
+            <span class="v2-chip">/quiz</span>
+            <span class="v2-chip">/tierlist</span>
+            <span class="v2-chip">/anilist</span>
+            <span class="v2-chip">/watchparty</span>
+            <span class="v2-chip">/monitor</span>
+            <span class="v2-chip">/welcome</span>
+            <span class="v2-chip">/customcmd</span>
+            <span class="v2-chip">/remindme</span>
+            <span class="v2-chip">+13 more</span>
+          </div>
+          <a href="changelog.html" class="v2-highlight__cta">See the full changelog →</a>
+        </div>
       </div>
     </section>
 
@@ -309,7 +337,7 @@
                 Trading, plus 13 more), then a template picker, then a full preview.
               </p>
               <ul class="steps__bullets">
-                <li>46+ templates across 17 picker categories</li>
+                <li>47+ templates across 17 picker categories</li>
                 <li>See every role and channel before you confirm anything</li>
                 <li>"Build &amp; Leave" or "Build &amp; Stay" — your choice</li>
                 <li>Cancel any time before the final confirm</li>
@@ -701,6 +729,56 @@
           </p>
           <p class="contribute__note">This is a volunteer position. NIX is a free bot with no revenue.</p>
         </div>
+      </div>
+    </section>
+
+    <!-- ===================== ANIME RELEASE TICKER ===================== -->
+    <section class="release-ticker" id="release-ticker" aria-label="Latest anime episode releases">
+      <div class="container">
+        <div class="section-label" data-reveal="up">FRESH DROPS</div>
+        <h2 class="section-heading" data-reveal="up">Newest anime episodes.</h2>
+        <p class="release-ticker__sub" data-reveal="up">
+          Pulled live from MyAnimeList. NIX posts these to your server too — just create a <code>#new-episodes</code> channel.
+        </p>
+        <div class="release-ticker__grid" id="releaseTickerGrid" data-reveal="up">
+          <div class="release-ticker__card release-ticker__card--skeleton"></div>
+          <div class="release-ticker__card release-ticker__card--skeleton"></div>
+          <div class="release-ticker__card release-ticker__card--skeleton"></div>
+          <div class="release-ticker__card release-ticker__card--skeleton"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== QUIZ LEADERBOARD ===================== -->
+    <section class="quiz-board" id="quiz-board" aria-label="Anime quiz leaderboard">
+      <div class="container">
+        <div class="section-label" data-reveal="up">LEADERBOARD</div>
+        <h2 class="section-heading" data-reveal="up">Top anime quiz players.</h2>
+        <p class="quiz-board__sub" data-reveal="up">
+          Play <code>/quiz</code> on any server with NIX to claim your spot. Top 10 below.
+        </p>
+        <div class="quiz-board__list" id="quizBoardList" data-reveal="up">
+          <p class="quiz-board__empty">Loading leaderboard…</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ANIME SITE STATUS ===================== -->
+    <section class="anime-status" id="anime-status" aria-label="Anime sites uptime status">
+      <div class="container">
+        <div class="section-label" data-reveal="up">LIVE STATUS</div>
+        <h2 class="section-heading" data-reveal="up">Anime sites, right now.</h2>
+        <p class="anime-status__sub" data-reveal="up">
+          We watch a handful of popular anime streaming sites so you don't have to.
+          Live status, updated every five minutes.
+        </p>
+        <div class="anime-status__grid" id="animeStatusGrid" data-reveal="up">
+          <!-- Cards injected by JS — skeletons until data loads -->
+          <div class="anime-status__card anime-status__card--skeleton"></div>
+          <div class="anime-status__card anime-status__card--skeleton"></div>
+          <div class="anime-status__card anime-status__card--skeleton"></div>
+        </div>
+        <p class="anime-status__note" id="animeStatusNote">Loading status…</p>
       </div>
     </section>
 
@@ -1351,6 +1429,160 @@
         });
       }, { threshold: 0.3 });
       visObs.observe(document.querySelector('.mockup'));
+    })();
+
+    // ── Anime sites live status widget ─────────────────────────────
+    (() => {
+      const URL = 'https://mngubaoitgpuzantzjjf.supabase.co';
+      const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1uZ3ViYW9pdGdwdXphbnR6ampmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3MTQzMjYsImV4cCI6MjA5MzI5MDMyNn0.p0Z75TNm9iE-IO2cWXh4XJAQGhFI38oosTNKPsWwj7s';
+      const grid = document.getElementById('animeStatusGrid');
+      const note = document.getElementById('animeStatusNote');
+      if (!grid) return;
+
+      function timeAgo(iso) {
+        const diff = Math.max(0, Date.now() - new Date(iso).getTime());
+        const s = Math.floor(diff / 1000);
+        if (s < 60)    return `${s}s ago`;
+        const m = Math.floor(s / 60);
+        if (m < 60)    return `${m}m ago`;
+        const h = Math.floor(m / 60);
+        if (h < 24)    return `${h}h ago`;
+        return `${Math.floor(h / 24)}d ago`;
+      }
+
+      function render(rows) {
+        if (!rows.length) {
+          grid.innerHTML = '<p class="anime-status__empty">No status data yet — check back soon.</p>';
+          note.textContent = '';
+          return;
+        }
+        const html = rows.map(r => {
+          const state = r.online ? 'online' : 'offline';
+          const dot   = r.online ? '🟢' : '🔴';
+          const label = r.online ? 'Online' : 'Offline';
+          const detail = r.online
+            ? `HTTP ${r.status_code ?? '—'}`
+            : (r.error || `HTTP ${r.status_code ?? '—'}`);
+          const host = (() => { try { return new URL(r.url).host; } catch { return r.url; } })();
+          return `
+            <a class="anime-status__card anime-status__card--${state}" href="${r.url}" target="_blank" rel="noopener noreferrer">
+              <div class="anime-status__card-top">
+                <span class="anime-status__emoji">${r.emoji || '🌐'}</span>
+                <span class="anime-status__name">${r.name}</span>
+              </div>
+              <div class="anime-status__state"><span class="anime-status__dot">${dot}</span> ${label}</div>
+              <div class="anime-status__detail">${detail}</div>
+              <div class="anime-status__meta">
+                <span>${host}</span>
+                <span>${timeAgo(r.last_checked)}</span>
+              </div>
+            </a>
+          `;
+        }).join('');
+        grid.innerHTML = html;
+        const lastCheck = rows.reduce((max, r) => Math.max(max, new Date(r.last_checked).getTime()), 0);
+        note.textContent = `Last update ${timeAgo(new Date(lastCheck).toISOString())} · refreshes every 30s`;
+      }
+
+      async function fetchStatus() {
+        try {
+          const res = await fetch(`${URL}/rest/v1/site_status?select=*&order=name.asc`, {
+            headers: { apikey: KEY, Authorization: `Bearer ${KEY}` },
+          });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const rows = await res.json();
+          render(rows);
+        } catch (err) {
+          grid.innerHTML = '<p class="anime-status__empty">Could not load status.</p>';
+          note.textContent = '';
+        }
+      }
+
+      fetchStatus();
+      setInterval(fetchStatus, 30 * 1000);
+    })();
+
+    // ── Anime release ticker (fetches Jikan directly, client-side) ──
+    (() => {
+      const grid = document.getElementById('releaseTickerGrid');
+      if (!grid) return;
+
+      async function fetchEpisodes() {
+        try {
+          const res = await fetch('https://api.jikan.moe/v4/watch/episodes');
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const json = await res.json();
+          const data = (json.data || []).slice(0, 8);
+          if (!data.length) {
+            grid.innerHTML = '<p class="release-ticker__empty">No new episodes right now.</p>';
+            return;
+          }
+          grid.innerHTML = data.map(item => {
+            const ep = (item.episodes && item.episodes[0]) || {};
+            const cover = item.entry?.images?.jpg?.large_image_url || item.entry?.images?.jpg?.image_url || '';
+            const title = item.entry?.title || 'Unknown';
+            const epLabel = ep.title || `Ep ${ep.mal_id ?? '?'}`;
+            const url = item.entry?.url || '#';
+            return `
+              <a class="release-ticker__card" href="${url}" target="_blank" rel="noopener noreferrer">
+                <div class="release-ticker__cover" style="background-image:url('${cover}')"></div>
+                <div class="release-ticker__body">
+                  <div class="release-ticker__title">${title}</div>
+                  <div class="release-ticker__ep">${epLabel}</div>
+                </div>
+              </a>
+            `;
+          }).join('');
+        } catch (err) {
+          grid.innerHTML = '<p class="release-ticker__empty">Couldn\'t load releases.</p>';
+        }
+      }
+      fetchEpisodes();
+      setInterval(fetchEpisodes, 5 * 60 * 1000);
+    })();
+
+    // ── Quiz leaderboard (from Supabase) ──
+    (() => {
+      const URL = 'https://mngubaoitgpuzantzjjf.supabase.co';
+      const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1uZ3ViYW9pdGdwdXphbnR6ampmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3MTQzMjYsImV4cCI6MjA5MzI5MDMyNn0.p0Z75TNm9iE-IO2cWXh4XJAQGhFI38oosTNKPsWwj7s';
+      const list = document.getElementById('quizBoardList');
+      if (!list) return;
+
+      async function fetchBoard() {
+        try {
+          const res = await fetch(`${URL}/rest/v1/quiz_scores?select=*&order=correct.desc&limit=10`, {
+            headers: { apikey: KEY, Authorization: `Bearer ${KEY}` },
+          });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const rows = await res.json();
+          if (!rows.length) {
+            list.innerHTML = '<p class="quiz-board__empty">No scores yet — be the first to play <code>/quiz</code>.</p>';
+            return;
+          }
+          const medals = ['🥇','🥈','🥉'];
+          list.innerHTML = rows.map((r, i) => {
+            const total = (r.correct ?? 0) + (r.wrong ?? 0);
+            const acc = total ? Math.round((r.correct / total) * 100) : 0;
+            const medal = medals[i] ?? `<span class="quiz-board__rank">#${i + 1}</span>`;
+            return `
+              <div class="quiz-board__row">
+                <div class="quiz-board__medal">${medal}</div>
+                <div class="quiz-board__name">${r.username ?? 'anon'}</div>
+                <div class="quiz-board__stats">
+                  <span>✅ ${r.correct ?? 0}</span>
+                  <span>❌ ${r.wrong ?? 0}</span>
+                  <span>${acc}% acc</span>
+                  <span>🔥 best ${r.best_streak ?? 0}</span>
+                </div>
+              </div>
+            `;
+          }).join('');
+        } catch (err) {
+          list.innerHTML = '<p class="quiz-board__empty">Couldn\'t load leaderboard.</p>';
+        }
+      }
+      fetchBoard();
+      setInterval(fetchBoard, 60 * 1000);
     })();
   </script>
 
