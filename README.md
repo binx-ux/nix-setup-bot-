@@ -1,145 +1,96 @@
-# NIX Setup Bot
+# NIX Bot Family
 
-> Your Discord server, built in seconds.
+> Your Discord server, built in seconds. Now split across 3 focused bots.
 
-![Discord Bot](https://img.shields.io/badge/Discord-Bot-5865F2?style=flat&logo=discord&logoColor=white)
+![Discord Bots](https://img.shields.io/badge/Discord-3%20Bots-5865F2?style=flat&logo=discord&logoColor=white)
 ![Free Forever](https://img.shields.io/badge/Price-Free%20Forever-4ade80?style=flat)
+![Templates](https://img.shields.io/badge/Templates-49%2B-e91e63?style=flat)
+![Commands](https://img.shields.io/badge/Commands-30%2B-a855f7?style=flat)
 ![License](https://img.shields.io/badge/License-Custom%20(see%20LICENSE)-a855f7?style=flat)
 
-NIX Setup Bot is a Discord utility bot built for server owners who want a professional,
-fully-structured server without spending hours on manual setup. Run one command, pick
-a template, and NIX creates every role, channel, and category for you — instantly.
-When it's done, NIX can leave your server and stay out of the way. It's free, forever.
+This repo hosts the **NIX website** at [binx-ux.github.io/NIX](https://binx-ux.github.io/NIX/).
+The bots themselves live in the [nix-bot monorepo](https://github.com/binx-ux/nix-bot).
+
+NIX is a family of three Discord bots built for server owners and communities.
+Free forever, no paywalls, no premium tiers.
 
 ---
 
-## Features
+## The Bots
 
-- Run `/setup` to launch an interactive template picker with 25+ options
-- Roles, channels, and categories created automatically from the selected template
-- Permission tiers configured correctly out of the box — no manual editing required
-- Sends the server owner a DM with a full setup summary and recommended next steps
-- Includes invite links for Carl-bot and Arcane directly in the DM summary
-- NIX can leave the server automatically after setup for a clean bot list
-- The Code / AI template includes a live AI news feed channel
-- Zero configuration required — one command is all it takes
-- Completely free, with no paywalls, premium tiers, or feature locks
+### 🛠️ NIX Setup
+The original. Builds your entire server from a template in under a minute.
+- **49+ templates** across 17 picker categories (gaming, anime, roleplay, streaming, dev, etc.)
+- `/setup`, `/export`, `/import`, `/undo`, `/welcome`, `/customcmd`
+- Export your server layout as a shareable code
+- Configurable welcome flow with auto-role
+- Per-server custom `!` text commands
+- [Add NIX Setup →](https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot)
 
----
+### 🌸 NIX Anime
+Daily-use community bot for anime servers.
+- `/anime`, `/manga`, `/character`, `/seiyuu`, `/randomanime`, `/streaming`, `/compare`
+- `/tierlist` — build S/A/B/C/D/F tier lists with auto MAL lookup
+- `/anilist link/show` — AniList account integration with full profile stats
+- `/quiz` + `/quizleaderboard` — anime quiz mini-game with 3 modes
+- `/remindme` — get DMed when a new episode airs
+- `/watchparty schedule` — create Discord scheduled events with anime cover banners
+- `/animeroles` — auto-build a genre role picker
+- **Auto:** Episode release feed (Jikan), daily trending digest, seasonal channel rename
+- [Add NIX Anime →](https://discord.com/oauth2/authorize?client_id=1505277689165119771&permissions=320243616784&integration_type=0&scope=bot+applications.commands)
 
-## Templates
-
-### Development / Tech
-- Code / AI Community
-
-### Gaming — Battle Royale / Shooter
-- Fortnite
-- CoD / Warzone
-- Apex Legends
-- CS2
-- Valorant
-- Overwatch 2
-
-### Gaming — MOBA / Competitive
-- League of Legends
-- Rocket League
-
-### Gaming — Survival / Sandbox
-- Minecraft
-- Garry's Mod
-
-### Gaming — Roleplay / Simulation
-- GTA FiveM RP
-- Arma Reforger
-- War Thunder
-- ERLC
-
-### Gaming — Gacha / Anime
-- Genshin Impact
-- Zenless Zone Zero (ZZZ)
-- MiSide
-
-### Roblox
-- Roblox General
-- Roblox RP
-- Roblox Condo
-- Roblox Trading
-- Roblox Anime
-
-### General
-- General Gaming
-- Music / Artist
+### 📊 NIX Tools
+Monitoring + utilities for every server.
+- `/monitor add/remove/list/channel/ping` — track website uptime per server
+- `/scan` + automatic file scanning with VirusTotal (70+ engines)
+- `/avatar`, `/banner`, `/afk`, `/ping`, `/uptime`, `/serverinfo`, `/meme`
+- **Auto:** AI news from 12 sources (OpenAI, Anthropic, Google AI, Hugging Face, etc.)
+- **Auto:** Per-guild site monitor with state-transition pings (@everyone/role/none)
+- **Auto:** Status channel rename on bot lifecycle
+- [Add NIX Tools →](https://discord.com/oauth2/authorize?client_id=1505277765035753502&permissions=2147740752&integration_type=0&scope=bot+applications.commands)
 
 ---
 
 ## Quick Start
 
-1. **Add NIX to your server:**
-   [Add to Server](https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot)
+1. **Pick the bots you need** from the 3 above. Most servers want all three.
+2. **Click any "Add" link** above to invite the bot.
+3. **Setup bot:** run `/setup` to build your server from a template.
+4. **Anime bot:** create a channel called `#new-episodes` and the release feed auto-posts.
+5. **Tools bot:** run `/monitor add <url>` to track a website's uptime.
 
-2. **Run the setup command in any channel:**
-   ```
-   /setup
-   ```
-
-3. **Choose a template from the dropdown and confirm.**
-
-NIX will build your entire server structure and DM you a summary with next steps.
+No accounts, no dashboard, no payment. Each bot DMs the server owner with onboarding info on join.
 
 ---
 
-## How It Works
+## Why Three Bots?
 
-1. Invite NIX to your Discord server using the link above.
-2. Run `/setup` in any channel — a dropdown appears with all available templates.
-3. Select the template that fits your community.
-4. NIX creates all roles, channels, and categories instantly.
-5. You receive a DM summary with what was created, along with optional invite links
-   for Carl-bot and Arcane.
-6. NIX can leave the server automatically, keeping your bot list clean.
+The original NIX Bot grew to 30+ commands and started doing too much. Splitting into three:
+- **Smaller permission scopes** — admins grant each bot only what it needs
+- **Failure isolation** — one bot crashing doesn't take down the others
+- **Cleaner help** — each bot's `/help` shows just its own commands
+- **Install what you want** — don't need anime stuff? Skip NIX Anime
 
 ---
 
-## Self-Hosting
+## Tech Stack
 
-If you want to run your own instance of NIX Setup Bot:
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/binx-ux/nix-setup-bot-.git
-   cd nix-setup-bot-
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Configure your environment variables by copying the example file:
-   ```bash
-   cp .env.example .env
-   ```
-   Then fill in your bot token and any required values in `.env`.
-
-4. Start the bot:
-   ```bash
-   node index.js
-   ```
-
-> Note: Self-hosting is intended for developers and contributors. For regular use,
-> just add the public bot — it's free.
+- **discord.js v14** — slash commands, components, modals
+- **Node.js 20** — ES modules, no TypeScript
+- **npm workspaces (monorepo)** — three apps + one shared utilities package
+- **Fly.io** — each bot runs in its own microVM with persistent volume
+- **Supabase** — Postgres for changelog, ratings, requests, bot stats, site status, quiz scores
+- **Jikan API** — MyAnimeList data (anime, manga, characters, seiyuu, releases)
+- **AniList GraphQL** — user profiles for `/anilist`
+- **VirusTotal API** — automatic file scanning, 70+ engines
+- **Reddit JSON + RSS** — memes and AI news feeds
+- **GitHub Pages** — this website, static HTML/CSS/JS, no build step
 
 ---
 
-## License
+## Repository Layout
 
-See the [LICENSE](./LICENSE) file for details.
-
----
-
-## Credits
-
-Built by **binxix**.
-
-- GitHub: [github.com/binx-ux/nix-setup-bot-](https://github.com/binx-ux/nix-setup-bot-)
-- Bot Invite: [Add NIX to your server](https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot)
+| Repo | What's there |
+|---|---|
+| [nix-bot](https://github.com/binx-ux/nix-bot) | The monorepo — Setup + Anime + Tools + shared package |
+| [nix-setup-bot-](https://github.com/binx-ux/nix-setup-bot-) | This repo — the public website at [binx-ux.github.io/NIX](https://binx-ux.github.io/NIX/) |
