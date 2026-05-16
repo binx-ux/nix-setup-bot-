@@ -8,8 +8,6 @@
 ![Commands](https://img.shields.io/badge/Commands-30%2B-a855f7?style=flat)
 ![License](https://img.shields.io/badge/License-Custom%20(see%20LICENSE)-a855f7?style=flat)
 
-This repo hosts the **NIX website** at [binx-ux.github.io/NIX](https://binx-ux.github.io/NIX/).
-The bots themselves live in the [nix-bot monorepo](https://github.com/binx-ux/nix-bot).
 
 NIX is a family of three Discord bots built for server owners and communities.
 Free forever, no paywalls, no premium tiers.
