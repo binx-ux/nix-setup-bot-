@@ -1838,6 +1838,149 @@ h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.15; color: var
   color: rgba(255,255,255,0.55);
 }
 
+/* ===================== BOT FAMILY ===================== */
+.bot-family { padding: 6rem 0 4rem; }
+.bot-family__sub {
+  max-width: 42rem;
+  color: rgba(255,255,255,0.65);
+  margin: 0.75rem 0 3rem;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+.bot-family__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.bot-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.75rem;
+  border-radius: 1.25rem;
+  background: rgba(28,17,43,0.55);
+  border: 1px solid rgba(168,130,255,0.18);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+.bot-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0.45;
+}
+.bot-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(168,130,255,0.55);
+  box-shadow: 0 16px 40px -12px rgba(124,58,237,0.45);
+}
+.bot-card--setup::before  { background: radial-gradient(circle at top right, rgba(124,58,237,0.25), transparent 60%); }
+.bot-card--anime::before  { background: radial-gradient(circle at top right, rgba(233,30,99,0.25), transparent 60%); }
+.bot-card--tools::before  { background: radial-gradient(circle at top right, rgba(155,89,182,0.22), transparent 60%); }
+.bot-card--setup  { border-color: rgba(124,58,237,0.35); }
+.bot-card--anime  { border-color: rgba(233,30,99,0.4); }
+.bot-card--tools  { border-color: rgba(155,89,182,0.4); }
+.bot-card__pill {
+  position: relative;
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  align-self: flex-start;
+  margin-bottom: 1rem;
+}
+.bot-card--anime .bot-card__pill {
+  background: rgba(233,30,99,0.18);
+  border-color: rgba(233,30,99,0.4);
+  color: #FFB6D9;
+}
+.bot-card--tools .bot-card__pill {
+  background: rgba(155,89,182,0.18);
+  border-color: rgba(155,89,182,0.4);
+  color: #D5A5E0;
+}
+.bot-card__name {
+  position: relative;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.35rem;
+  font-family: 'Space Grotesk', sans-serif;
+}
+.bot-card__tag {
+  position: relative;
+  color: rgba(255,255,255,0.7);
+  font-size: 0.95rem;
+  margin-bottom: 1.25rem;
+}
+.bot-card__features {
+  position: relative;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.75rem;
+  flex-grow: 1;
+}
+.bot-card__features li {
+  padding: 0.35rem 0 0.35rem 1.25rem;
+  position: relative;
+  font-size: 0.92rem;
+  color: rgba(255,255,255,0.78);
+}
+.bot-card__features li::before {
+  content: '·';
+  position: absolute;
+  left: 0;
+  color: rgba(168,130,255,0.7);
+  font-weight: 700;
+  font-size: 1.3rem;
+  line-height: 0.8;
+}
+.bot-card__cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.75rem 1.2rem;
+  border-radius: 0.6rem;
+  background: rgba(168,130,255,0.15);
+  border: 1px solid rgba(168,130,255,0.35);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  align-self: flex-start;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+.bot-card--anime .bot-card__cta {
+  background: rgba(233,30,99,0.15);
+  border-color: rgba(233,30,99,0.4);
+}
+.bot-card--tools .bot-card__cta {
+  background: rgba(155,89,182,0.15);
+  border-color: rgba(155,89,182,0.4);
+}
+.bot-card__cta:hover {
+  background: rgba(255,255,255,0.1);
+  transform: translateX(2px);
+}
+.bot-family__note {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.55);
+  text-align: center;
+}
+.bot-family__note strong { color: #fff; }
+
 /* ===================== UPDATES PAUSED NOTICE ===================== */
 .pause-notice { padding: 2rem 0 4rem; }
 .pause-notice__inner {

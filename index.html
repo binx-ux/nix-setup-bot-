@@ -22,11 +22,11 @@
   <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
 
   <!-- Announcement banner — dismissible, persists via localStorage -->
-  <div class="announcement" id="announcementBanner" data-version="v2-live-pause">
+  <div class="announcement" id="announcementBanner" data-version="three-bot-family">
     <div class="container announcement__inner">
-      <span class="announcement__pill">v2.0 Live</span>
+      <span class="announcement__pill">New</span>
       <span class="announcement__text">
-        <strong>The Anime Update is here</strong> — and it'll be the last big update for a while. Bot stays online 24/7 with all features working. <a href="changelog.html" class="announcement__link">See what shipped →</a>
+        <strong>NIX is now a family of 3 bots</strong> — Setup, Anime, and Tools. Invite the ones you need. <a href="#bot-family" class="announcement__link">Meet them →</a>
       </span>
       <button class="announcement__close" id="announcementClose" aria-label="Dismiss announcement">×</button>
     </div>
@@ -210,6 +210,78 @@
             <div class="stats__label">Ratings</div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- ===================== BOT FAMILY ===================== -->
+    <section class="bot-family" id="bot-family" aria-label="The NIX bot family">
+      <div class="container">
+        <div class="section-label" data-reveal="up">THE NIX FAMILY</div>
+        <h2 class="section-heading" data-reveal="up">Three bots. Pick what you need.</h2>
+        <p class="bot-family__sub" data-reveal="up">
+          NIX used to be one bot that did everything. Now it's three focused bots that play nicely together.
+          Invite all three, or just the ones that fit your server.
+        </p>
+        <div class="bot-family__grid" data-reveal="up">
+
+          <article class="bot-card bot-card--setup">
+            <div class="bot-card__pill">Original</div>
+            <h3 class="bot-card__name">🛠️ NIX Setup</h3>
+            <p class="bot-card__tag">Build your server in seconds.</p>
+            <ul class="bot-card__features">
+              <li>47+ server templates</li>
+              <li>Export &amp; import via shareable code</li>
+              <li>Welcome flow + auto-role</li>
+              <li>Per-server custom commands</li>
+            </ul>
+            <a
+              href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot"
+              class="bot-card__cta"
+              target="_blank"
+              rel="noopener noreferrer"
+            >Add NIX Setup →</a>
+          </article>
+
+          <article class="bot-card bot-card--anime">
+            <div class="bot-card__pill">New</div>
+            <h3 class="bot-card__name">🌸 NIX Anime</h3>
+            <p class="bot-card__tag">For anime communities, no fluff.</p>
+            <ul class="bot-card__features">
+              <li>Lookup + tier list + AniList linking</li>
+              <li>Quiz mini-game with leaderboards</li>
+              <li>Auto release feed + daily digest</li>
+              <li>Watch parties + episode reminders</li>
+            </ul>
+            <a
+              href="https://discord.com/oauth2/authorize?client_id=1505277689165119771&permissions=320243616784&integration_type=0&scope=bot+applications.commands"
+              class="bot-card__cta"
+              target="_blank"
+              rel="noopener noreferrer"
+            >Add NIX Anime →</a>
+          </article>
+
+          <article class="bot-card bot-card--tools">
+            <div class="bot-card__pill">New</div>
+            <h3 class="bot-card__name">📊 NIX Tools</h3>
+            <p class="bot-card__tag">Monitoring + utilities every server needs.</p>
+            <ul class="bot-card__features">
+              <li>Website uptime monitoring</li>
+              <li>VirusTotal file scanning</li>
+              <li>AI news feeds (12 sources)</li>
+              <li>QoL: /avatar, /banner, /afk, /uptime</li>
+            </ul>
+            <a
+              href="https://discord.com/oauth2/authorize?client_id=1505277765035753502&permissions=2147740752&integration_type=0&scope=bot+applications.commands"
+              class="bot-card__cta"
+              target="_blank"
+              rel="noopener noreferrer"
+            >Add NIX Tools →</a>
+          </article>
+
+        </div>
+        <p class="bot-family__note" data-reveal="up">
+          All three bots are <strong>free forever</strong>. Shared website + changelog. No accounts, no paywalls.
+        </p>
       </div>
     </section>
 
