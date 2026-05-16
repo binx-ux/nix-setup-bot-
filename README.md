@@ -84,11 +84,3 @@ The original NIX Bot grew to 30+ commands and started doing too much. Splitting 
 - **Reddit JSON + RSS** — memes and AI news feeds
 - **GitHub Pages** — this website, static HTML/CSS/JS, no build step
 
----
-
-## Repository Layout
-
-| Repo | What's there |
-|---|---|
-| [nix-bot](https://github.com/binx-ux/nix-bot) | The monorepo — Setup + Anime + Tools + shared package |
-| [nix-setup-bot-](https://github.com/binx-ux/nix-setup-bot-) | This repo — the public website at [binx-ux.github.io/NIX](https://binx-ux.github.io/NIX/) |
