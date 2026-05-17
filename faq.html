@@ -183,13 +183,58 @@
       <div class="container">
         <div class="section-label">FAQ</div>
         <h1>Common Questions</h1>
-        <p>Everything you need to know before adding NIX to your server.</p>
+        <p>Everything you need to know about the NIX bot family — Setup, Anime, and Tools.</p>
       </div>
     </section>
 
     <section class="faq-section">
       <div class="container">
         <div class="faq-section__inner">
+
+          <div class="faq-group">
+            <div class="faq-group__label">The Bot Family</div>
+
+            <div class="faq-item">
+              <button class="faq-item__trigger" aria-expanded="false">
+                <span class="faq-item__question">What is the NIX bot family?</span>
+                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
+              </button>
+              <div class="faq-item__body">
+                <div class="faq-item__answer">NIX is three separate Discord bots that share a website and changelog:<br><br>
+                  <strong>🛠️ NIX Setup</strong> — server templates, /export, /import, welcome flow, custom commands<br>
+                  <strong>🌸 NIX Anime</strong> — anime lookup, quiz, watch parties, episode reminders, release feed<br>
+                  <strong>📊 NIX Tools</strong> — website uptime monitoring, file scanning, /avatar, /banner, /afk, AI news<br><br>
+                  Each one focuses on one job so admins can invite only what they need. <a href="index.html#bot-family">Pick the bots you want here.</a></div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-item__trigger" aria-expanded="false">
+                <span class="faq-item__question">Do I need all three bots?</span>
+                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
+              </button>
+              <div class="faq-item__body">
+                <div class="faq-item__answer">No. They work independently. Most servers want all three because they don't overlap, but if you're only here for /setup you can skip the other two. If your server is anime-themed but you don't care about website monitoring, invite Setup + Anime and skip Tools. Mix and match however you want.</div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-item__trigger" aria-expanded="false">
+                <span class="faq-item__question">Why split into three bots?</span>
+                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
+              </button>
+              <div class="faq-item__body">
+                <div class="faq-item__answer">Four reasons: <strong>focused permissions</strong> (admins grant each bot only what it needs), <strong>failure isolation</strong> (one bot crashing doesn't take down the others), <strong>cleaner help</strong> (each bot's <code>/help</code> shows just its own commands), and <strong>install what you want</strong> (don't need monitoring? skip NIX Tools).</div>
+              </div>
+            </div>
+
+          </div>
 
           <div class="faq-group">
             <div class="faq-group__label">General</div>
@@ -202,7 +247,7 @@
                 </svg>
               </button>
               <div class="faq-item__body">
-                <div class="faq-item__answer">Yes, completely free. There are no paid tiers, no premium features, and no planned monetization. NIX is a community-built bot.</div>
+                <div class="faq-item__answer">Yes, all three bots in the NIX family are completely free. No paid tiers, no premium features, no planned monetization. Built and hosted by one person at zero cost to you.</div>
               </div>
             </div>
 
@@ -214,7 +259,11 @@
                 </svg>
               </button>
               <div class="faq-item__body">
-                <div class="faq-item__answer">NIX requests Administrator during the invite. This is required to create roles above existing ones and set channel permissions correctly. If you prefer, you can remove Administrator after setup is complete and the bot has left.</div>
+                <div class="faq-item__answer">It depends on the bot:<br><br>
+                  <strong>🛠️ NIX Setup</strong> needs Administrator during invite — required to create roles above existing ones and set channel permissions correctly. You can remove it after setup completes.<br>
+                  <strong>🌸 NIX Anime</strong> needs Manage Roles (for /animeroles), Manage Channels (for seasonal rename), Manage Events (for /watchparty), and Create Public Threads (auto-discussion threads).<br>
+                  <strong>📊 NIX Tools</strong> needs Manage Channels (status channel rename), Manage Messages (malware deletion), and Mention Everyone (site monitor pings).<br><br>
+                  The minimum-permission invite links are pre-built — just click them on the <a href="index.html#bot-family">bot family page</a>.</div>
               </div>
             </div>
 
@@ -308,7 +357,7 @@
                 </svg>
               </button>
               <div class="faq-item__body">
-                <div class="faq-item__answer">When someone uploads a file with a potentially dangerous extension (such as <code>.exe</code>, <code>.dll</code>, <code>.bat</code>, or <code>.ps1</code>), NIX automatically scans it using VirusTotal. If the file is flagged as malicious it is deleted and a warning is posted. If it is suspicious, the channel gets a heads-up. Clean files get a checkmark reaction. This requires the bot to stay in the server and a VirusTotal API key to be configured.</div>
+                <div class="faq-item__answer">Part of <strong>📊 NIX Tools</strong>. When someone uploads a file with a potentially dangerous extension (<code>.exe</code>, <code>.dll</code>, <code>.bat</code>, <code>.ps1</code>, <code>.msi</code>, <code>.jar</code>, <code>.apk</code>, and more), NIX Tools automatically scans it through VirusTotal's 70+ engines. Malicious files get deleted with a warning embed. Suspicious files get a reply heads-up. Clean files get a ✅. Use <code>/scan</code> manually to scan any specific file, or <code>/settings auto-scan</code> to toggle auto-scanning on/off per server.</div>
               </div>
             </div>
 
@@ -320,7 +369,7 @@
                 </svg>
               </button>
               <div class="faq-item__body">
-                <div class="faq-item__answer">The Code/AI Community template includes a live AI news feed. NIX stays in the server and periodically posts the latest AI industry news to designated channels like <code>#ai-news</code> and <code>#model-releases</code>. Because it needs to stay active, the Build and Leave option is disabled for this template.</div>
+                <div class="faq-item__answer">Part of <strong>📊 NIX Tools</strong>. It polls RSS feeds from 12 AI labs (OpenAI, Anthropic, Google AI, DeepMind, Hugging Face, Mistral, xAI, Cohere, Stability AI, Black Forest Labs, Runway, Midjourney) every 30 minutes and auto-posts new articles to dedicated channels — <code>#openai</code>, <code>#anthropic</code>, <code>#google-ai</code>, etc. The Code/AI server template creates all of these channels automatically, but any server with channels named after the labs will get posts.</div>
               </div>
             </div>
 
@@ -332,7 +381,24 @@
                 </svg>
               </button>
               <div class="faq-item__body">
-                <div class="faq-item__answer">Yes. Head to the <a href="requests.html">Requests</a> page and submit your idea. Popular requests get prioritized in upcoming updates.</div>
+                <div class="faq-item__answer">Yes. Head to the <a href="requests.html">Requests</a> page and submit your idea. Popular requests get prioritized in upcoming updates.<br><br>
+                  ⚠️ <strong>Please do NOT ping me or any of the devs in Discord about your request</strong> — pinging will get your request <strong>auto-denied</strong>. The request page is the only intake. We see every submission, and chasing them via DM or pings just slows everything down for everyone.</div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-item__trigger" aria-expanded="false">
+                <span class="faq-item__question">Why can't I ping the devs about my template request?</span>
+                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M12 5v14M5 12h14"/>
+                </svg>
+              </button>
+              <div class="faq-item__body">
+                <div class="faq-item__answer">NIX is a free volunteer project. Pinging or DMing about requests doesn't speed anything up — it just adds noise and pulls focus from actually building templates. To keep things fair:<br><br>
+                  • <strong>Submit through the <a href="requests.html">Requests page</a></strong>, not Discord<br>
+                  • <strong>Don't ping</strong> @binxix, @kynvyr_, or any contributor about a request<br>
+                  • <strong>Don't DM</strong> asking for status updates<br><br>
+                  Any request submitted with a follow-up ping will be <strong>auto-denied</strong>. We check the request queue regularly — you'll see it appear in the changelog when it ships.</div>
               </div>
             </div>
 
@@ -424,20 +490,21 @@
   <footer class="footer">
     <div class="container footer__inner">
       <div class="footer__left">
-        <a href="index.html" class="footer__logo" aria-label="NIX Setup Bot home">
+        <a href="index.html" class="footer__logo" aria-label="NIX Bot Family home">
           <span class="nav__logo-pill">NIX</span>
-          <span class="nav__logo-text">Setup</span>
+          <span class="nav__logo-text">Bot Family</span>
         </a>
-        <p class="footer__tagline">Your server, built in seconds.</p>
+        <p class="footer__tagline">Setup · Anime · Tools — free forever.</p>
       </div>
       <nav class="footer__links" aria-label="Footer navigation">
+        <a href="index.html#bot-family" class="footer__link">Meet the Bots</a>
         <a href="changelog.html" class="footer__link">Changelog</a>
         <a href="faq.html" class="footer__link">FAQ</a>
-        <a href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot" class="footer__link" target="_blank" rel="noopener noreferrer">Add to Server</a>
+        <a href="https://github.com/binx-ux/nix-bot" class="footer__link" target="_blank" rel="noopener noreferrer">GitHub</a>
       </nav>
     </div>
     <div class="container footer__bottom">
-      <p class="footer__copy">&copy; 2026 binxix &middot; NIX Setup Bot &middot; Not affiliated with Discord Inc.</p>
+      <p class="footer__copy">&copy; 2026 binxix &middot; NIX Bot Family &middot; Not affiliated with Discord Inc. &middot; Want to help? DM <strong>kynvyr_</strong></p>
     </div>
   </footer>
 

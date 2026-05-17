@@ -3,6 +3,38 @@
    Dark SaaS landing page styles
    ================================================================ */
 
+/* ===================== REQUESTS WARNING BANNER ===================== */
+.req-warning {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1.25rem 1.5rem;
+  margin: 0 0 2.5rem;
+  border-radius: 0.9rem;
+  background: rgba(254, 231, 92, 0.06);
+  border: 1px solid rgba(254, 231, 92, 0.25);
+  border-left: 4px solid rgba(254, 231, 92, 0.6);
+}
+.req-warning__icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 6px rgba(254, 231, 92, 0.3));
+}
+.req-warning__title {
+  font-weight: 700;
+  color: #fff;
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+}
+.req-warning__text {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  margin: 0;
+}
+.req-warning__text a { color: #FEE75C; text-decoration: underline; }
+.req-warning__text strong { color: #fff; }
+
 /* ===================== PAGE TRANSITIONS =====================
    Native View Transitions (Chrome/Edge 126+) give us a smooth
    cross-document crossfade for free. Browsers without support
