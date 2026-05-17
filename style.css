@@ -1,7 +1,52 @@
 /* ================================================================
-   NIX Setup Bot — style.css
+   NIX Bot Family — style.css
    Dark SaaS landing page styles
    ================================================================ */
+
+/* ===================== PAGE TRANSITIONS =====================
+   Native View Transitions (Chrome/Edge 126+) give us a smooth
+   cross-document crossfade for free. Browsers without support
+   get the CSS fade-in below as a fallback. */
+@view-transition { navigation: auto; }
+
+/* The nav stays in place visually during transitions */
+.nav { view-transition-name: site-nav; }
+.footer { view-transition-name: site-footer; }
+
+/* Customize the default crossfade */
+::view-transition-old(root) {
+  animation: 220ms cubic-bezier(0.4, 0, 0.2, 1) both nix-fade-out;
+}
+::view-transition-new(root) {
+  animation: 380ms cubic-bezier(0.16, 1, 0.3, 1) both nix-fade-in;
+}
+@keyframes nix-fade-out {
+  to { opacity: 0; transform: translateY(-6px); filter: blur(2px); }
+}
+@keyframes nix-fade-in {
+  from { opacity: 0; transform: translateY(10px); filter: blur(4px); }
+}
+
+/* CSS-only fallback for browsers without View Transitions */
+@supports not (view-transition-name: none) {
+  main {
+    animation: nix-page-enter 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  @keyframes nix-page-enter {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: none; }
+  }
+}
+
+/* Respect users who prefer no motion */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root),
+  main {
+    animation: none !important;
+  }
+}
+
 
 /* Custom properties */
 :root {
