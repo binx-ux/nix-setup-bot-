@@ -3,596 +3,360 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Commands — NIX Bot</title>
-  <meta name="description" content="Full NIX Bot command reference — moderation, channels, music, leveling, memes, and security." />
-  <meta property="og:title" content="Commands — NIX Bot" />
-  <meta property="og:url" content="https://binx-ux.github.io/NIX/commands.html" />
+  <meta name="view-transition" content="same-origin" />
+  <title>Commands — NIX Bot Family</title>
+  <meta name="description" content="Every NIX Bot command, grouped by bot: NIX Setup, NIX Anime, and NIX Tools." />
+  <meta property="og:title" content="Commands — NIX Bot Family" />
   <meta name="theme-color" content="#7C3AED" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* ── HERO ─────────────────────────────────── */
-    .cmd-hero {
-      position: relative; z-index: 1;
-      padding: 120px 28px 64px;
-      text-align: center;
-    }
-    .cmd-hero h1 {
-      font-size: clamp(2.4rem, 5vw, 3.8rem);
-      font-weight: 700;
-      color: var(--text-hi);
-      margin: 20px 0 18px;
-      line-height: 1.1;
-    }
-    .cmd-hero p {
-      font-size: 1rem;
-      color: var(--text);
-      max-width: 520px;
-      margin: 0 auto 48px;
-      line-height: 1.78;
-    }
-
-    /* stat strip */
-    .cmd-stats {
-      display: flex;
-      justify-content: center;
-      gap: 0;
-      border: 1px solid rgba(124,58,237,0.18);
-      border-radius: 12px;
-      background: rgba(12,21,36,0.6);
-      backdrop-filter: blur(12px);
-      overflow: hidden;
-      max-width: 520px;
-      margin: 0 auto 56px;
-    }
-    .cmd-stat {
-      flex: 1;
-      padding: 18px 14px;
-      border-right: 1px solid rgba(124,58,237,0.12);
-      text-align: center;
-    }
-    .cmd-stat:last-child { border-right: none; }
-    .cmd-stat-val {
-      font-family: var(--head);
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: var(--text-hi);
-      display: block;
-      letter-spacing: -0.03em;
-    }
-    .cmd-stat-label {
-      font-family: var(--mono);
-      font-size: 0.57rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-mid);
-      margin-top: 4px;
-      display: block;
-    }
-
-    /* ── FILTER TABS ──────────────────────────── */
-    .cmd-filter {
-      position: relative; z-index: 1;
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-      flex-wrap: wrap;
-      padding: 0 28px 40px;
-    }
-    .cmd-tab {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 8px 18px;
-      border-radius: 6px;
-      border: 1px solid rgba(124,58,237,0.2);
-      background: transparent;
-      color: var(--text-mid);
-      cursor: pointer;
-      transition: all .2s cubic-bezier(.16,1,.3,1);
-    }
-    .cmd-tab:hover {
-      border-color: rgba(124,58,237,0.45);
-      color: var(--text-hi);
-      background: rgba(124,58,237,0.06);
-    }
-    .cmd-tab.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-      box-shadow: 0 0 16px rgba(124,58,237,0.4);
-    }
-
-    /* ── COMMAND GRID ─────────────────────────── */
-    .cmd-body {
-      position: relative; z-index: 1;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 28px 96px;
-    }
-    .cmd-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-    @media (max-width: 960px) { .cmd-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 600px) { .cmd-grid { grid-template-columns: 1fr; } }
-
-    .cmd-card {
-      background: var(--surface);
-      border: 1px solid rgba(124,58,237,0.15);
-      border-radius: 12px;
-      padding: 26px 22px;
+    .cmds-page { padding: 120px 0 80px; }
+    .cmds-page .container { max-width: 1100px; }
+    .cmds-bot {
+      margin-bottom: 4rem;
+      padding: 2rem 1.75rem;
+      border-radius: 1.25rem;
+      background: rgba(28,17,43,0.55);
+      border: 1px solid rgba(168,130,255,0.2);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       position: relative;
       overflow: hidden;
-      transition: border-color .22s, transform .22s, box-shadow .22s, opacity .3s;
     }
-    .cmd-card::before {
+    .cmds-bot::before {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(167,139,250,0.4), transparent);
-      transform: scaleX(0);
-      transition: transform .4s ease;
-    }
-    .cmd-card:hover::before { transform: scaleX(1); }
-    .cmd-card:hover {
-      border-color: rgba(124,58,237,0.4);
-      transform: translateY(-3px);
-      box-shadow: 0 16px 48px rgba(0,0,0,0.35), 0 0 32px rgba(124,58,237,0.08);
-    }
-    .cmd-card.hidden {
-      opacity: 0;
+      inset: 0;
       pointer-events: none;
-      position: absolute;
-      visibility: hidden;
+      opacity: 0.4;
     }
+    .cmds-bot--setup::before { background: radial-gradient(circle at top right, rgba(124,58,237,0.22), transparent 60%); }
+    .cmds-bot--anime::before { background: radial-gradient(circle at top right, rgba(233,30,99,0.22), transparent 60%); }
+    .cmds-bot--tools::before { background: radial-gradient(circle at top right, rgba(155,89,182,0.20), transparent 60%); }
+    .cmds-bot--setup { border-color: rgba(124,58,237,0.35); }
+    .cmds-bot--anime { border-color: rgba(233,30,99,0.4); }
+    .cmds-bot--tools { border-color: rgba(155,89,182,0.4); }
 
-    .cmd-cat-badge {
-      display: inline-flex;
+    .cmds-bot__head {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
       align-items: center;
-      gap: 5px;
-      font-family: var(--mono);
-      font-size: 0.57rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 3px 8px;
-      border-radius: 4px;
-      border: 1px solid;
-      margin-bottom: 14px;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
     }
-    .cat-security { color: #60A5FA; border-color: rgba(96,165,250,0.25); background: rgba(96,165,250,0.07); }
-    .cat-mod      { color: #F87171; border-color: rgba(248,113,113,0.25); background: rgba(248,113,113,0.07); }
-    .cat-channel  { color: #22D3EE; border-color: rgba(34,211,238,0.25); background: rgba(34,211,238,0.07); }
-    .cat-music    { color: #FCD34D; border-color: rgba(252,211,77,0.25); background: rgba(252,211,77,0.07); }
-    .cat-leveling { color: #10B981; border-color: rgba(16,185,129,0.25); background: rgba(16,185,129,0.07); }
-    .cat-setup    { color: #A78BFA; border-color: rgba(167,139,250,0.25); background: rgba(167,139,250,0.07); }
-    .cat-fun      { color: #FB923C; border-color: rgba(251,146,60,0.25); background: rgba(251,146,60,0.07); }
-
-    .cmd-name {
-      font-family: var(--mono);
-      font-size: 1rem;
+    .cmds-bot__name {
+      font-family: 'Space Grotesk', sans-serif;
       font-weight: 700;
-      color: var(--text-hi);
-      margin-bottom: 8px;
+      font-size: 1.6rem;
+      color: #fff;
     }
-    .cmd-name .slash { color: var(--accent-hi); }
-
-    .cmd-desc {
+    .cmds-bot__tag {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.6);
+    }
+    .cmds-bot__invite {
+      margin-left: auto;
+      padding: 0.5rem 1rem;
+      background: rgba(168,130,255,0.15);
+      border: 1px solid rgba(168,130,255,0.35);
+      border-radius: 0.5rem;
       font-size: 0.85rem;
-      color: var(--text);
-      line-height: 1.68;
-      margin-bottom: 16px;
+      font-weight: 600;
+      color: #fff;
+      text-decoration: none;
+      transition: background 0.2s ease;
     }
+    .cmds-bot__invite:hover { background: rgba(255,255,255,0.1); }
 
-    .cmd-subs {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
+    .cmd-group {
+      position: relative;
+      margin-bottom: 1.5rem;
     }
-    .cmd-subs li {
-      display: flex;
-      gap: 8px;
-      align-items: flex-start;
-      font-size: 0.78rem;
-      color: var(--text-mid);
-      line-height: 1.5;
-    }
-    .cmd-subs li code {
-      font-family: var(--mono);
-      font-size: 0.8em;
-      color: var(--accent-hi);
-      background: var(--accent-lo);
-      border: 1px solid var(--accent-b);
-      padding: 1px 5px;
-      border-radius: 3px;
-      flex-shrink: 0;
-    }
-
-    /* permission pill */
-    .perm-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-family: var(--mono);
-      font-size: 0.55rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 2px 7px;
-      border-radius: 999px;
-      margin-left: 8px;
-      vertical-align: middle;
-    }
-    .perm-owner  { color: #FCD34D; background: rgba(252,211,77,0.1); border: 1px solid rgba(252,211,77,0.2); }
-    .perm-admin  { color: #F87171; background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.2); }
-    .perm-mod    { color: #60A5FA; background: rgba(96,165,250,0.1); border: 1px solid rgba(96,165,250,0.2); }
-
-    /* CTA strip */
-    .cmd-cta {
-      position: relative; z-index: 1;
-      background: var(--bg2);
-      border-top: 1px solid rgba(124,58,237,0.1);
-    }
-    .cmd-cta-inner {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 72px 28px;
-      text-align: center;
-    }
-    .cmd-cta-inner h2 {
-      font-size: clamp(1.8rem, 3vw, 2.4rem);
+    .cmd-group:last-child { margin-bottom: 0; }
+    .cmd-group__label {
+      font-size: 0.72rem;
       font-weight: 700;
-      color: var(--text-hi);
-      margin: 14px 0 16px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(168,130,255,0.7);
+      margin-bottom: 0.65rem;
     }
-    .cmd-cta-inner p {
-      font-size: 0.95rem;
-      color: var(--text);
-      margin-bottom: 32px;
-      line-height: 1.75;
+    .cmd-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
     }
-    .cmd-cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    @media (min-width: 720px) {
+      .cmd-list { grid-template-columns: 1fr 1fr; }
+    }
+    .cmd-row {
+      display: flex;
+      gap: 0.75rem;
+      align-items: baseline;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.5rem;
+      background: rgba(0,0,0,0.18);
+      border: 1px solid rgba(168,130,255,0.1);
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+    .cmd-row:hover {
+      border-color: rgba(168,130,255,0.3);
+      background: rgba(0,0,0,0.28);
+    }
+    .cmd-row__name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: #fff;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+    .cmd-row__desc {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.45;
+    }
+
+    .cmds-intro {
+      text-align: center;
+      max-width: 38rem;
+      margin: 0 auto 3rem;
+      color: rgba(255,255,255,0.7);
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
   </style>
 </head>
 <body>
 
-<div class="scroll-bar" id="scroll-bar"></div>
-<div class="noise-overlay"></div>
-<div class="aurora">
-  <div class="aurora-blob" style="width:700px;height:700px;background:rgba(124,58,237,0.10);top:-200px;left:-140px;animation-delay:0s;animation-duration:20s"></div>
-  <div class="aurora-blob" style="width:480px;height:480px;background:rgba(34,211,238,0.06);top:40%;right:-100px;animation-delay:-8s;animation-duration:16s"></div>
-  <div class="aurora-blob" style="width:400px;height:400px;background:rgba(124,58,237,0.07);bottom:12%;left:32%;animation-delay:-14s;animation-duration:22s"></div>
-</div>
-
-<!-- NAV -->
-<nav class="nav">
-  <div class="nav-inner">
-    <a class="nav-logo" href="index.html">
-      <span class="nav-logo-mark">NIX</span>
-      <span class="nav-logo-ver">Bot</span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="commands.html" class="active">Commands</a></li>
-      <li><a href="dashboard.html">Dashboard</a></li>
-      <li><a href="faq.html">FAQ</a></li>
-      <li><a href="https://discord.gg/nKjV3mGq6R" target="_blank" rel="noopener">Discord ↗</a></li>
-    </ul>
-    <div class="nav-status">
-      <span class="status-dot"></span>
-      ONLINE
-    </div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+  <div class="aurora" aria-hidden="true">
+    <div class="aurora__blob aurora__blob--1"></div>
+    <div class="aurora__blob aurora__blob--2"></div>
+    <div class="aurora__blob aurora__blob--3"></div>
   </div>
-</nav>
+  <div class="noise" aria-hidden="true"></div>
 
-<!-- HERO -->
-<section class="cmd-hero">
-  <div class="hero-badge" style="margin:0 auto 22px">
-    <div class="hero-badge-dot"></div>
-    <span>All commands use Discord slash commands ( / )</span>
-  </div>
-  <h1>Command Reference</h1>
-  <p>Every NIX Bot slash command, explained. Use the filters to find what you need. All commands are free — no premium tier.</p>
-
-  <div class="cmd-stats" data-reveal="fade">
-    <div class="cmd-stat">
-      <span class="cmd-stat-val">25+</span>
-      <span class="cmd-stat-label">Commands</span>
-    </div>
-    <div class="cmd-stat">
-      <span class="cmd-stat-val">7</span>
-      <span class="cmd-stat-label">Categories</span>
-    </div>
-    <div class="cmd-stat">
-      <span class="cmd-stat-val">Free</span>
-      <span class="cmd-stat-label">No Premium</span>
-    </div>
-  </div>
-</section>
-
-<!-- FILTER TABS -->
-<div class="cmd-filter" data-reveal="fade">
-  <button class="cmd-tab active" data-filter="all">All</button>
-  <button class="cmd-tab" data-filter="security">🛡️ Security</button>
-  <button class="cmd-tab" data-filter="mod">⚔️ Moderation</button>
-  <button class="cmd-tab" data-filter="channel">📁 Channels</button>
-  <button class="cmd-tab" data-filter="music">🎵 Music</button>
-  <button class="cmd-tab" data-filter="leveling">🎮 Leveling</button>
-  <button class="cmd-tab" data-filter="setup">🔧 Setup</button>
-  <button class="cmd-tab" data-filter="fun">🎉 Fun</button>
-</div>
-
-<!-- COMMAND GRID -->
-<div class="cmd-body">
-  <div class="cmd-grid" id="cmd-grid">
-
-    <!-- SECURITY -->
-    <div class="cmd-card" data-cat="security" data-reveal="scale">
-      <span class="cmd-cat-badge cat-security">🛡️ Security</span>
-      <div class="cmd-name"><span class="slash">/</span>scan</div>
-      <p class="cmd-desc">Manually scan any file attachment with VirusTotal and get a full engine-by-engine threat report.</p>
-      <ul class="cmd-subs">
-        <li><code>file</code> The attachment to scan (required)</li>
-      </ul>
-    </div>
-
-    <div class="cmd-card" data-cat="security" data-reveal="scale" data-delay="80">
-      <span class="cmd-cat-badge cat-security">🛡️ Security</span>
-      <div class="cmd-name"><span class="slash">/</span>blacklist <span class="perm-pill perm-owner">Owner only</span></div>
-      <p class="cmd-desc">Manage the global user blacklist. Blacklisted users cannot use any NIX Bot command in any server.</p>
-      <ul class="cmd-subs">
-        <li><code>add</code> Block a user from the bot globally</li>
-        <li><code>remove</code> Unblock a user</li>
-        <li><code>list</code> View all currently blacklisted users</li>
-      </ul>
-    </div>
-
-    <!-- MODERATION -->
-    <div class="cmd-card" data-cat="mod" data-reveal="scale">
-      <span class="cmd-cat-badge cat-mod">⚔️ Moderation</span>
-      <div class="cmd-name"><span class="slash">/</span>server <span class="perm-pill perm-mod">Mod+</span></div>
-      <p class="cmd-desc">Full server moderation suite — member management, role control, and server settings.</p>
-      <ul class="cmd-subs">
-        <li><code>kick</code> Remove a member from the server</li>
-        <li><code>ban</code> Permanently ban a member</li>
-        <li><code>unban</code> Unban a user by their ID</li>
-        <li><code>timeout</code> Mute a member for a set duration</li>
-        <li><code>untimeout</code> Remove an active timeout</li>
-        <li><code>role</code> Toggle a role on a member</li>
-        <li><code>setnick</code> Set or reset a member's nickname</li>
-        <li><code>rename</code> Rename the server</li>
-        <li><code>info</code> Show detailed server stats</li>
-      </ul>
-    </div>
-
-    <div class="cmd-card" data-cat="mod" data-reveal="scale" data-delay="80">
-      <span class="cmd-cat-badge cat-mod">⚔️ Moderation</span>
-      <div class="cmd-name"><span class="slash">/</span>purge <span class="perm-pill perm-mod">Mod+</span></div>
-      <p class="cmd-desc">Bulk-delete up to 100 messages from a channel at once. Useful for clearing spam or accidents.</p>
-      <ul class="cmd-subs">
-        <li><code>amount</code> Number of messages to delete (1–100)</li>
-      </ul>
-    </div>
-
-    <div class="cmd-card" data-cat="mod" data-reveal="scale" data-delay="160">
-      <span class="cmd-cat-badge cat-mod">⚔️ Moderation</span>
-      <div class="cmd-name"><span class="slash">/</span>rules <span class="perm-pill perm-admin">Admin+</span></div>
-      <p class="cmd-desc">Post the server rules embed in the current channel. Formatted and ready to pin.</p>
-    </div>
-
-    <!-- CHANNELS -->
-    <div class="cmd-card" data-cat="channel" data-reveal="scale">
-      <span class="cmd-cat-badge cat-channel">📁 Channels</span>
-      <div class="cmd-name"><span class="slash">/</span>channel <span class="perm-pill perm-admin">Admin+</span></div>
-      <p class="cmd-desc">Complete channel management — create any channel type, delete, rename, control access, and more.</p>
-      <ul class="cmd-subs">
-        <li><code>create</code> Create a text, voice, forum, or stage channel</li>
-        <li><code>delete</code> Delete a channel</li>
-        <li><code>rename</code> Rename a channel</li>
-        <li><code>topic</code> Set or update a channel topic</li>
-        <li><code>lock</code> Prevent members from sending messages</li>
-        <li><code>unlock</code> Restore member send permissions</li>
-        <li><code>slowmode</code> Set slowmode delay (0 to disable)</li>
-        <li><code>clone</code> Duplicate a channel with its settings</li>
-        <li><code>purge</code> Bulk-delete messages (1–100)</li>
-        <li><code>info</code> View detailed channel info</li>
-      </ul>
-    </div>
-
-    <!-- MUSIC -->
-    <div class="cmd-card" data-cat="music" data-reveal="scale">
-      <span class="cmd-cat-badge cat-music">🎵 Music</span>
-      <div class="cmd-name"><span class="slash">/</span>play <span class="perm-pill perm-mod">DJ+</span></div>
-      <p class="cmd-desc">Add a track or playlist to the queue from YouTube, Spotify, SoundCloud, or a direct URL. Joins your voice channel automatically.</p>
-      <ul class="cmd-subs">
-        <li><code>query</code> Song name or URL (required)</li>
-      </ul>
-    </div>
-
-    <div class="cmd-card" data-cat="music" data-reveal="scale" data-delay="80">
-      <span class="cmd-cat-badge cat-music">🎵 Music</span>
-      <div class="cmd-name"><span class="slash">/</span>queue <span class="perm-pill perm-mod">DJ+</span></div>
-      <p class="cmd-desc">View the current music queue, skip tracks, clear the queue, or shuffle playback order.</p>
-      <ul class="cmd-subs">
-        <li><code>view</code> Display the current queue</li>
-        <li><code>skip</code> Skip the current track</li>
-        <li><code>clear</code> Remove all tracks from the queue</li>
-        <li><code>shuffle</code> Randomise queue order</li>
-      </ul>
-    </div>
-
-    <div class="cmd-card" data-cat="music" data-reveal="scale" data-delay="160">
-      <span class="cmd-cat-badge cat-music">🎵 Music</span>
-      <div class="cmd-name"><span class="slash">/</span>player <span class="perm-pill perm-mod">DJ+</span></div>
-      <p class="cmd-desc">Control playback state — pause, resume, stop, adjust volume, and disconnect the bot from voice.</p>
-      <ul class="cmd-subs">
-        <li><code>pause</code> Pause playback</li>
-        <li><code>resume</code> Resume playback</li>
-        <li><code>stop</code> Stop and clear the queue</li>
-        <li><code>volume</code> Set volume 0–100</li>
-        <li><code>disconnect</code> Leave the voice channel</li>
-      </ul>
-    </div>
-
-    <!-- LEVELING -->
-    <div class="cmd-card" data-cat="leveling" data-reveal="scale">
-      <span class="cmd-cat-badge cat-leveling">🎮 Leveling</span>
-      <div class="cmd-name"><span class="slash">/</span>rank</div>
-      <p class="cmd-desc">Check your current XP, level, and rank compared to the rest of the server. Optionally view another member's stats.</p>
-      <ul class="cmd-subs">
-        <li><code>user</code> Member to check (optional, defaults to you)</li>
-      </ul>
-    </div>
-
-    <div class="cmd-card" data-cat="leveling" data-reveal="scale" data-delay="80">
-      <span class="cmd-cat-badge cat-leveling">🎮 Leveling</span>
-      <div class="cmd-name"><span class="slash">/</span>leaderboard</div>
-      <p class="cmd-desc">Show the top 10 most active members in the server by XP. Updates in real time as members chat.</p>
-    </div>
-
-    <!-- SETUP -->
-    <div class="cmd-card" data-cat="setup" data-reveal="scale">
-      <span class="cmd-cat-badge cat-setup">🔧 Setup</span>
-      <div class="cmd-name"><span class="slash">/</span>setup <span class="perm-pill perm-owner">Owner only</span></div>
-      <p class="cmd-desc">Pick a server template and NIX Bot builds your entire server — roles, categories, and channels — in seconds. DMs you a summary when done.</p>
-      <ul class="cmd-subs">
-        <li>Gaming, Community, Streaming, Study, and more templates available</li>
-      </ul>
-    </div>
-
-    <div class="cmd-card" data-cat="setup" data-reveal="scale" data-delay="80">
-      <span class="cmd-cat-badge cat-setup">🔧 Setup</span>
-      <div class="cmd-name"><span class="slash">/</span>setstatus <span class="perm-pill perm-owner">Owner only</span></div>
-      <p class="cmd-desc">Change the bot's displayed presence activity and status type from within Discord.</p>
-      <ul class="cmd-subs">
-        <li><code>text</code> The activity text to display</li>
-        <li><code>type</code> Playing / Watching / Listening / Competing</li>
-      </ul>
-    </div>
-
-    <div class="cmd-card" data-cat="setup" data-reveal="scale" data-delay="160">
-      <span class="cmd-cat-badge cat-setup">🔧 Setup</span>
-      <div class="cmd-name"><span class="slash">/</span>scriptcall</div>
-      <p class="cmd-desc">Check whether Binxix Hub V6 is online, updating, or offline — useful for status monitoring from within Discord.</p>
-    </div>
-
-    <div class="cmd-card" data-cat="setup" data-reveal="scale" data-delay="240">
-      <span class="cmd-cat-badge cat-setup">🔧 Setup</span>
-      <div class="cmd-name"><span class="slash">/</span>help</div>
-      <p class="cmd-desc">Show a quick-reference list of all available NIX Bot commands, organised by category.</p>
-    </div>
-
-    <!-- FUN -->
-    <div class="cmd-card" data-cat="fun" data-reveal="scale">
-      <span class="cmd-cat-badge cat-fun">🎉 Fun</span>
-      <div class="cmd-name"><span class="slash">/</span>meme</div>
-      <p class="cmd-desc">Pull a random meme from Reddit. NSFW posts are automatically filtered unless the channel is marked age-restricted. 8-second cooldown per user.</p>
-      <ul class="cmd-subs">
-        <li><code>subreddit</code> r/memes, r/dankmemes, r/me_irl, r/funny, r/AdviceAnimals (optional)</li>
-      </ul>
-    </div>
-
-  </div>
-</div>
-
-<!-- PERMISSION LEGEND -->
-<div style="position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 28px 80px;">
-  <div style="background:var(--surface);border:1px solid rgba(124,58,237,0.15);border-radius:12px;padding:24px 28px;display:flex;gap:24px;flex-wrap:wrap;align-items:center;">
-    <span style="font-family:var(--mono);font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-lo)">Permission tiers</span>
-    <span class="perm-pill perm-owner" style="font-size:0.65rem;padding:4px 10px;">👑 Owner only — bot owner via <code style="font-family:var(--mono)">OWNER_ID</code></span>
-    <span class="perm-pill perm-admin" style="font-size:0.65rem;padding:4px 10px;">🛡️ Admin+ — server owner or admin role</span>
-    <span class="perm-pill perm-mod" style="font-size:0.65rem;padding:4px 10px;">🔨 Mod+ — mod, admin, or owner role</span>
-    <span style="font-size:0.78rem;color:var(--text-mid)">Commands with no badge are usable by everyone.</span>
-  </div>
-</div>
-
-<!-- CTA -->
-<div class="cmd-cta">
-  <div class="cmd-cta-inner" data-reveal="fade">
-    <div class="section-eyebrow">Ready?</div>
-    <h2>Add NIX Bot to<br><em class="text-gradient">your server.</em></h2>
-    <p>One click. All 25+ commands available immediately at no cost.</p>
-    <div class="cmd-cta-btns">
-      <a class="btn btn-primary" href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot" target="_blank" rel="noopener">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.031.053a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.04.001-.088-.041-.104a13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
-        Add to Server
+  <nav class="nav" id="nav">
+    <div class="nav__inner container">
+      <a href="index.html" class="nav__logo" aria-label="NIX Bot Family home">
+        <span class="nav__logo-pill">NIX</span>
+        <span class="nav__logo-text">Bots</span>
       </a>
-      <a class="btn btn-ghost" href="faq.html">FAQ →</a>
-    </div>
-  </div>
-</div>
-
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <a class="nav-logo" href="index.html"><span class="nav-logo-mark">NIX</span><span class="nav-logo-ver">Bot</span></a>
-      <p>Free Discord bot by binxix. No premium tiers, no data collection.</p>
-    </div>
-    <div class="footer-col">
-      <h5>Bot</h5>
-      <ul>
-        <li><a href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot" target="_blank" rel="noopener">Add to Server</a></li>
-        <li><a href="commands.html">Commands</a></li>
-        <li><a href="faq.html">FAQ</a></li>
+      <ul class="nav__links" role="list">
+        <li><a href="index.html#bot-family" class="nav__link">Bots</a></li>
+        <li><a href="templates.html" class="nav__link">Templates</a></li>
+        <li><a href="commands.html" class="nav__link nav__link--active">Commands</a></li>
+        <li><a href="changelog.html" class="nav__link">Changelog</a></li>
+        <li><a href="faq.html" class="nav__link">FAQ</a></li>
+        <li><a href="requests.html" class="nav__link">Requests</a></li>
       </ul>
+      <a href="index.html#bot-family" class="btn btn--primary nav__cta">Add to Server</a>
+      <button class="nav__hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>
-    <div class="footer-col">
-      <h5>Community</h5>
-      <ul>
-        <li><a href="https://discord.gg/nKjV3mGq6R" target="_blank" rel="noopener">Discord Server</a></li>
-        <li><a href="https://github.com/binx-ux/nix-bot-push" target="_blank" rel="noopener">GitHub ↗</a></li>
-      </ul>
+    <div class="nav__mobile-backdrop" id="navBackdrop" aria-hidden="true"></div>
+    <div class="nav__mobile" id="navMobile" aria-hidden="true">
+      <a href="index.html#bot-family" class="nav__mobile-link">Bots</a>
+      <a href="templates.html" class="nav__mobile-link">Templates</a>
+      <a href="commands.html" class="nav__mobile-link">Commands</a>
+      <a href="changelog.html" class="nav__mobile-link">Changelog</a>
+      <a href="faq.html" class="nav__mobile-link">FAQ</a>
+      <a href="requests.html" class="nav__mobile-link">Requests</a>
+      <a href="index.html#bot-family" class="btn btn--primary nav__mobile-cta">Add to Server</a>
     </div>
-  </div>
-  <div class="footer-bottom">
-    <span class="footer-copy">© 2026 binxix · NIX Bot</span>
-    <span class="footer-copy">Not affiliated with Discord Inc.</span>
-  </div>
-</footer>
+  </nav>
 
-<script>
-(function () {
-  const scrollBar = document.getElementById('scroll-bar');
-  const navEl = document.querySelector('.nav');
-  window.addEventListener('scroll', () => {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    if (scrollBar) scrollBar.style.width = (max > 0 ? window.scrollY / max * 100 : 0) + '%';
-    navEl?.classList.toggle('scrolled', window.scrollY > 60);
-  }, { passive: true });
+  <main class="cmds-page">
+    <div class="container">
+      <div class="section-label" style="text-align:center" data-reveal="up">COMMAND REFERENCE</div>
+      <h1 style="text-align:center; font-family: 'Space Grotesk', sans-serif; font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; color:#fff; margin: 0.75rem 0 1.5rem;" data-reveal="up">Every command, grouped by bot.</h1>
+      <p class="cmds-intro" data-reveal="up">
+        NIX is three separate Discord bots. Below is every slash command, what it does, and which bot owns it.
+        Permissions are noted where they apply.
+      </p>
 
-  const ro = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); ro.unobserve(e.target); } });
-  }, { threshold: 0.1, rootMargin: '0px 0px -48px 0px' });
-  document.querySelectorAll('[data-reveal]').forEach(el => ro.observe(el));
+      <!-- ===================== NIX SETUP ===================== -->
+      <section class="cmds-bot cmds-bot--setup" data-reveal="up">
+        <div class="cmds-bot__head">
+          <div>
+            <div class="cmds-bot__name">🛠️ NIX Setup</div>
+            <div class="cmds-bot__tag">Server templates, export/import, welcome flow, custom commands</div>
+          </div>
+          <a class="cmds-bot__invite" href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot" target="_blank" rel="noopener noreferrer">Add Setup →</a>
+        </div>
 
-  // Filter tabs
-  const tabs = document.querySelectorAll('.cmd-tab');
-  const cards = document.querySelectorAll('.cmd-card');
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      const filter = tab.dataset.filter;
-      cards.forEach(card => card.classList.toggle('hidden', filter !== 'all' && card.dataset.cat !== filter));
-    });
-  });
+        <div class="cmd-group">
+          <div class="cmd-group__label">Server Building <small style="color:rgba(255,255,255,0.4); font-weight:500; text-transform:none; letter-spacing:0;">· owner only</small></div>
+          <div class="cmd-list">
+            <div class="cmd-row"><span class="cmd-row__name">/setup</span><span class="cmd-row__desc">Build a server from a template</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/undo</span><span class="cmd-row__desc">Reverse the last setup run</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/export</span><span class="cmd-row__desc">Save server layout as a shareable code</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/import &lt;code&gt;</span><span class="cmd-row__desc">Build server from someone\'s code</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/exports</span><span class="cmd-row__desc">List codes you have created</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/revoke &lt;code&gt;</span><span class="cmd-row__desc">Disable an export code</span></div>
+          </div>
+        </div>
 
-  // Card tilt
-  cards.forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const r = card.getBoundingClientRect();
-      const x = (e.clientX - r.left - r.width / 2) / (r.width / 2);
-      const y = (e.clientY - r.top - r.height / 2) / (r.height / 2);
-      card.style.transform = `translateY(-3px) perspective(700px) rotateX(${-y * 4}deg) rotateY(${x * 4}deg)`;
-    });
-    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
-  });
-})();
-</script>
+        <div class="cmd-group">
+          <div class="cmd-group__label">Server Tools <small style="color:rgba(255,255,255,0.4); font-weight:500; text-transform:none; letter-spacing:0;">· admin only</small></div>
+          <div class="cmd-list">
+            <div class="cmd-row"><span class="cmd-row__name">/welcome</span><span class="cmd-row__desc">Configure welcome flow + auto-role</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/customcmd</span><span class="cmd-row__desc">Per-server <code>!</code> text commands (max 50)</span></div>
+          </div>
+        </div>
+
+        <div class="cmd-group">
+          <div class="cmd-group__label">Info</div>
+          <div class="cmd-list">
+            <div class="cmd-row"><span class="cmd-row__name">/help</span><span class="cmd-row__desc">Command reference for this bot</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/botinfo</span><span class="cmd-row__desc">Version, ping, uptime, server count</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/invite</span><span class="cmd-row__desc">Get the invite link</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== NIX ANIME ===================== -->
+      <section class="cmds-bot cmds-bot--anime" data-reveal="up">
+        <div class="cmds-bot__head">
+          <div>
+            <div class="cmds-bot__name">🌸 NIX Anime</div>
+            <div class="cmds-bot__tag">Anime lookup, quiz, watch parties, release feed, AniList integration</div>
+          </div>
+          <a class="cmds-bot__invite" href="https://discord.com/oauth2/authorize?client_id=1505277689165119771&permissions=320243616784&integration_type=0&scope=bot+applications.commands" target="_blank" rel="noopener noreferrer">Add Anime →</a>
+        </div>
+
+        <div class="cmd-group">
+          <div class="cmd-group__label">Lookup · MyAnimeList</div>
+          <div class="cmd-list">
+            <div class="cmd-row"><span class="cmd-row__name">/anime &lt;name&gt;</span><span class="cmd-row__desc">Anime details — cover, score, episodes, genres</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/manga &lt;name&gt;</span><span class="cmd-row__desc">Manga / manhwa / manhua / LN details</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/character &lt;name&gt;</span><span class="cmd-row__desc">Character bio + top appearances</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/seiyuu &lt;name&gt;</span><span class="cmd-row__desc">Voice actor + top voiced roles</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/streaming &lt;anime&gt;</span><span class="cmd-row__desc">Where to legally watch</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/compare</span><span class="cmd-row__desc">Side-by-side anime comparison</span></div>
+          </div>
+        </div>
+
+        <div class="cmd-group">
+          <div class="cmd-group__label">Random Pickers</div>
+          <div class="cmd-list">
+            <div class="cmd-row"><span class="cmd-row__name">/random anime</span><span class="cmd-row__desc">Random anime, no filters</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/random manga</span><span class="cmd-row__desc">Random manga</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/random character</span><span class="cmd-row__desc">Random character</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/random quote</span><span class="cmd-row__desc">Random anime quote</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/randomanime</span><span class="cmd-row__desc">Random anime with genre/status/score filters</span></div>
+          </div>
+        </div>
+
+        <div class="cmd-group">
+          <div class="cmd-group__label">Engagement</div>
+          <div class="cmd-list">
+            <div class="cmd-row"><span class="cmd-row__name">/quiz [mode]</span><span class="cmd-row__desc">Anime quiz (synopsis / cover / character)</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/quizleaderboard</span><span class="cmd-row__desc">Top players in this server</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/tierlist</span><span class="cmd-row__desc">Build S/A/B/C/D/F tier lists</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/anilist link/show</span><span class="cmd-row__desc">Link AniList account, show profile stats</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/remindme add/remove/list</span><span class="cmd-row__desc">DM you when new episodes air</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/watchparty schedule</span><span class="cmd-row__desc">Create Discord scheduled event</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/animeroles</span><span class="cmd-row__desc">Post genre role picker (admin)</span></div>
+          </div>
+        </div>
+
+        <div class="cmd-group">
+          <div class="cmd-group__label">Info</div>
+          <div class="cmd-list">
+            <div class="cmd-row"><span class="cmd-row__name">/ping</span><span class="cmd-row__desc">Latency + connection quality</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/invite</span><span class="cmd-row__desc">Get the invite link</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== NIX TOOLS ===================== -->
+      <section class="cmds-bot cmds-bot--tools" data-reveal="up">
+        <div class="cmds-bot__head">
+          <div>
+            <div class="cmds-bot__name">📊 NIX Tools</div>
+            <div class="cmds-bot__tag">Website monitoring, AI news, file scanning, utility QoL commands</div>
+          </div>
+          <a class="cmds-bot__invite" href="https://discord.com/oauth2/authorize?client_id=1505277765035753502&permissions=2147740752&integration_type=0&scope=bot+applications.commands" target="_blank" rel="noopener noreferrer">Add Tools →</a>
+        </div>
+
+        <div class="cmd-group">
+          <div class="cmd-group__label">Monitoring <small style="color:rgba(255,255,255,0.4); font-weight:500; text-transform:none; letter-spacing:0;">· admin only</small></div>
+          <div class="cmd-list">
+            <div class="cmd-row"><span class="cmd-row__name">/monitor add &lt;url&gt;</span><span class="cmd-row__desc">Start tracking a URL</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/monitor remove &lt;url&gt;</span><span class="cmd-row__desc">Stop tracking a URL</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/monitor list</span><span class="cmd-row__desc">All monitored sites</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/monitor channel</span><span class="cmd-row__desc">Set status channel</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/monitor ping</span><span class="cmd-row__desc">Set ping target on status change</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/monitor toggle</span><span class="cmd-row__desc">Enable/disable monitoring</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/monitor show</span><span class="cmd-row__desc">View full monitor config</span></div>
+          </div>
+        </div>
+
+        <div class="cmd-group">
+          <div class="cmd-group__label">Security</div>
+          <div class="cmd-list">
+            <div class="cmd-row"><span class="cmd-row__name">/scan</span><span class="cmd-row__desc">VirusTotal scan an attachment</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/settings</span><span class="cmd-row__desc">Scan log channel + auto-scan toggle</span></div>
+          </div>
+        </div>
+
+        <div class="cmd-group">
+          <div class="cmd-group__label">Utilities</div>
+          <div class="cmd-list">
+            <div class="cmd-row"><span class="cmd-row__name">/avatar [user]</span><span class="cmd-row__desc">Fetch any user\'s avatar</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/banner user/server</span><span class="cmd-row__desc">User banner or server banner</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/afk [reason]</span><span class="cmd-row__desc">Set AFK, bot auto-replies on ping</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/serverinfo</span><span class="cmd-row__desc">Server stats: members, channels, roles, boosts</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/meme [subreddit]</span><span class="cmd-row__desc">Random Reddit meme</span></div>
+          </div>
+        </div>
+
+        <div class="cmd-group">
+          <div class="cmd-group__label">Info</div>
+          <div class="cmd-list">
+            <div class="cmd-row"><span class="cmd-row__name">/ping</span><span class="cmd-row__desc">Latency check</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/uptime</span><span class="cmd-row__desc">How long the bot has been online</span></div>
+            <div class="cmd-row"><span class="cmd-row__name">/invite</span><span class="cmd-row__desc">Get the invite link</span></div>
+          </div>
+        </div>
+      </section>
+
+      <p style="text-align:center; margin-top: 3rem; color: rgba(255,255,255,0.55); font-size: 0.95rem;">
+        Don\'t see a command you need? <a href="requests.html" style="color:#FFB6D9;">Request a template</a> or
+        <a href="https://github.com/binx-ux/nix-bot/issues" target="_blank" rel="noopener noreferrer" style="color:#FFB6D9;">open a GitHub issue</a>.
+      </p>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__left">
+        <a href="index.html" class="footer__logo" aria-label="NIX Bot Family home">
+          <span class="nav__logo-pill">NIX</span>
+          <span class="nav__logo-text">Bot Family</span>
+        </a>
+        <p class="footer__tagline">Setup · Anime · Tools — free forever.</p>
+      </div>
+      <nav class="footer__links" aria-label="Footer navigation">
+        <a href="index.html#bot-family" class="footer__link">Meet the Bots</a>
+        <a href="changelog.html" class="footer__link">Changelog</a>
+        <a href="faq.html" class="footer__link">FAQ</a>
+        <a href="https://github.com/binx-ux/nix-bot" class="footer__link" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </nav>
+    </div>
+    <div class="container footer__bottom">
+      <p class="footer__copy">&copy; 2026 binxix &middot; NIX Bot Family &middot; Not affiliated with Discord Inc. &middot; Want to help? DM <strong>kynvyr_</strong></p>
+    </div>
+  </footer>
+
 </body>
 </html>

@@ -3,802 +3,232 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Roadmap — NIX</title>
-  <meta name="description" content="NIX public roadmap — what's shipped, what's being built, and what's planned next." />
-  <meta property="og:title" content="Roadmap — NIX" />
-  <meta property="og:url" content="https://binx-ux.github.io/NIX/roadmap.html" />
+  <meta name="view-transition" content="same-origin" />
+  <title>Roadmap — NIX Bot Family</title>
+  <meta name="description" content="What the NIX Bot family has shipped, what's in progress, and what's coming next." />
+  <meta property="og:title" content="Roadmap — NIX Bot Family" />
   <meta name="theme-color" content="#7C3AED" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* ── ROADMAP REDESIGN ─────────────────────────── */
-
-    /* Milestone track */
-    .milestone-track {
-      position: relative;
-      z-index: 1;
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 28px 56px;
-    }
-    .milestone-label {
-      font-family: var(--mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-mid);
-      margin-bottom: 20px;
-    }
-    .milestone-line {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 0;
-    }
-    .milestone-rail {
-      position: absolute;
-      top: 50%; left: 0; right: 0;
-      height: 2px;
-      background: rgba(124,58,237,0.15);
-      transform: translateY(-50%);
-      border-radius: 1px;
-    }
-    .milestone-fill {
-      position: absolute;
-      top: 50%; left: 0;
-      width: 70%;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--accent-hi));
-      transform: translateY(-50%);
-      border-radius: 1px;
-      box-shadow: 0 0 8px rgba(124,58,237,0.4);
-      animation: milestoneGrow 1.6s cubic-bezier(.16,1,.3,1) 0.5s both;
-    }
-    @keyframes milestoneGrow {
-      from { width: 0%; opacity: 0; }
-      to   { opacity: 1; }
-    }
-    .milestone-nodes {
-      position: relative;
-      display: flex;
-      align-items: center;
-      width: 100%;
-      justify-content: space-between;
-    }
-    .milestone-node {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      position: relative;
-    }
-    .milestone-dot {
-      width: 14px; height: 14px;
-      border-radius: 50%;
-      background: var(--bg);
-      border: 2px solid rgba(124,58,237,0.3);
-      position: relative;
-      z-index: 2;
-      transition: border-color .2s, box-shadow .2s;
-    }
-    .milestone-node.done .milestone-dot {
-      border-color: var(--accent);
-      background: var(--accent);
-      box-shadow: 0 0 12px rgba(124,58,237,0.5);
-    }
-    .milestone-node.current .milestone-dot {
-      border-color: var(--accent-hi);
-      background: var(--accent-hi);
-      box-shadow: 0 0 16px rgba(167,139,250,0.7);
-      animation: currentPulse 2.5s ease-in-out infinite;
-    }
-    .milestone-node.future .milestone-dot {
-      border-color: rgba(34,211,238,0.3);
-      border-style: dashed;
-    }
-    @keyframes currentPulse {
-      0%,100% { box-shadow: 0 0 10px rgba(167,139,250,0.5); }
-      50%     { box-shadow: 0 0 24px rgba(167,139,250,0.9); }
-    }
-    .milestone-ver {
-      font-family: var(--mono);
-      font-size: 0.68rem;
+    .rm-page { padding: 120px 0 80px; }
+    .rm-page .container { max-width: 1200px; }
+    .rm-page h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2rem, 5vw, 3rem);
       font-weight: 700;
-      color: var(--text-hi);
-      margin-top: 6px;
-    }
-    .milestone-node.future .milestone-ver { color: var(--text-mid); }
-    .milestone-date {
-      font-family: var(--mono);
-      font-size: 0.56rem;
-      letter-spacing: 0.04em;
-      color: var(--text-lo);
-    }
-    .milestone-tag {
-      font-family: var(--mono);
-      font-size: 0.5rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 2px 6px;
-      border-radius: 3px;
-      margin-top: 2px;
-    }
-    .mt-current { background: var(--accent-lo); border: 1px solid var(--accent-b); color: var(--accent-hi); }
-    .mt-future  { background: rgba(34,211,238,0.06); border: 1px solid rgba(34,211,238,0.2); color: var(--cyan); }
-
-    /* Stat strip */
-    .rm-stats {
-      position: relative;
-      z-index: 1;
-      max-width: 1100px;
-      margin: 0 auto 48px;
-      padding: 0 28px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-    .rm-stat-card {
-      border-radius: 10px;
-      padding: 22px 24px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      border: 1px solid;
-    }
-    .rm-stat-card--done   { background: rgba(16,185,129,0.05); border-color: rgba(16,185,129,0.2); }
-    .rm-stat-card--active { background: rgba(124,58,237,0.06); border-color: rgba(124,58,237,0.22); }
-    .rm-stat-card--plan   { background: rgba(34,211,238,0.05); border-color: rgba(34,211,238,0.18); }
-    .rm-stat-icon {
-      width: 38px; height: 38px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      flex-shrink: 0;
-    }
-    .rm-stat-card--done .rm-stat-icon   { background: rgba(16,185,129,0.12); }
-    .rm-stat-card--active .rm-stat-icon { background: rgba(124,58,237,0.12); }
-    .rm-stat-card--plan .rm-stat-icon   { background: rgba(34,211,238,0.1); }
-    .rm-stat-num {
-      font-family: var(--head);
-      font-size: 2rem;
-      font-weight: 700;
-      line-height: 1;
-      letter-spacing: -0.04em;
-    }
-    .rm-stat-card--done .rm-stat-num   { color: var(--green); }
-    .rm-stat-card--active .rm-stat-num { color: var(--accent-hi); }
-    .rm-stat-card--plan .rm-stat-num   { color: var(--cyan); }
-    .rm-stat-text {
-      font-family: var(--mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-mid);
-      margin-top: 3px;
-    }
-
-    /* Kanban board */
-    .rm-board-wrap {
-      position: relative;
-      z-index: 1;
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 28px 80px;
-    }
-    .rm-board {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      align-items: start;
-    }
-    @media (max-width: 900px) { .rm-board { grid-template-columns: 1fr; } }
-    @media (max-width: 600px) {
-      .rm-stats { grid-template-columns: 1fr; }
-      .milestone-nodes { display: none; }
-    }
-
-    /* Column */
-    .rm-col {
-      background: rgba(255,255,255,0.015);
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.06);
-      padding: 4px;
-    }
-    .rm-col-head {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 14px 16px 12px;
-      border-radius: 10px 10px 0 0;
-      margin-bottom: 2px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    .rm-col-head-icon {
-      width: 28px; height: 28px;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.9rem;
-    }
-    .rm-col--done   .rm-col-head-icon { background: rgba(16,185,129,0.15); }
-    .rm-col--active .rm-col-head-icon { background: rgba(124,58,237,0.15); }
-    .rm-col--plan   .rm-col-head-icon { background: rgba(34,211,238,0.1); }
-    .rm-col-head h2 {
-      font-size: 0.82rem;
-      font-weight: 600;
-      margin: 0;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-    .rm-col--done   .rm-col-head h2 { color: var(--green); }
-    .rm-col--active .rm-col-head h2 { color: var(--accent-hi); }
-    .rm-col--plan   .rm-col-head h2 { color: var(--cyan); }
-    .rm-count {
-      margin-left: auto;
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      padding: 2px 8px;
-      border-radius: 999px;
-    }
-    .rm-col--done   .rm-count { background: rgba(16,185,129,0.12); color: var(--green); }
-    .rm-col--active .rm-count { background: rgba(124,58,237,0.12); color: var(--accent-hi); }
-    .rm-col--plan   .rm-count { background: rgba(34,211,238,0.1); color: var(--cyan); }
-
-    /* Item card */
-    .rm-cards { padding: 8px; display: flex; flex-direction: column; gap: 6px; }
-    .rm-item {
-      background: var(--surface);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 9px;
-      padding: 14px 16px;
-      transition: border-color .18s, transform .18s, box-shadow .18s;
-      position: relative;
-      overflow: hidden;
-    }
-    .rm-item::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 2px;
-    }
-    .rm-col--done   .rm-item::before { background: var(--green); opacity: 0.35; }
-    .rm-col--active .rm-item::before { background: var(--accent-hi); opacity: 0.5; }
-    .rm-col--plan   .rm-item::before { background: var(--cyan); opacity: 0.3; }
-
-    .rm-col--done   .rm-item:hover { border-color: rgba(16,185,129,0.3); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3), 0 0 16px rgba(16,185,129,0.06); }
-    .rm-col--active .rm-item:hover { border-color: rgba(124,58,237,0.35); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3), 0 0 20px rgba(124,58,237,0.1); }
-    .rm-col--plan   .rm-item:hover { border-color: rgba(34,211,238,0.28); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3), 0 0 16px rgba(34,211,238,0.06); }
-
-    .rm-item-head {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 6px;
-    }
-    .rm-item-title {
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--text-hi);
-      margin: 0;
-      line-height: 1.35;
-    }
-    .rm-item--done .rm-item-title { color: var(--text); }
-    .rm-done-check {
-      font-size: 0.75rem;
-      color: var(--green);
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-    .rm-item-desc {
-      font-size: 0.78rem;
-      color: var(--text-mid);
-      line-height: 1.55;
-      margin: 0 0 10px;
-    }
-    .rm-item-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; }
-    .rm-tag {
-      font-size: 0.62rem;
-      font-family: var(--mono);
-      padding: 2px 7px;
-      border-radius: 4px;
-      background: rgba(255,255,255,0.04);
-      color: var(--text-lo);
-      border: 1px solid rgba(255,255,255,0.07);
-      letter-spacing: 0.04em;
-    }
-    .rm-tag--version { background: var(--accent-lo); border-color: var(--accent-b); color: var(--accent-hi); }
-    .rm-tag--cyan    { background: rgba(34,211,238,0.06); border-color: rgba(34,211,238,0.18); color: var(--cyan); }
-    .rm-tag--green   { background: rgba(16,185,129,0.07); border-color: rgba(16,185,129,0.2); color: var(--green); }
-
-    /* Progress bar (in-progress items) */
-    .rm-progress {
-      margin-top: 10px;
-      background: rgba(255,255,255,0.06);
-      border-radius: 2px;
-      height: 3px;
-      overflow: hidden;
-    }
-    .rm-progress-bar {
-      height: 100%;
-      border-radius: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--accent-hi));
-      box-shadow: 0 0 6px rgba(124,58,237,0.5);
-      width: var(--pct, 50%);
-      transform-origin: left;
-      animation: progressReveal 1.4s cubic-bezier(.16,1,.3,1) var(--delay, 0s) both;
-    }
-    @keyframes progressReveal {
-      from { transform: scaleX(0); }
-      to   { transform: scaleX(1); }
-    }
-    .rm-progress-label {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 5px;
-      font-family: var(--mono);
-      font-size: 0.56rem;
-      letter-spacing: 0.06em;
-    }
-    .rm-progress-label span:first-child { color: var(--text-lo); text-transform: uppercase; }
-    .rm-progress-label span:last-child  { color: var(--accent-hi); }
-
-    .rm-disclaimer {
-      font-size: 0.78rem;
-      color: var(--text-lo);
+      color: #fff;
       text-align: center;
-      margin-top: 40px;
-      font-family: var(--mono);
-      line-height: 1.7;
-      letter-spacing: 0.02em;
+      margin: 0.75rem 0 1rem;
+      line-height: 1.15;
     }
-    .rm-disclaimer a { color: var(--text-mid); }
-    .rm-disclaimer a:hover { color: var(--text-hi); }
+    .rm-intro {
+      text-align: center;
+      max-width: 42rem;
+      margin: 0 auto 4rem;
+      color: rgba(255,255,255,0.7);
+      font-size: 1.05rem;
+      line-height: 1.65;
+    }
+
+    .rm-columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+    .rm-col {
+      padding: 1.75rem 1.4rem;
+      border-radius: 1rem;
+      background: rgba(28,17,43,0.55);
+      border: 1px solid rgba(168,130,255,0.18);
+      backdrop-filter: blur(14px);
+    }
+    .rm-col--shipped  { border-top: 3px solid #57F287; }
+    .rm-col--progress { border-top: 3px solid #FEE75C; }
+    .rm-col--planned  { border-top: 3px solid #5865F2; }
+    .rm-col--ideas    { border-top: 3px solid #99AAB5; }
+    .rm-col__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+    .rm-col__title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: #fff;
+    }
+    .rm-col__count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      padding: 0.2rem 0.55rem;
+      background: rgba(168,130,255,0.15);
+      border-radius: 999px;
+      color: rgba(255,255,255,0.7);
+    }
+    .rm-card {
+      padding: 0.85rem 0.95rem;
+      margin-bottom: 0.6rem;
+      border-radius: 0.6rem;
+      background: rgba(0,0,0,0.22);
+      border: 1px solid rgba(168,130,255,0.1);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .rm-card:hover { transform: translateY(-1px); border-color: rgba(168,130,255,0.3); }
+    .rm-card:last-child { margin-bottom: 0; }
+    .rm-card__head {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.3rem;
+    }
+    .rm-card__tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      padding: 0.1rem 0.45rem;
+      border-radius: 0.3rem;
+    }
+    .rm-card__tag--setup   { background: rgba(124,58,237,0.2); color: #C7B0FF; }
+    .rm-card__tag--anime   { background: rgba(233,30,99,0.2);  color: #FFB6D9; }
+    .rm-card__tag--tools   { background: rgba(155,89,182,0.2); color: #D5A5E0; }
+    .rm-card__tag--website { background: rgba(54,162,235,0.2); color: #9AD0FF; }
+    .rm-card__tag--all     { background: rgba(255,255,255,0.1); color: #fff; }
+    .rm-card__title { font-size: 0.95rem; font-weight: 600; color: #fff; }
+    .rm-card__desc  { font-size: 0.85rem; color: rgba(255,255,255,0.65); line-height: 1.45; }
   </style>
 </head>
 <body>
 
-<div class="scroll-bar" id="scroll-bar"></div>
-<div class="noise-overlay"></div>
-<div class="aurora">
-  <div class="aurora-blob" style="width:660px;height:660px;background:rgba(124,58,237,0.12);top:-180px;left:-130px;animation-delay:0s;animation-duration:19s"></div>
-  <div class="aurora-blob" style="width:480px;height:480px;background:rgba(34,211,238,0.07);top:35%;right:-90px;animation-delay:-7s;animation-duration:14s"></div>
-  <div class="aurora-blob" style="width:400px;height:400px;background:rgba(16,185,129,0.05);bottom:20%;left:30%;animation-delay:-13s;animation-duration:20s"></div>
-</div>
-
-<!-- NAV -->
-<nav class="nav">
-  <div class="nav-inner">
-    <a class="nav-logo" href="index.html">
-      <span class="nav-logo-mark">NIX</span>
-      <span class="nav-logo-ver" id="nav-ver">v2.0.8</span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="features.html">Features</a></li>
-      <li><a href="index.html#install">Install</a></li>
-      <li><a href="changelog.html">Changelog</a></li>
-      <li><a href="roadmap.html" class="active">Roadmap</a></li>
-      <li><a href="faq.html">FAQ</a></li>
-      <li><a href="https://github.com/binx-ux/shadowstrap/wiki" target="_blank" rel="noopener">Wiki</a></li>
-      <li><a href="https://github.com/binx-ux/shadowstrap" target="_blank" rel="noopener">GitHub ↗</a></li>
-    </ul>
-    <div class="nav-status">
-      <span class="status-dot"></span>
-      OPERATIONAL
-    </div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+  <div class="aurora" aria-hidden="true">
+    <div class="aurora__blob aurora__blob--1"></div>
+    <div class="aurora__blob aurora__blob--2"></div>
+    <div class="aurora__blob aurora__blob--3"></div>
   </div>
-</nav>
+  <div class="noise" aria-hidden="true"></div>
 
-<!-- PAGE HERO -->
-<div class="page-hero">
-  <div class="page-hero-inner">
-    <div class="section-eyebrow">What's Being Built</div>
-    <h1>Roadmap</h1>
-    <p>Shipped, in progress, and what's next. Updated with each release.</p>
-  </div>
-</div>
-
-<!-- MILESTONE TRACK -->
-<div class="milestone-track" data-reveal="fade">
-  <div class="milestone-label">Version timeline</div>
-  <div class="milestone-line">
-    <div class="milestone-rail"></div>
-    <div class="milestone-fill" style="width:83%"></div>
-    <div class="milestone-nodes">
-      <div class="milestone-node done">
-        <div class="milestone-dot"></div>
-        <div style="text-align:center">
-          <div class="milestone-ver">v2.0.0</div>
-          <div class="milestone-date">Jan 2026</div>
-        </div>
-      </div>
-      <div class="milestone-node done">
-        <div class="milestone-dot"></div>
-        <div style="text-align:center">
-          <div class="milestone-ver">v2.0.2</div>
-          <div class="milestone-date">Feb 2026</div>
-        </div>
-      </div>
-      <div class="milestone-node done">
-        <div class="milestone-dot"></div>
-        <div style="text-align:center">
-          <div class="milestone-ver">v2.0.5</div>
-          <div class="milestone-date">Mar 2026</div>
-        </div>
-      </div>
-      <div class="milestone-node done">
-        <div class="milestone-dot"></div>
-        <div style="text-align:center">
-          <div class="milestone-ver">v2.0.6</div>
-          <div class="milestone-date">Apr 2026</div>
-        </div>
-      </div>
-      <div class="milestone-node current">
-        <div class="milestone-dot"></div>
-        <div style="text-align:center">
-          <div class="milestone-ver">v2.0.8</div>
-          <div class="milestone-date">Apr 2026</div>
-          <div class="milestone-tag mt-current">Current</div>
-        </div>
-      </div>
-      <div class="milestone-node future">
-        <div class="milestone-dot"></div>
-        <div style="text-align:center">
-          <div class="milestone-ver">v2.1.x</div>
-          <div class="milestone-date">TBD</div>
-          <div class="milestone-tag mt-future">Next</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- STAT STRIP -->
-<div class="rm-stats">
-  <div class="rm-stat-card rm-stat-card--done" data-reveal="fade">
-    <div class="rm-stat-icon">✓</div>
-    <div>
-      <div class="rm-stat-num">10</div>
-      <div class="rm-stat-text">Shipped</div>
-    </div>
-  </div>
-  <div class="rm-stat-card rm-stat-card--active" data-reveal="fade" data-delay="100">
-    <div class="rm-stat-icon">⚡</div>
-    <div>
-      <div class="rm-stat-num">2</div>
-      <div class="rm-stat-text">In Progress</div>
-    </div>
-  </div>
-  <div class="rm-stat-card rm-stat-card--plan" data-reveal="fade" data-delay="200">
-    <div class="rm-stat-icon">🗓</div>
-    <div>
-      <div class="rm-stat-num">7</div>
-      <div class="rm-stat-text">Planned</div>
-    </div>
-  </div>
-</div>
-
-<!-- KANBAN BOARD -->
-<div class="rm-board-wrap">
-  <div class="rm-board">
-
-    <!-- RELEASED -->
-    <div class="rm-col rm-col--done" data-reveal="left">
-      <div class="rm-col-head">
-        <div class="rm-col-head-icon">✓</div>
-        <h2>Released</h2>
-        <span class="rm-count">10</span>
-      </div>
-      <div class="rm-cards">
-
-        <div class="rm-item rm-item--done">
-          <div class="rm-item-head">
-            <p class="rm-item-title">FastFlag Editor Sidebar Tab</p>
-            <span class="rm-done-check">✓</span>
-          </div>
-          <p class="rm-item-desc">Promoted to a top-level navigation item with search and pin functionality.</p>
-          <div class="rm-item-tags">
-            <span class="rm-tag rm-tag--version">v2.0.5</span>
-            <span class="rm-tag">FastFlags</span>
-          </div>
-        </div>
-
-        <div class="rm-item rm-item--done">
-          <div class="rm-item-head">
-            <p class="rm-item-title">Session Summary Popup</p>
-            <span class="rm-done-check">✓</span>
-          </div>
-          <p class="rm-item-desc">Post-game summary with thumbnail, playtime, server region, and one-click rejoin.</p>
-          <div class="rm-item-tags">
-            <span class="rm-tag rm-tag--version">v2.0.2</span>
-            <span class="rm-tag">Activity</span>
-          </div>
-        </div>
-
-        <div class="rm-item rm-item--done">
-          <div class="rm-item-head">
-            <p class="rm-item-title">Server Browser</p>
-            <span class="rm-done-check">✓</span>
-          </div>
-          <p class="rm-item-desc">Browse open servers by Place ID — ping, FPS, region, and direct join.</p>
-          <div class="rm-item-tags">
-            <span class="rm-tag rm-tag--version">v2.0.2</span>
-            <span class="rm-tag">Multiplayer</span>
-          </div>
-        </div>
-
-        <div class="rm-item rm-item--done">
-          <div class="rm-item-head">
-            <p class="rm-item-title">Performance Presets</p>
-            <span class="rm-done-check">✓</span>
-          </div>
-          <p class="rm-item-desc">Default, Balanced, and Max Performance FastFlag bundles.</p>
-          <div class="rm-item-tags">
-            <span class="rm-tag rm-tag--version">v2.0.0</span>
-            <span class="rm-tag">FastFlags</span>
-          </div>
-        </div>
-
-        <div class="rm-item rm-item--done">
-          <div class="rm-item-head">
-            <p class="rm-item-title">Multi-Instance</p>
-            <span class="rm-done-check">✓</span>
-          </div>
-          <p class="rm-item-desc">Multiple Roblox windows via mutex unlock.</p>
-          <div class="rm-item-tags">
-            <span class="rm-tag rm-tag--version">v2.0.0</span>
-            <span class="rm-tag">System</span>
-          </div>
-        </div>
-
-        <div class="rm-item rm-item--done">
-          <div class="rm-item-head">
-            <p class="rm-item-title">Auto-Rejoin</p>
-            <span class="rm-done-check">✓</span>
-          </div>
-          <p class="rm-item-desc">Monitors Roblox exit and relaunches the original server URL.</p>
-          <div class="rm-item-tags">
-            <span class="rm-tag rm-tag--version">v2.0.0</span>
-            <span class="rm-tag">Reliability</span>
-          </div>
-        </div>
-
-        <div class="rm-item rm-item--done">
-          <div class="rm-item-head">
-            <p class="rm-item-title">Discord Rich Presence</p>
-            <span class="rm-done-check">✓</span>
-          </div>
-          <p class="rm-item-desc">Game, server type, time, and region in Discord status.</p>
-          <div class="rm-item-tags">
-            <span class="rm-tag rm-tag--version">v2.0.0</span>
-            <span class="rm-tag">Social</span>
-          </div>
-        </div>
-
-        <div class="rm-item rm-item--done">
-          <div class="rm-item-head">
-            <p class="rm-item-title">CPU Priority Boost</p>
-            <span class="rm-done-check">✓</span>
-          </div>
-          <p class="rm-item-desc">Elevate Roblox's CPU scheduling class on launch.</p>
-          <div class="rm-item-tags">
-            <span class="rm-tag rm-tag--version">v2.0.0</span>
-            <span class="rm-tag">Performance</span>
-          </div>
-        </div>
-
-        <div class="rm-item rm-item--done">
-          <div class="rm-item-head">
-            <p class="rm-item-title">RAM Cleaner</p>
-            <span class="rm-done-check">✓</span>
-          </div>
-          <p class="rm-item-desc">Trim background process working sets before launch.</p>
-          <div class="rm-item-tags">
-            <span class="rm-tag rm-tag--version">v2.0.0</span>
-            <span class="rm-tag">Performance</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- IN PROGRESS -->
-    <div class="rm-col rm-col--active" data-reveal>
-      <div class="rm-col-head">
-        <div class="rm-col-head-icon">⚡</div>
-        <h2>In Progress</h2>
-        <span class="rm-count">2</span>
-      </div>
-      <div class="rm-cards">
-
-        <div class="rm-item">
-          <div class="rm-item-head">
-            <p class="rm-item-title">In-game Stats Overlay</p>
-          </div>
-          <p class="rm-item-desc">Lightweight FPS / ping / RAM / server region overlay rendered transparently on top of Roblox, toggled by hotkey.</p>
-          <div class="rm-item-tags">
-            <span class="rm-tag rm-tag--cyan">v2.1.x</span>
-            <span class="rm-tag">Performance</span>
-            <span class="rm-tag">UI</span>
-          </div>
-          <div class="rm-progress">
-            <div class="rm-progress-bar" style="--pct:28%;--delay:0.3s"></div>
-          </div>
-          <div class="rm-progress-label">
-            <span>Progress</span>
-            <span>28%</span>
-          </div>
-        </div>
-
-        <div class="rm-item">
-          <div class="rm-item-head">
-            <p class="rm-item-title">Winget Package</p>
-          </div>
-          <p class="rm-item-desc">Submit <code style="font-family:var(--mono);font-size:.82em;color:var(--cyan)">binx-ux.NIX</code> to the Windows Package Manager repo so users can install and update via <code style="font-family:var(--mono);font-size:.82em;color:var(--cyan)">winget install nix</code>.</p>
-          <div class="rm-item-tags">
-            <span class="rm-tag rm-tag--cyan">v2.1.x</span>
-            <span class="rm-tag">Distribution</span>
-          </div>
-          <div class="rm-progress">
-            <div class="rm-progress-bar" style="--pct:18%;--delay:0.6s"></div>
-          </div>
-          <div class="rm-progress-label">
-            <span>Progress</span>
-            <span>18%</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- PLANNED -->
-    <div class="rm-col rm-col--plan" data-reveal="right">
-      <div class="rm-col-head">
-        <div class="rm-col-head-icon">🗓</div>
-        <h2>Planned</h2>
-        <span class="rm-count">7</span>
-      </div>
-      <div class="rm-cards">
-
-        <div class="rm-item">
-          <p class="rm-item-title">Flag Scheduler</p>
-          <p class="rm-item-desc">Apply different flag profiles on a time schedule — low-latency on weekday evenings, quality on weekends.</p>
-          <div class="rm-item-tags">
-            <span class="rm-tag">FastFlags</span>
-            <span class="rm-tag">Automation</span>
-          </div>
-        </div>
-
-        <div class="rm-item">
-          <p class="rm-item-title">Custom Global Keybinds</p>
-          <p class="rm-item-desc">Global hotkeys for toggling multi-instance, rejoin, screenshot, and open NIX from anywhere.</p>
-          <div class="rm-item-tags">
-            <span class="rm-tag">UI</span>
-            <span class="rm-tag">Input</span>
-          </div>
-        </div>
-
-        <div class="rm-item">
-          <p class="rm-item-title">Profile Export & Backup</p>
-          <p class="rm-item-desc">One-click export of all settings, flags, mods, and profiles to a single portable JSON file.</p>
-          <div class="rm-item-tags">
-            <span class="rm-tag">Settings</span>
-            <span class="rm-tag">Portability</span>
-          </div>
-        </div>
-
-        <div class="rm-item">
-          <p class="rm-item-title">Friend Activity Feed</p>
-          <p class="rm-item-desc">Show which games your Roblox friends are playing in the tray menu, with quick-join links.</p>
-          <div class="rm-item-tags">
-            <span class="rm-tag">Social</span>
-            <span class="rm-tag">Activity</span>
-          </div>
-        </div>
-
-        <div class="rm-item">
-          <p class="rm-item-title">Mod Manager Revamp</p>
-          <p class="rm-item-desc">Drag-and-drop mod cards, load-order control, per-mod toggle without deleting files, and conflict detection.</p>
-          <div class="rm-item-tags">
-            <span class="rm-tag">Mods</span>
-            <span class="rm-tag">UI</span>
-          </div>
-        </div>
-
-        <div class="rm-item">
-          <p class="rm-item-title">Roblox Update Deferral</p>
-          <p class="rm-item-desc">Defer Roblox patches for up to 24 hours so mods and flags survive an update for one session.</p>
-          <div class="rm-item-tags">
-            <span class="rm-tag">System</span>
-            <span class="rm-tag">Reliability</span>
-          </div>
-        </div>
-
-        <div class="rm-item">
-          <p class="rm-item-title">Session History Export</p>
-          <p class="rm-item-desc">Export the full session log to CSV or JSON for personal stats tracking.</p>
-          <div class="rm-item-tags">
-            <span class="rm-tag">Activity</span>
-            <span class="rm-tag">Data</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-  </div>
-
-  <p class="rm-disclaimer" data-reveal="fade" data-delay="300">
-    Roadmap is indicative, not a commitment.<br>
-    Items may be re-ordered or dropped based on feasibility and community feedback.<br>
-    Want something added? <a href="https://github.com/binx-ux/shadowstrap/issues" target="_blank" rel="noopener">Open an issue on GitHub ↗</a>
-  </p>
-</div>
-
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <a class="nav-logo" href="index.html"><span class="nav-logo-mark">NIX</span></a>
-      <p>Free, open source Roblox bootstrapper. Not affiliated with Roblox Corporation.</p>
-    </div>
-    <div class="footer-col">
-      <h5>Project</h5>
-      <ul>
-        <li><a href="https://github.com/binx-ux/shadowstrap" target="_blank" rel="noopener">GitHub</a></li>
-        <li><a href="https://github.com/binx-ux/shadowstrap/releases" target="_blank" rel="noopener">Releases</a></li>
-        <li><a href="https://github.com/binx-ux/shadowstrap/wiki" target="_blank" rel="noopener">Wiki</a></li>
+  <nav class="nav" id="nav">
+    <div class="nav__inner container">
+      <a href="index.html" class="nav__logo" aria-label="NIX Bot Family home">
+        <span class="nav__logo-pill">NIX</span>
+        <span class="nav__logo-text">Bots</span>
+      </a>
+      <ul class="nav__links" role="list">
+        <li><a href="index.html#bot-family" class="nav__link">Bots</a></li>
+        <li><a href="templates.html" class="nav__link">Templates</a></li>
+        <li><a href="commands.html" class="nav__link">Commands</a></li>
+        <li><a href="changelog.html" class="nav__link">Changelog</a></li>
+        <li><a href="faq.html" class="nav__link">FAQ</a></li>
+        <li><a href="requests.html" class="nav__link">Requests</a></li>
       </ul>
+      <a href="index.html#bot-family" class="btn btn--primary nav__cta">Add to Server</a>
+      <button class="nav__hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>
-    <div class="footer-col">
-      <h5>Site</h5>
-      <ul>
-        <li><a href="features.html">Features</a></li>
-        <li><a href="changelog.html">Changelog</a></li>
-        <li><a href="roadmap.html">Roadmap</a></li>
-        <li><a href="faq.html">FAQ</a></li>
-        <li><a href="https://discord.gg/nKjV3mGq6R" target="_blank" rel="noopener">Discord</a></li>
-      </ul>
+  </nav>
+
+  <main class="rm-page">
+    <div class="container">
+      <div class="section-label" style="text-align:center" data-reveal="up">ROADMAP</div>
+      <h1 data-reveal="up">Where the bots are headed.</h1>
+      <p class="rm-intro" data-reveal="up">
+        What's shipped, what's in progress, and what's being considered. Vote with your requests on
+        the <a href="requests.html" style="color:#FFB6D9">Requests page</a> — the most-requested ideas get prioritized.
+      </p>
+
+      <div class="rm-columns">
+
+        <div class="rm-col rm-col--shipped" data-reveal="up">
+          <div class="rm-col__header">
+            <div class="rm-col__title">🟢 Shipped</div>
+            <div class="rm-col__count">v2.0.2</div>
+          </div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--all">all</span><span class="rm-card__title">3-bot split</span></div><div class="rm-card__desc">Setup / Anime / Tools running independently on Fly</div></div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--setup">setup</span><span class="rm-card__title">49 server templates</span></div><div class="rm-card__desc">17 picker categories, including APK Modding + Script Hub</div></div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--setup">setup</span><span class="rm-card__title">In-server request panel</span></div><div class="rm-card__desc">Button + modal flow with reject reasons</div></div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--setup">setup</span><span class="rm-card__title">Welcome flow + custom commands</span></div><div class="rm-card__desc">Per-server welcome embeds, auto-role, !commands</div></div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--anime">anime</span><span class="rm-card__title">Full anime info pack</span></div><div class="rm-card__desc">/anime, /manga, /character, /seiyuu, /tierlist, /anilist, /quiz, /watchparty</div></div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--anime">anime</span><span class="rm-card__title">Release feed + episode reminders</span></div><div class="rm-card__desc">Jikan polling, /remindme, daily digest, seasonal channel rename</div></div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--anime">anime</span><span class="rm-card__title">/random + Jikan resilience</span></div><div class="rm-card__desc">/random anime/manga/character/quote with auto-retries and caching</div></div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--tools">tools</span><span class="rm-card__title">Per-guild site monitoring</span></div><div class="rm-card__desc">/monitor with auto-discovery, transitions ping, Supabase mirror</div></div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--tools">tools</span><span class="rm-card__title">AI news feed (12 sources)</span></div><div class="rm-card__desc">OpenAI, Anthropic, Google AI, DeepMind, HF, Mistral, xAI, Cohere, Stability, BFL, Runway, Midjourney</div></div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--tools">tools</span><span class="rm-card__title">VirusTotal auto-scanning</span></div><div class="rm-card__desc">70+ engines, auto-delete on malware</div></div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--website">website</span><span class="rm-card__title">View transitions + bot family page</span></div><div class="rm-card__desc">Smooth cross-page transitions, dedicated bot picker, release ticker, quiz leaderboard</div></div>
+        </div>
+
+        <div class="rm-col rm-col--progress" data-reveal="up">
+          <div class="rm-col__header">
+            <div class="rm-col__title">🟡 In Progress</div>
+            <div class="rm-col__count">Active</div>
+          </div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--all">all</span><span class="rm-card__title">Per-bot /help</span></div><div class="rm-card__desc">Focused command help for Anime + Tools (Setup already has it)</div></div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--anime">anime</span><span class="rm-card__title">Per-bot changelogs</span></div><div class="rm-card__desc">Anime + Tools tracked independently from Setup</div></div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--setup">setup</span><span class="rm-card__title">Template requests via website</span></div><div class="rm-card__desc">Form on the requests page wired through to Supabase + Discord</div></div>
+        </div>
+
+        <div class="rm-col rm-col--planned" data-reveal="up">
+          <div class="rm-col__header">
+            <div class="rm-col__title">🔵 Planned</div>
+            <div class="rm-col__count">Next</div>
+          </div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--all">all</span><span class="rm-card__title">/poll command</span></div><div class="rm-card__desc">Quick polls with up to 10 button options, live vote counts</div></div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--anime">anime</span><span class="rm-card__title">/weekly + /season</span></div><div class="rm-card__desc">This week's airing schedule + top of the current season</div></div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--anime">anime</span><span class="rm-card__title">AniList sync</span></div><div class="rm-card__desc">/remindme auto-adds to your AniList "watching" list</div></div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--tools">tools</span><span class="rm-card__title">Mod power suite</span></div><div class="rm-card__desc">/warn, /warns, /timeout with auto-logging</div></div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--tools">tools</span><span class="rm-card__title">Logging system</span></div><div class="rm-card__desc">Joins, leaves, edits, deletes, role changes to a log channel</div></div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--tools">tools</span><span class="rm-card__title">Anti-raid mode</span></div><div class="rm-card__desc">Detect mass joins, auto-lockdown, alert mods</div></div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--website">website</span><span class="rm-card__title">Live stats counters</span></div><div class="rm-card__desc">Server count, total setups, quiz games on the homepage</div></div>
+        </div>
+
+        <div class="rm-col rm-col--ideas" data-reveal="up">
+          <div class="rm-col__header">
+            <div class="rm-col__title">⚪ Ideas / Maybe</div>
+            <div class="rm-col__count">Later</div>
+          </div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--all">all</span><span class="rm-card__title">Birthday tracker</span></div><div class="rm-card__desc">Per-user birthday, auto-announce on the day</div></div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--anime">anime</span><span class="rm-card__title">Visual tier list</span></div><div class="rm-card__desc">Generate an image with anime covers grouped by tier</div></div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--anime">anime</span><span class="rm-card__title">/quiz opening mode</span></div><div class="rm-card__desc">Audio quiz — guess the anime from its OP</div></div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--website">website</span><span class="rm-card__title">Public dashboard</span></div><div class="rm-card__desc">Browser-based per-server config — big project, low priority</div></div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--all">all</span><span class="rm-card__title">Achievement system</span></div><div class="rm-card__desc">Badges for first quiz win, 10-streak, watch party host, AniList linker</div></div>
+          <div class="rm-card"><div class="rm-card__head"><span class="rm-card__tag rm-card__tag--all">all</span><span class="rm-card__title">Daily streak</span></div><div class="rm-card__desc">Claim once per 24h, builds a streak, leaderboard</div></div>
+        </div>
+
+      </div>
+
+      <p style="text-align:center; margin-top: 3rem; color: rgba(255,255,255,0.55); font-size: 0.92rem;">
+        Roadmap is a snapshot — it changes based on requests, bug priorities, and what's fun to build.
+        <br>NIX is a free volunteer project, so timelines are loose.
+      </p>
+
     </div>
-    <div class="footer-col">
-      <h5>Legal</h5>
-      <ul>
-        <li><a href="https://github.com/binx-ux/shadowstrap/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a></li>
-        <li><a href="https://github.com/binx-ux/shadowstrap/blob/main/SECURITY.md" target="_blank" rel="noopener">Security Policy</a></li>
-      </ul>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__left">
+        <a href="index.html" class="footer__logo" aria-label="NIX Bot Family home">
+          <span class="nav__logo-pill">NIX</span>
+          <span class="nav__logo-text">Bot Family</span>
+        </a>
+        <p class="footer__tagline">Setup · Anime · Tools — free forever.</p>
+      </div>
+      <nav class="footer__links" aria-label="Footer navigation">
+        <a href="index.html#bot-family" class="footer__link">Meet the Bots</a>
+        <a href="changelog.html" class="footer__link">Changelog</a>
+        <a href="faq.html" class="footer__link">FAQ</a>
+        <a href="https://github.com/binx-ux/nix-bot" class="footer__link" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </nav>
     </div>
-  </div>
-  <div class="footer-bottom">
-    <span class="footer-copy">© 2026 binx-ux · MIT License</span>
-    <span class="footer-copy">Not affiliated with Roblox Corporation</span>
-  </div>
-</footer>
+    <div class="container footer__bottom">
+      <p class="footer__copy">&copy; 2026 binxix &middot; NIX Bot Family &middot; Not affiliated with Discord Inc. &middot; Want to help? DM <strong>kynvyr_</strong></p>
+    </div>
+  </footer>
 
-<script>
-(function() {
-  fetch('https://api.github.com/repos/binx-ux/shadowstrap/releases/latest')
-    .then(r => r.json())
-    .then(d => { if (d.tag_name) document.getElementById('nav-ver').textContent = d.tag_name; })
-    .catch(() => {});
-
-  const scrollBar = document.getElementById('scroll-bar');
-  const navEl = document.querySelector('.nav');
-  window.addEventListener('scroll', () => {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    if (scrollBar) scrollBar.style.width = (max > 0 ? window.scrollY / max * 100 : 0) + '%';
-    navEl?.classList.toggle('scrolled', window.scrollY > 60);
-  }, { passive: true });
-
-  const ro = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); ro.unobserve(e.target); } });
-  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-  document.querySelectorAll('[data-reveal]').forEach(el => ro.observe(el));
-})();
-</script>
 </body>
 </html>
