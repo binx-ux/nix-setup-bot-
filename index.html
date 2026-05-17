@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NIX Setup Bot — Your server, built in seconds.</title>
-  <meta name="description" content="NIX Setup Bot by binxix. Pick from 47+ Discord server templates, or export your own server as a shareable code. Roles, channels, and categories created instantly. Free forever." />
-  <meta property="og:title" content="NIX Setup Bot" />
-  <meta property="og:description" content="Pick from 47+ Discord server templates. Or export your own server as a shareable code. Free forever." />
+  <title>NIX Bot Family — Setup, Anime, Tools for Discord</title>
+  <meta name="description" content="A family of three free Discord bots by binxix. NIX Setup builds your server from 47+ templates. NIX Anime adds anime commands, quiz, and watch parties. NIX Tools handles website monitoring and file scanning. Free forever." />
+  <meta property="og:title" content="NIX Bot Family — Setup, Anime, Tools" />
+  <meta property="og:description" content="Three focused Discord bots. 47+ server templates, anime commands, website monitoring, file scanning, and more. Free forever." />
   <meta property="og:type" content="website" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
@@ -48,24 +47,19 @@
   <!-- ===================== NAV ===================== -->
   <nav class="nav" id="nav">
     <div class="nav__inner container">
-      <a href="#" class="nav__logo" aria-label="NIX Setup Bot home">
+      <a href="#" class="nav__logo" aria-label="NIX Bot Family home">
         <span class="nav__logo-pill">NIX</span>
-        <span class="nav__logo-text">Setup</span>
+        <span class="nav__logo-text">Bots</span>
       </a>
       <ul class="nav__links" role="list">
+        <li><a href="#bot-family" class="nav__link">Bots</a></li>
         <li><a href="templates.html" class="nav__link">Templates</a></li>
-        <li><a href="#meet" class="nav__link">Meet NIX</a></li>
         <li><a href="#how-it-works" class="nav__link">How It Works</a></li>
         <li><a href="changelog.html" class="nav__link">Changelog</a></li>
         <li><a href="faq.html" class="nav__link">FAQ</a></li>
         <li><a href="requests.html" class="nav__link">Requests</a></li>
       </ul>
-      <a
-        href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot"
-        class="btn btn--primary nav__cta"
-        target="_blank"
-        rel="noopener noreferrer"
-      >Add to Server</a>
+      <a href="#bot-family" class="btn btn--primary nav__cta">Add to Server</a>
       <button class="nav__hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
@@ -73,13 +67,14 @@
     <!-- Mobile menu -->
     <div class="nav__mobile-backdrop" id="navBackdrop" aria-hidden="true"></div>
     <div class="nav__mobile" id="navMobile" aria-hidden="true">
-      <a href="#templates" class="nav__mobile-link">Templates</a>
+      <a href="#bot-family" class="nav__mobile-link">Bots</a>
+      <a href="templates.html" class="nav__mobile-link">Templates</a>
       <a href="#how-it-works" class="nav__mobile-link">How It Works</a>
       <a href="changelog.html" class="nav__mobile-link">Changelog</a>
       <a href="faq.html" class="nav__mobile-link">FAQ</a>
       <a href="requests.html" class="nav__mobile-link">Requests</a>
 
-      <a href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot" class="btn btn--primary nav__mobile-cta" target="_blank" rel="noopener noreferrer">Add to Server</a>
+      <a href="#bot-family" class="btn btn--primary nav__mobile-cta">Add to Server</a>
     </div>
   </nav>
 
@@ -97,16 +92,12 @@
           built in <span class="text-gradient">seconds.</span>
         </h1>
         <p class="hero__sub" data-reveal="up">
-          Pick from 47+ professionally designed server templates. NIX creates every role,
-          channel, and category automatically — then steps aside.
+          A family of three Discord bots — <strong>Setup</strong>, <strong>Anime</strong>, and <strong>Tools</strong>.
+          47+ templates, automatic file scanning, website monitoring, anime tools, and more.
+          Free forever.
         </p>
         <div class="hero__ctas" data-reveal="up">
-          <a
-            href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot"
-            class="btn btn--primary btn--lg"
-            target="_blank"
-            rel="noopener noreferrer"
-          >Add to Server</a>
+          <a href="#bot-family" class="btn btn--primary btn--lg">Meet the Bots</a>
           <a href="#how-it-works" class="btn btn--ghost btn--lg">See How It Works</a>
         </div>
 
@@ -282,54 +273,6 @@
         <p class="bot-family__note" data-reveal="up">
           All three bots are <strong>free forever</strong>. Shared website + changelog. No accounts, no paywalls.
         </p>
-      </div>
-    </section>
-
-    <!-- ===================== MEET NIX (3D model) ===================== -->
-    <section class="meet" id="meet" aria-label="3D model of NIX Bot">
-      <div class="container meet__inner">
-        <div class="meet__copy" data-reveal="up">
-          <div class="section-label">MEET NIX</div>
-          <h2 class="section-heading">The bot, in 3D.</h2>
-          <p class="meet__sub">
-            Drag to rotate. Scroll to zoom. Tap and hold on mobile.
-            That's NIX — the bot that builds your server for you.
-          </p>
-        </div>
-        <div class="meet__viewer" id="meetViewer" data-reveal="up">
-          <!-- Fallback state — shown if the GLB asset isn't deployed yet -->
-          <div class="meet__placeholder" id="meetPlaceholder">
-            <div class="meet__placeholder-icon">📦</div>
-            <div class="meet__placeholder-title">3D preview coming soon</div>
-            <div class="meet__placeholder-sub">We're optimizing the model. Check back shortly.</div>
-          </div>
-
-          <model-viewer
-            id="nixModel"
-            src="assets/3d/nix-bot.glb"
-            alt="NIX Bot 3D model"
-            camera-controls
-            touch-action="pan-y"
-            auto-rotate
-            auto-rotate-delay="3000"
-            rotation-per-second="20deg"
-            interaction-prompt="auto"
-            shadow-intensity="1"
-            exposure="1"
-            environment-image="neutral"
-            loading="lazy"
-            reveal="auto"
-            ar
-            ar-modes="webxr scene-viewer quick-look"
-            style="display:none"
-          >
-            <div slot="poster" class="meet__poster">
-              <div class="meet__poster-spinner"></div>
-              <span>Loading 3D model…</span>
-            </div>
-            <div slot="progress-bar" class="meet__progress"></div>
-          </model-viewer>
-        </div>
       </div>
     </section>
 
@@ -717,65 +660,6 @@
       </div>
     </section>
 
-    <!-- ===================== CONTRIBUTE ===================== -->
-    <section class="contribute" id="contribute">
-      <div class="container">
-        <div class="section-label" data-reveal="up">JOIN THE TEAM</div>
-        <h2 class="section-heading" data-reveal="up">Help build NIX.</h2>
-        <p class="contribute__intro" data-reveal="up">
-          NIX is a free, community-driven bot. We're looking for a small group of people
-          to help grow and improve it. This is a volunteer role — NIX is not a paid project.
-        </p>
-
-        <div class="contribute__grid" data-reveal="up">
-
-          <div class="contribute__card">
-            <div class="contribute__card-header">
-              <div class="contribute__role-badge contribute__role-badge--tester">Tester</div>
-              <div class="contribute__slots">3 slots open</div>
-            </div>
-            <p class="contribute__card-desc">
-              Put the bot through its paces. Run setups across different templates, report
-              bugs, and make sure everything works exactly as expected before updates ship.
-            </p>
-          </div>
-
-          <div class="contribute__card">
-            <div class="contribute__card-header">
-              <div class="contribute__role-badge contribute__role-badge--scripter">Scripter</div>
-              <div class="contribute__slots">2 slots open</div>
-            </div>
-            <p class="contribute__card-desc">
-              Contribute to the bot's codebase. Build new templates, improve existing
-              commands, or help with features using JavaScript and Discord.js.
-            </p>
-          </div>
-
-          <div class="contribute__card">
-            <div class="contribute__card-header">
-              <div class="contribute__role-badge contribute__role-badge--advertiser">Advertiser</div>
-              <div class="contribute__slots">1 slot open</div>
-            </div>
-            <p class="contribute__card-desc">
-              Help spread the word. Share NIX in Discord communities, create content,
-              and grow the user base organically.
-            </p>
-          </div>
-
-        </div>
-
-        <div class="contribute__apply" data-reveal="up">
-          <p class="contribute__apply-text">
-            Interested? DM on Discord introducing yourself and the role you want to apply for.
-          </p>
-          <p class="contribute__email">
-            kynvyr_
-          </p>
-          <p class="contribute__note">This is a volunteer position. NIX is a free bot with no revenue.</p>
-        </div>
-      </div>
-    </section>
-
     <!-- ===================== ANIME RELEASE TICKER ===================== -->
     <section class="release-ticker" id="release-ticker" aria-label="Latest anime episode releases">
       <div class="container">
@@ -807,25 +691,6 @@
       </div>
     </section>
 
-    <!-- ===================== ANIME SITE STATUS ===================== -->
-    <section class="anime-status" id="anime-status" aria-label="Anime sites uptime status">
-      <div class="container">
-        <div class="section-label" data-reveal="up">LIVE STATUS</div>
-        <h2 class="section-heading" data-reveal="up">Anime sites, right now.</h2>
-        <p class="anime-status__sub" data-reveal="up">
-          We watch a handful of popular anime streaming sites so you don't have to.
-          Live status, updated every five minutes.
-        </p>
-        <div class="anime-status__grid" id="animeStatusGrid" data-reveal="up">
-          <!-- Cards injected by JS — skeletons until data loads -->
-          <div class="anime-status__card anime-status__card--skeleton"></div>
-          <div class="anime-status__card anime-status__card--skeleton"></div>
-          <div class="anime-status__card anime-status__card--skeleton"></div>
-        </div>
-        <p class="anime-status__note" id="animeStatusNote">Loading status…</p>
-      </div>
-    </section>
-
     <!-- ===================== CTA ===================== -->
     <section class="cta-section">
       <div class="container">
@@ -833,15 +698,9 @@
           <div class="cta-section__glow" aria-hidden="true"></div>
           <h2 class="cta-section__heading">Ready to launch your server?</h2>
           <p class="cta-section__sub">
-            It takes less than a minute. No account, no dashboard, no payment.
-            Just add the bot and run one command.
+            Pick the bots you want. No accounts, no dashboard, no payment.
           </p>
-          <a
-            href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot"
-            class="btn btn--primary btn--xl"
-            target="_blank"
-            rel="noopener noreferrer"
-          >Add NIX to Your Server</a>
+          <a href="#bot-family" class="btn btn--primary btn--xl">Meet the Bots</a>
           <p class="cta-section__note">Free forever. No sign-up required.</p>
         </div>
       </div>
@@ -853,48 +712,28 @@
   <footer class="footer">
     <div class="container footer__inner">
       <div class="footer__left">
-        <a href="#" class="footer__logo" aria-label="NIX Setup Bot home">
+        <a href="#" class="footer__logo" aria-label="NIX Bot Family home">
           <span class="nav__logo-pill">NIX</span>
-          <span class="nav__logo-text">Setup</span>
+          <span class="nav__logo-text">Bot Family</span>
         </a>
-        <p class="footer__tagline">Your server, built in seconds.</p>
+        <p class="footer__tagline">Setup · Anime · Tools — free forever.</p>
       </div>
       <nav class="footer__links" aria-label="Footer navigation">
-
-        <a
-          href="https://discord.com/oauth2/authorize?client_id=1477367299706060810&permissions=8&integration_type=0&scope=bot"
-          class="footer__link"
-          target="_blank"
-          rel="noopener noreferrer"
-        >Add to Server</a>
+        <a href="#bot-family" class="footer__link">Meet the Bots</a>
+        <a href="changelog.html" class="footer__link">Changelog</a>
+        <a href="faq.html" class="footer__link">FAQ</a>
+        <a href="https://github.com/binx-ux/nix-bot" class="footer__link" target="_blank" rel="noopener noreferrer">GitHub</a>
       </nav>
     </div>
     <div class="container footer__bottom">
       <p class="footer__copy">
-        &copy; 2026 binxix &middot; NIX Setup Bot &middot; Not affiliated with Discord Inc.
+        &copy; 2026 binxix &middot; NIX Bot Family &middot; Not affiliated with Discord Inc.
+        &middot; Want to help? DM <strong>kynvyr_</strong>
       </p>
     </div>
   </footer>
 
   <script>
-    // ── 3D model — only show the viewer if the GLB file actually exists ─
-    // Avoids the infinite spinner when the asset hasn't been uploaded yet.
-    (async function checkModelExists() {
-      const placeholder = document.getElementById('meetPlaceholder');
-      const viewer     = document.getElementById('nixModel');
-      if (!placeholder || !viewer) return;
-      try {
-        const res = await fetch(viewer.getAttribute('src'), { method: 'HEAD' });
-        if (res.ok) {
-          // File exists — show the viewer, hide the placeholder
-          placeholder.style.display = 'none';
-          viewer.style.display = '';
-        }
-      } catch {
-        // Network error — leave placeholder visible
-      }
-    })();
-
     // ── Announcement banner — countdown + dismiss persistence ──────────
     (function announcement() {
       const banner = document.getElementById('announcementBanner');
@@ -1473,77 +1312,6 @@
         });
       }, { threshold: 0.3 });
       visObs.observe(document.querySelector('.mockup'));
-    })();
-
-    // ── Anime sites live status widget ─────────────────────────────
-    (() => {
-      const URL = 'https://mngubaoitgpuzantzjjf.supabase.co';
-      const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1uZ3ViYW9pdGdwdXphbnR6ampmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3MTQzMjYsImV4cCI6MjA5MzI5MDMyNn0.p0Z75TNm9iE-IO2cWXh4XJAQGhFI38oosTNKPsWwj7s';
-      const grid = document.getElementById('animeStatusGrid');
-      const note = document.getElementById('animeStatusNote');
-      if (!grid) return;
-
-      function timeAgo(iso) {
-        const diff = Math.max(0, Date.now() - new Date(iso).getTime());
-        const s = Math.floor(diff / 1000);
-        if (s < 60)    return `${s}s ago`;
-        const m = Math.floor(s / 60);
-        if (m < 60)    return `${m}m ago`;
-        const h = Math.floor(m / 60);
-        if (h < 24)    return `${h}h ago`;
-        return `${Math.floor(h / 24)}d ago`;
-      }
-
-      function render(rows) {
-        if (!rows.length) {
-          grid.innerHTML = '<p class="anime-status__empty">No status data yet — check back soon.</p>';
-          note.textContent = '';
-          return;
-        }
-        const html = rows.map(r => {
-          const state = r.online ? 'online' : 'offline';
-          const dot   = r.online ? '🟢' : '🔴';
-          const label = r.online ? 'Online' : 'Offline';
-          const detail = r.online
-            ? `HTTP ${r.status_code ?? '—'}`
-            : (r.error || `HTTP ${r.status_code ?? '—'}`);
-          const host = (() => { try { return new URL(r.url).host; } catch { return r.url; } })();
-          return `
-            <a class="anime-status__card anime-status__card--${state}" href="${r.url}" target="_blank" rel="noopener noreferrer">
-              <div class="anime-status__card-top">
-                <span class="anime-status__emoji">${r.emoji || '🌐'}</span>
-                <span class="anime-status__name">${r.name}</span>
-              </div>
-              <div class="anime-status__state"><span class="anime-status__dot">${dot}</span> ${label}</div>
-              <div class="anime-status__detail">${detail}</div>
-              <div class="anime-status__meta">
-                <span>${host}</span>
-                <span>${timeAgo(r.last_checked)}</span>
-              </div>
-            </a>
-          `;
-        }).join('');
-        grid.innerHTML = html;
-        const lastCheck = rows.reduce((max, r) => Math.max(max, new Date(r.last_checked).getTime()), 0);
-        note.textContent = `Last update ${timeAgo(new Date(lastCheck).toISOString())} · refreshes every 30s`;
-      }
-
-      async function fetchStatus() {
-        try {
-          const res = await fetch(`${URL}/rest/v1/site_status?select=*&order=name.asc`, {
-            headers: { apikey: KEY, Authorization: `Bearer ${KEY}` },
-          });
-          if (!res.ok) throw new Error(`HTTP ${res.status}`);
-          const rows = await res.json();
-          render(rows);
-        } catch (err) {
-          grid.innerHTML = '<p class="anime-status__empty">Could not load status.</p>';
-          note.textContent = '';
-        }
-      }
-
-      fetchStatus();
-      setInterval(fetchStatus, 30 * 1000);
     })();
 
     // ── Anime release ticker (fetches Jikan directly, client-side) ──
